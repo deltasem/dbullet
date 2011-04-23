@@ -11,17 +11,28 @@ namespace dbullet.core.dbo
 	public abstract class DatabaseObjectBase
 	{
 		/// <summary>
+		/// Имя
+		/// </summary>
+		private string name;
+
+		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название объекта</param>
 		protected DatabaseObjectBase(string name)
 		{
-			this.Name = name;
+			this.name = name;
 		}
 
 		/// <summary>
 		/// Имя
 		/// </summary>
-		public string Name { get; set; }
+		public string Name
+		{
+			get
+			{
+				return this.name;
+			}
+		}
 	}
 }
