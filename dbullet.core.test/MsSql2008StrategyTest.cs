@@ -12,7 +12,7 @@ namespace dbullet.core.test
 	/// <summary>
 	/// Тест MSSQL 2008 стратегии
 	/// </summary>
-	[TestClass()]
+	[TestClass]
 	public class MsSql2008StrategyTest
 	{
 		/// <summary>
@@ -31,8 +31,8 @@ namespace dbullet.core.test
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p => { return 0; };
-			var target = new MsSql2008Strategy(new MSqlConnection()); 
-			var table = new Table("TestTable", new List<Column>()); 
+			var target = new MsSql2008Strategy(new MSqlConnection());
+			var table = new Table("TestTable", new List<Column>());
 			target.CreateTable(table);
 		}
 
@@ -55,7 +55,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
 			var table = new Table(
-				"TestTable", new List<Column>() { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+				"TestTable", new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
 			target.CreateTable(table);
 		}
 

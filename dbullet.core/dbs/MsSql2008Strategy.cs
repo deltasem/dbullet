@@ -40,7 +40,7 @@ namespace dbullet.core.dbs
 				throw new ArgumentException("String must have length");
 			}
 
-			StringBuilder sb = new StringBuilder(column.Name);
+			var sb = new StringBuilder(column.Name);
 			switch (column.ColumnType.DbType)
 			{
 				case DbType.Decimal:
@@ -107,8 +107,8 @@ namespace dbullet.core.dbs
 				throw new CollumnExpectedException();
 			}
 
-			this.connection.Open();
-			using (var cmd = new SqlCommand(string.Empty, this.connection))
+			connection.Open();
+			using (var cmd = new SqlCommand(string.Empty, connection))
 			{
 				var sb = new StringBuilder();
 				sb.AppendFormat("create table {0} ", table.Name);
@@ -128,7 +128,7 @@ namespace dbullet.core.dbs
 				cmd.ExecuteNonQuery();
 			}
 
-			this.connection.Close();
+			connection.Close();
 		}
 		#endregion
 	}
