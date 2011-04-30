@@ -1,10 +1,18 @@
+using dbullet.core.dbo;
+using dbullet.core.dbs;
+
 namespace dbullet.core
 {
 	/// <summary>
 	/// Операции, которые можно произвести над БД
 	/// </summary>
-	public abstract class Bullet
+	public abstract class Bullet : IDatabaseStrategy
 	{
+		/// <summary>
+		/// Стратегия
+		/// </summary>
+		private readonly IDatabaseStrategy strategy = new MsSql2008Strategy(null);
+
 		/// <summary>
 		/// Версия
 		/// </summary>
@@ -19,5 +27,14 @@ namespace dbullet.core
 		/// Отмена обновления
 		/// </summary>
 		public abstract void Downgrade();
+
+		/// <summary>
+		/// Создаёт таблицу
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		public void CreateTable(Table table)
+		{
+			strategy.CreateTable(table);
+		}
 	}
 }

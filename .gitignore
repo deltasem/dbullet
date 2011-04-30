@@ -11,4 +11,4 @@
 _ReSharper.*
 *.resharper
 Ankh.NoLoad
-/dbullet
+dbullet.core.test/MolesAssemblies/System.Data.Moles.dll
