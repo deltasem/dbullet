@@ -48,8 +48,11 @@
     <Compile Include="dbo\Partition.cs" />
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="dbs\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
+    <Compile Include="dbs\ISysDatabaseStrategy.cs" />
     <Compile Include="dbs\MsSql2008Strategy.cs" />
+    <Compile Include="dbs\MsSql2008SysStrategy.cs" />
     <Compile Include="exception\CollumnExpectedException.cs" />
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
