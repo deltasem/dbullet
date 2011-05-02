@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient.Moles;
-using dbullet.core.dbs;
 using dbullet.core.engine;
+using dbullet.core.engine.Moles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dbullet.core.test
@@ -43,11 +43,11 @@ namespace dbullet.core.test
 		{
 			bool tableWasCreated = false;
 			var target = new MsSql2008SysStrategy(new MSqlConnection());
-			dbs.Moles.MMsSql2008Strategy.AllInstances.IsTableExistString = (strategy, table) =>
+			MMsSql2008Strategy.AllInstances.IsTableExistString = (strategy, table) =>
 			{
 				return !table.Equals("dbullet") && strategy.IsTableExist(table);
 			};
-			dbs.Moles.MMsSql2008Strategy.AllInstances.CreateTableTable = (strategy, table) =>
+			MMsSql2008Strategy.AllInstances.CreateTableTable = (strategy, table) =>
 			{
 				if (Equals(table.Name, "dbullet"))
 				{

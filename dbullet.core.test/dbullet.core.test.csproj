@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertHelpers.cs" />
+    <Compile Include="ExecutorTest.cs" />
     <Compile Include="MsSql2008StrategyTest.cs" />
     <Compile Include="MsSql2008SysStrategyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace dbullet.core.engine
 {
 	/// <summary>
-	/// Запускатор
+	/// Выполнитель
 	/// </summary>
 	public class Executor
 	{
@@ -27,6 +29,16 @@ namespace dbullet.core.engine
 		/// <param name="strategy">Стратегия работы с БД</param>
 		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy)
 		{
+		}
+
+		/// <summary>
+		/// Возвращает список булетов из сборки
+		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
+		/// <returns>Упорядоченный список булетов</returns>
+		internal static List<Type> GetBulletsInAssembly(Assembly assembly)
+		{
+			return null;
 		}
 	}
 }
