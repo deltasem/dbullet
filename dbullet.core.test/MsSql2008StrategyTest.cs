@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient.Moles;
 using dbullet.core.dbo;
-using dbullet.core.dbs;
+using dbullet.core.engine;
 using dbullet.core.exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -98,6 +98,76 @@ namespace dbullet.core.test
 		{
 			var t = MsSql2008Strategy.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
 			Assert.AreEqual("TestColumn int null", t);
+		}
+
+		/// <summary>
+		/// Проверяет, существует ли таблица
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void IsTableExistsTxtTest()
+		{
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				Assert.AreEqual(
+					"select count(*) from sysobjects " +
+					"where id = object_id(N'ExistingTable') and OBJECTPROPERTY(id, N'IsTable') = 1",
+					p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.IsTableExist("ExistingTable");
+		}
+
+		/// <summary>
+		/// Проверяет, существует ли таблица
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void IsTableExistsTest()
+		{
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			var actual = strategy.IsTableExist("ExistingTable");
+			Assert.AreEqual(true, actual);
+		}
+
+		/// <summary>
+		/// Проверяет, существует ли таблица
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		[ExpectedException(typeof(ArgumentException))]
+		public void IsTableExistsEmptyTableTest()
+		{
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.IsTableExist(string.Empty);
+		}
+
+		/// <summary>
+		/// Таблица не существует
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void IsTableExistsNotExists()
+		{
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 0; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			var actual = strategy.IsTableExist("ExistingTable");
+			Assert.AreEqual(false, actual);
 		}
 	}
 }

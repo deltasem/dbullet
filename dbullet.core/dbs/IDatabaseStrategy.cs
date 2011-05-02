@@ -12,5 +12,12 @@ namespace dbullet.core.dbs
 		/// </summary>
 		/// <param name="table">Таблица</param>
 		void CreateTable(Table table);
+
+		/// <summary>
+		/// Существует ли таблица
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <returns>true - если существует, иначе false</returns>
+		bool IsTableExist(string tableName);
 	}
 }

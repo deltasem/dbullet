@@ -50,7 +50,7 @@ namespace dbullet.core.dbo
 		{
 			get
 			{
-				return this.columns;
+				return columns;
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace dbullet.core.dbo
 		{
 			get
 			{
-				return this.partition;
+				return partition;
 			}
 		}
 	}

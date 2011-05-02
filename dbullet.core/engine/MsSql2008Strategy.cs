@@ -1,17 +1,17 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 using dbullet.core.dbo;
+using dbullet.core.dbs;
 using dbullet.core.exception;
 
-namespace dbullet.core.dbs
+namespace dbullet.core.engine
 {
-	using System;
-	using System.Data;
-
 	/// <summary>
 	/// Стратегия работы с базой MS SQL 2008
 	/// </summary>
-	internal class MsSql2008Strategy : IDatabaseStrategy
+	public class MsSql2008Strategy : IDatabaseStrategy
 	{
 		/// <summary>
 		/// Подключение к базе
@@ -107,28 +107,71 @@ namespace dbullet.core.dbs
 				throw new CollumnExpectedException();
 			}
 
-			connection.Open();
-			using (var cmd = new SqlCommand(string.Empty, connection))
+			try
 			{
-				var sb = new StringBuilder();
-				sb.AppendFormat("create table {0} ", table.Name);
-				sb.Append("(");
-				for (int i = 0; i < table.Columns.Count; i++)
+				connection.Open();
+				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
-					var column = table.Columns[i];
-					sb.Append(BuildColumnCreateCommand(column));
-					if (i != table.Columns.Count - 1)
+					var sb = new StringBuilder();
+					sb.AppendFormat("create table {0} ", table.Name);
+					sb.Append("(");
+					for (int i = 0; i < table.Columns.Count; i++)
 					{
-						sb.Append(", ");
+						var column = table.Columns[i];
+						sb.Append(BuildColumnCreateCommand(column));
+						if (i != table.Columns.Count - 1)
+						{
+							sb.Append(", ");
+						}
 					}
-				}
 
-				sb.AppendFormat(") on [{0}]", table.Partition.Name);
-				cmd.CommandText = sb.ToString();
-				cmd.ExecuteNonQuery();
+					sb.AppendFormat(") on [{0}]", table.Partition.Name);
+					cmd.CommandText = sb.ToString();
+					cmd.ExecuteNonQuery();
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
+			}
+		}
+		#endregion
+
+		#region IsTableExist
+		/// <summary>
+		/// Существует ли таблица
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <returns>true - если существует, иначе false</returns>
+		public bool IsTableExist(string tableName)
+		{
+			if (string.IsNullOrEmpty(tableName))
+			{
+				throw new ArgumentException();
 			}
 
-			connection.Close();
+			try
+			{
+				connection.Open();
+				var str = string.Format(
+					"select count(*) from sysobjects " +
+					"where id = object_id(N'{0}') and OBJECTPROPERTY(id, N'IsTable') = 1",
+					tableName);
+				using (var cmd = new SqlCommand(str, connection))
+				{
+					return cmd.ExecuteScalar().ToString() == "1";
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
+			}
 		}
 		#endregion
 	}

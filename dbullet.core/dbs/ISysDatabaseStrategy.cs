@@ -21,6 +21,7 @@ namespace dbullet.core.dbs
 		/// <summary>
 		/// Установка текущей версии
 		/// </summary>
-		void SetCurrentVersion();
+		/// <param name="version">Версия</param>
+		void SetCurrentVersion(int version);
 	}
 }

@@ -1,5 +1,6 @@
 using dbullet.core.dbo;
 using dbullet.core.dbs;
+using dbullet.core.engine;
 
 namespace dbullet.core
 {
@@ -35,6 +36,16 @@ namespace dbullet.core
 		public void CreateTable(Table table)
 		{
 			strategy.CreateTable(table);
+		}
+
+		/// <summary>
+		/// Существует ли таблица
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <returns>true - если существует, иначе false</returns>
+		public bool IsTableExist(string tableName)
+		{
+			return strategy.IsTableExist(tableName);
 		}
 	}
 }

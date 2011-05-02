@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="attribute\BulletAttribute.cs" />
     <Compile Include="dbo\Column.cs" />
     <Compile Include="dbo\ColumnType.cs" />
     <Compile Include="dbo\Database.cs" />
@@ -48,11 +49,11 @@
     <Compile Include="dbo\Partition.cs" />
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
-    <Compile Include="dbs\Executor.cs" />
+    <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
-    <Compile Include="dbs\MsSql2008Strategy.cs" />
-    <Compile Include="dbs\MsSql2008SysStrategy.cs" />
+    <Compile Include="engine\MsSql2008Strategy.cs" />
+    <Compile Include="engine\MsSql2008SysStrategy.cs" />
     <Compile Include="exception\CollumnExpectedException.cs" />
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
