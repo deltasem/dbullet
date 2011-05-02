@@ -15,11 +15,6 @@ namespace dbullet.core
 		private readonly IDatabaseStrategy strategy = new MsSql2008Strategy(null);
 
 		/// <summary>
-		/// Версия
-		/// </summary>
-		public abstract int Version { get; }
-
-		/// <summary>
 		/// Обновление
 		/// </summary>
 		public abstract void Update();
