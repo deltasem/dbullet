@@ -6,7 +6,7 @@ namespace dbullet.core.attribute
 	/// Все булеты должны быть помечены этим аттрибутом
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	public sealed class BulletAttribute : Attribute
+	public sealed class BulletNumberAttribute : Attribute
 	{
 		/// <summary>
 		/// Ревизия булета
@@ -17,7 +17,7 @@ namespace dbullet.core.attribute
 		/// Этим аттрибутом нужно помечать булеты
 		/// </summary>
 		/// <param name="revision">Ревизия булета</param>
-		public BulletAttribute(int revision)
+		public BulletNumberAttribute(int revision)
 		{
 			this.revision = revision;
 		}

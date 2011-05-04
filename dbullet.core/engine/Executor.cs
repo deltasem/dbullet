@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using dbullet.core.attribute;
 
 namespace dbullet.core.engine
 {
@@ -36,9 +38,9 @@ namespace dbullet.core.engine
 		/// </summary>
 		/// <param name="assembly">—борка с булетами</param>
 		/// <returns>”пор€доченный список булетов</returns>
-		internal static List<Type> GetBulletsInAssembly(Assembly assembly)
+		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly)
 		{
-			return null;
+			return assembly.GetTypes().Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true));
 		}
 	}
 }

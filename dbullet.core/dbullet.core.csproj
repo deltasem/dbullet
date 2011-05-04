@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="attribute\BulletAttribute.cs" />
+    <Compile Include="attribute\BulletNumberAttribute.cs" />
     <Compile Include="dbo\Column.cs" />
     <Compile Include="dbo\ColumnType.cs" />
     <Compile Include="dbo\Database.cs" />
