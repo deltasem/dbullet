@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using dbullet.core.attribute;
+using dbullet.core.dbs;
 
 namespace dbullet.core.engine
 {
@@ -31,6 +33,25 @@ namespace dbullet.core.engine
 		/// <param name="strategy">Стратегия работы с БД</param>
 		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy)
 		{
+			if (strategy != SupportedStrategy.Mssql2008)
+			{
+				throw new NotSupportedException("Only MS SQL supported");
+			}
+
+			// todo: вынести в фабрику
+			ISysDatabaseStrategy systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
+
+			foreach (var bulletType in GetBulletsInAssembly(assembly))
+			{
+				var currentVersion = systemStrategy.GetLastVersion();
+				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
+				if (bulletVersion > currentVersion)
+				{
+					var bullet = (Bullet)Activator.CreateInstance(bulletType);
+					bullet.Update();
+					systemStrategy.SetCurrentVersion(bulletVersion);
+				}
+			}
 		}
 
 		/// <summary>
@@ -40,7 +61,9 @@ namespace dbullet.core.engine
 		/// <returns>Упорядоченный список булетов</returns>
 		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly)
 		{
-			return assembly.GetTypes().Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true));
+			return assembly.GetTypes()
+				.Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true))
+				.OrderBy(p => ((BulletNumberAttribute)p.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision);
 		}
 	}
 }
