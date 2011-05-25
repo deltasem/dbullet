@@ -10,7 +10,7 @@ namespace dbullet.core.dbo
 	/// <summary>
 	/// Таблица
 	/// </summary>
-	public class Table : PartitionableObject
+	public class Table : DatabaseObjectBase, IPartitionable
 	{
 		/// <summary>
 		/// Колонки
@@ -18,23 +18,17 @@ namespace dbullet.core.dbo
 		private readonly List<Column> columns;
 
 		/// <summary>
-		/// Конструктор
+		/// Название партиции
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
-		/// <param name="columns">Столбцы</param>
-		public Table(string name, List<Column> columns) : this(name, new Partition("PRIMARY"), columns)
-		{
-		}
+		private string partitionName;
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название таблицы</param>
-		/// <param name="partition">Партишин</param>
 		/// <param name="columns">Столбцы</param>
-		public Table(string name, Partition partition, List<Column> columns) : base(name, partition)
+		public Table(string name, List<Column> columns) : this(name, "PRIMARY", columns)
 		{
-			this.columns = columns;
 		}
 
 		/// <summary>
@@ -43,9 +37,10 @@ namespace dbullet.core.dbo
 		/// <param name="name">Название таблицы</param>
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="columns">Столбцы</param>
-		public Table(string name, string partitionName, List<Column> columns) : base(name, partitionName)
+		public Table(string name, string partitionName, List<Column> columns) : base(name)
 		{
 			this.columns = columns;
+			this.partitionName = partitionName;
 		}
 
 		/// <summary>
@@ -58,5 +53,15 @@ namespace dbullet.core.dbo
 				return columns;
 			}
 		}
+
+		#region Implementation of IPartitionable
+		/// <summary>
+		/// Название партиции
+		/// </summary>
+		public string PartitionName
+		{
+			get { return partitionName; }
+		}
+		#endregion
 	}
 }

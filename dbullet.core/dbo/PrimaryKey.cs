@@ -8,14 +8,20 @@ namespace dbullet.core.dbo
 	/// <summary>
 	/// Первичный ключ
 	/// </summary>
-	public class PrimaryKey : PartitionableObject
+	public class PrimaryKey : DatabaseObjectBase, IPartitionable
 	{
+		/// <summary>
+		/// Название партиции
+		/// </summary>
+		private readonly string partitionName;
+
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название ключа</param>
-		public PrimaryKey(string name) : base(name, "PRIMARY")
+		public PrimaryKey(string name) : base(name)
 		{
+			partitionName = "PRIMARY";
 		}
 
 		/// <summary>
@@ -23,17 +29,19 @@ namespace dbullet.core.dbo
 		/// </summary>
 		/// <param name="name">Название ключа</param>
 		/// <param name="partitionName">Партиция</param>
-		public PrimaryKey(string name, string partitionName) : base(name, partitionName)
+		public PrimaryKey(string name, string partitionName) : base(name)
 		{
+			this.partitionName = partitionName;
 		}
 
+		#region Implementation of IPartitionable
 		/// <summary>
-		/// Конструктор
+		/// Название партиции
 		/// </summary>
-		/// <param name="name">Название ключа</param>
-		/// <param name="partition">Партиция</param>
-		public PrimaryKey(string name, Partition partition) : base(name, partition)
+		public string PartitionName
 		{
+			get { return partitionName; }
 		}
+		#endregion
 	}
 }

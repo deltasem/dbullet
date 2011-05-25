@@ -130,7 +130,7 @@ namespace dbullet.core.engine
 						}
 					}
 
-					sb.AppendFormat(") on [{0}]", table.Partition.Name);
+					sb.AppendFormat(") on [{0}]", table.PartitionName);
 					cmd.CommandText = sb.ToString();
 					cmd.ExecuteNonQuery();
 				}

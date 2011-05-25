@@ -1,21 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Partition.cs" company="delta">
+// <copyright file="IPartitionable.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Партишин
+	/// Партиция
 	/// </summary>
-	public class Partition : DatabaseObjectBase
+	public interface IPartitionable
 	{
 		/// <summary>
-		/// Конструктор
+		/// Название партиции
 		/// </summary>
-		/// <param name="name">Название партишин</param>
-		public Partition(string name) : base(name)
-		{
-		}
+		string PartitionName { get; }
 	}
 }

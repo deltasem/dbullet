@@ -43,11 +43,11 @@
     <Compile Include="attribute\BulletNumberAttribute.cs" />
     <Compile Include="dbo\Column.cs" />
     <Compile Include="dbo\ColumnType.cs" />
+    <Compile Include="dbo\Constraint.cs" />
     <Compile Include="dbo\Database.cs" />
     <Compile Include="dbo\DatabaseObjectBase.cs" />
     <Compile Include="dbo\DbTypeExtensions.cs" />
-    <Compile Include="dbo\Partition.cs" />
-    <Compile Include="dbo\PartitionableObject.cs" />
+    <Compile Include="dbo\IPartitionable.cs" />
     <Compile Include="dbo\PrimaryKey.cs" />
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
