@@ -1,16 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UnsuportedDbTypeException.cs" company="delta">
+// <copyright file="IPartitionable.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-
-namespace dbullet.core.exception
+namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Не поддерживаемый тип
+	/// Партиция
 	/// </summary>
-	public class UnsuportedDbTypeException : ApplicationException
+	public interface IPartitionable
 	{
+		/// <summary>
+		/// Название партиции
+		/// </summary>
+		string PartitionName { get; }
 	}
 }

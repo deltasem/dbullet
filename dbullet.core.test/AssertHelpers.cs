@@ -1,4 +1,9 @@
-﻿namespace dbullet.core.test
+﻿//-----------------------------------------------------------------------
+// <copyright file="AssertHelpers.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace dbullet.core.test
 {
 	using System;
 

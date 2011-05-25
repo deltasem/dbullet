@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MsSql2008StrategyTest.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient.Moles;
@@ -77,13 +82,40 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
-			var table = new Table(
-				"TestTable", new Partition("TESTPARTIOTION"), new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+			var table = new Table("TestTable", "TESTPARTIOTION")
+				.AddColumn(new Column("test", DbType.Int32))
+				.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
 		}
 
 		/// <summary>
-		/// Если строка без размера - сгенерить ошибку
+		/// Нормальное создание в другой партиции c первичным ключем
+		/// </summary>
+		[HostType("Moles")]
+		[TestMethod]
+		public void CreateTableCustomPartitionWithPrimaryKey()
+		{
+			string cmd = string.Empty;
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			var target = new MsSql2008Strategy(new MSqlConnection());
+			var table = new Table(
+				"TestTable", "TESTPARTIOTION")
+				.AddColumn(new Column("testid", DbType.Int32))
+				.AddColumn(new Column("test2", DbType.String.Size(50)))				
+				.AddPrimaryKey("testid");
+			target.CreateTable(table);
+		}
+
+		/// <summary>
+		/// Если строка без размера - сгенерить ошибкуx
 		/// </summary>
 		[TestMethod]
 		public void BuildColumnCreateCommandStringWithoutSizeTest()
