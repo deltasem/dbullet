@@ -18,7 +18,7 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
+		/// <param name="name">Название объекта</param>
 		/// <param name="partitionName">Партиция</param>
 		public PartitionableObject(string name, string partitionName) : base(name)
 		{
