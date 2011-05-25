@@ -82,8 +82,9 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
-			var table = new Table(
-				"TestTable", "TESTPARTIOTION", new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+			var table = new Table("TestTable", "TESTPARTIOTION")
+				.AddColumn(new Column("test", DbType.Int32))
+				.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
 		}
 
@@ -94,7 +95,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void CreateTableCustomPartitionWithPrimaryKey()
 		{
-			/*string cmd = string.Empty;
+			string cmd = string.Empty;
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
@@ -106,12 +107,12 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
 			var table = new Table(
-				"TestTable", new Partition("TESTPARTIOTION"), new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
-			target.CreateTable(table);*/
+				"TestTable", "TESTPARTIOTION", new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+			target.CreateTable(table);
 		}
 
 		/// <summary>
-		/// Если строка без размера - сгенерить ошибку
+		/// Если строка без размера - сгенерить ошибкуx
 		/// </summary>
 		[TestMethod]
 		public void BuildColumnCreateCommandStringWithoutSizeTest()

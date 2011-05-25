@@ -46,7 +46,7 @@ namespace dbullet.core.engine
 			{
 				// todo: возможно стоит сделать привязку версии к сборке, тогда можно будет сделать "независимые" тематики
 				// todo: возможно стоит добавить дату проведения обновления
-				sqlStrategy.CreateTable(new Table("dbullet", new List<Column> { new Column("Version", DbType.Int32) }));
+				sqlStrategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
 			}
 		}
 

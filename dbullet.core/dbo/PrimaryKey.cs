@@ -8,7 +8,7 @@ namespace dbullet.core.dbo
 	/// <summary>
 	/// Первичный ключ
 	/// </summary>
-	public class PrimaryKey : DatabaseObjectBase, IPartitionable
+	public class PrimaryKey : Constraint, IPartitionable
 	{
 		/// <summary>
 		/// Название партиции

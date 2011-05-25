@@ -23,11 +23,6 @@ namespace dbullet.core.dbo
 		private readonly bool nullable;
 
 		/// <summary>
-		/// Первичный ключ
-		/// </summary>
-		private PrimaryKey primaryKey;
-
-		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название столбца</param>
@@ -81,5 +76,10 @@ namespace dbullet.core.dbo
 				return nullable;
 			}
 		}
+
+		/// <summary>
+		/// Первичный ключ
+		/// </summary>
+		public Constraint Constraint { get; set; }
 	}
 }
