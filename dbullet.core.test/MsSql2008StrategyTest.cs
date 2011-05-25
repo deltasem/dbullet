@@ -100,14 +100,17 @@ namespace dbullet.core.test
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
-				Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", p.CommandText);
+				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", p.CommandText);
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
 			var table = new Table(
-				"TestTable", "TESTPARTIOTION", new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+				"TestTable", "TESTPARTIOTION")
+				.AddColumn(new Column("testid", DbType.Int32))
+				.AddColumn(new Column("test2", DbType.String.Size(50)))				
+				.AddPrimaryKey("testid");
 			target.CreateTable(table);
 		}
 

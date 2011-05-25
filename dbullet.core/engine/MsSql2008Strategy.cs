@@ -6,6 +6,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
@@ -128,6 +129,12 @@ namespace dbullet.core.engine
 						{
 							sb.Append(", ");
 						}
+					}
+
+					var pk = table.Columns.FirstOrDefault(p => p.Constraint != null);
+					if (pk != null)
+					{
+						sb.AppendFormat(", constraint {0} primary key clustered({1} asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]", pk.Constraint.Name, pk.Name);
 					}
 
 					sb.AppendFormat(") on [{0}]", table.PartitionName);
