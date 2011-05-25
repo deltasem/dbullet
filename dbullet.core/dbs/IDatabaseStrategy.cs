@@ -1,6 +1,11 @@
+//-----------------------------------------------------------------------
+// <copyright file="IDatabaseStrategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace dbullet.core.dbs
 {
-	using dbullet.core.dbo;
+	using dbo;
 
 	/// <summary>
 	/// Элементарные операции для работы с базой

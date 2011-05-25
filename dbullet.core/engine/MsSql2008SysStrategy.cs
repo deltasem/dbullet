@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="MsSql2008SysStrategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -39,7 +44,7 @@ namespace dbullet.core.engine
 		{
 			if (!sqlStrategy.IsTableExist("dbullet"))
 			{
-				sqlStrategy.CreateTable(new Table("dbullet", new List<Column> { new Column("Version", DbType.Int32) }));
+				sqlStrategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
 			}
 		}
 

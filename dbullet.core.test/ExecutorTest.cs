@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExecutorTest.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Reflection.Moles;
 using dbullet.core.attribute;
 using dbullet.core.engine;
@@ -134,7 +139,8 @@ namespace dbullet.core.test
 			{
 				GetTypes01 = () => new[]
 				{
-					typeof (TestBullet1),
+					typeof(TestBullet1),
+					typeof(TestBullet1),
 				}
 			};
 			int[] currentVersion = { 0 };

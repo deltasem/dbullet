@@ -1,4 +1,9 @@
-﻿namespace dbullet.core.dbo
+﻿//-----------------------------------------------------------------------
+// <copyright file="Database.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace dbullet.core.dbo
 {
 	/// <summary>
 	/// База данных

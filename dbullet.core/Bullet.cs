@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="Bullet.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;

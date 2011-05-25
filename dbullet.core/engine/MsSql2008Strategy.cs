@@ -1,6 +1,12 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MsSql2008Strategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
@@ -125,7 +131,13 @@ namespace dbullet.core.engine
 						}
 					}
 
-					sb.AppendFormat(") on [{0}]", table.Partition.Name);
+					var pk = table.Columns.FirstOrDefault(p => p.Constraint != null);
+					if (pk != null)
+					{
+						sb.AppendFormat(", constraint {0} primary key clustered({1} asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]", pk.Constraint.Name, pk.Name);
+					}
+
+					sb.AppendFormat(") on [{0}]", table.PartitionName);
 					cmd.CommandText = sb.ToString();
 					cmd.ExecuteNonQuery();
 				}
