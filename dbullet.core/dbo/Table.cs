@@ -3,6 +3,9 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Linq;
+using dbullet.core.exception;
+
 namespace dbullet.core.dbo
 {
 	using System.Collections.Generic;
@@ -94,10 +97,17 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Добавляет первичный ключ
 		/// </summary>
-		/// <param name="primaryKey">Первичный ключ</param>
+		/// <param name="columnName">Колонка</param>
 		/// <returns>Таблица с первичным ключем</returns>
-		public Table AddPrimaryKey(PrimaryKey primaryKey)
+		public Table AddPrimaryKey(string columnName)
 		{
+			var column = columns.FirstOrDefault(p => p.Name == columnName);
+			if (column == null)
+			{
+				throw new CollumnExpectedException();
+			}
+
+			column.Constraint = new PrimaryKey(string.Format("PK_{0}", Name).ToUpper());
 			return this;
 		}
 	}
