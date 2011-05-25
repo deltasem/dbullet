@@ -8,7 +8,7 @@ namespace dbullet.core.dbo
 	/// <summary>
 	/// Объект, который может быть вынесен в партицию (таблица, индекс...)
 	/// </summary>
-	public class PartitionableObject : DatabaseObjectBase
+	public abstract class PartitionableObject : DatabaseObjectBase
 	{
 		/// <summary>
 		/// Партишин
