@@ -60,6 +60,29 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
+		/// Нормальное создание в другой партиции
+		/// </summary>
+		[HostType("Moles")]
+		[TestMethod]
+		public void CreateTableCustomPartition()
+		{
+			string cmd = string.Empty;
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			var target = new MsSql2008Strategy(new MSqlConnection());
+			var table = new Table(
+				"TestTable", new Partition("TESTPARTIOTION"), new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+			target.CreateTable(table);
+		}
+
+		/// <summary>
 		/// Если строка без размера - сгенерить ошибку
 		/// </summary>
 		[TestMethod]

@@ -134,7 +134,7 @@ namespace dbullet.core.test
 			{
 				GetTypes01 = () => new[]
 				{
-					typeof (TestBullet1),
+					typeof(TestBullet1),
 				}
 			};
 			int[] currentVersion = { 0 };
