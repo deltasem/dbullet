@@ -1,4 +1,9 @@
-﻿using System.Data;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Column.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System.Data;
 
 namespace dbullet.core.dbo
 {
@@ -86,7 +91,7 @@ namespace dbullet.core.dbo
 		{
 			get
 			{
-				return this.columnType;
+				return columnType;
 			}
 		}
 
@@ -97,7 +102,7 @@ namespace dbullet.core.dbo
 		{
 			get
 			{
-				return this.nullable;
+				return nullable;
 			}
 		}
 
@@ -108,7 +113,7 @@ namespace dbullet.core.dbo
 		{
 			get
 			{
-				return this.defaultValue;
+				return defaultValue;
 			}
 		}
 	}

@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="SupportedStrategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace dbullet.core.engine
 {
 	/// <summary>

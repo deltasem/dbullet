@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MsSql2008Strategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;

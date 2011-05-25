@@ -10,17 +10,12 @@ namespace dbullet.core.dbo
 	/// <summary>
 	/// Таблица
 	/// </summary>
-	public class Table : DatabaseObjectBase
+	public class Table : PartitionableObject
 	{
 		/// <summary>
 		/// Колонки
 		/// </summary>
 		private readonly List<Column> columns;
-
-		/// <summary>
-		/// Партишин
-		/// </summary>
-		private readonly Partition partition;
 
 		/// <summary>
 		/// Конструктор
@@ -37,10 +32,20 @@ namespace dbullet.core.dbo
 		/// <param name="name">Название таблицы</param>
 		/// <param name="partition">Партишин</param>
 		/// <param name="columns">Столбцы</param>
-		public Table(string name, Partition partition, List<Column> columns) : base(name)
+		public Table(string name, Partition partition, List<Column> columns) : base(name, partition)
 		{
 			this.columns = columns;
-			this.partition = partition;
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="name">Название таблицы</param>
+		/// <param name="partitionName">Партиция</param>
+		/// <param name="columns">Столбцы</param>
+		public Table(string name, string partitionName, List<Column> columns) : base(name, partitionName)
+		{
+			this.columns = columns;
 		}
 
 		/// <summary>
@@ -51,17 +56,6 @@ namespace dbullet.core.dbo
 			get
 			{
 				return columns;
-			}
-		}
-
-		/// <summary>
-		/// Партишин
-		/// </summary>
-		public Partition Partition
-		{
-			get
-			{
-				return partition;
 			}
 		}
 	}

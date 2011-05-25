@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="Executor.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

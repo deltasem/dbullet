@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------
+// <copyright file="MsSql2008SysStrategy.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;

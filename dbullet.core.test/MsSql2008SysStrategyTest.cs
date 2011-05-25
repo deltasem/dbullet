@@ -1,4 +1,9 @@
-﻿using System.Data.SqlClient.Moles;
+﻿//-----------------------------------------------------------------------
+// <copyright file="MsSql2008SysStrategyTest.cs" company="delta">
+//     Copyright (c) 2011. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System.Data.SqlClient.Moles;
 using dbullet.core.engine;
 using dbullet.core.engine.Moles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

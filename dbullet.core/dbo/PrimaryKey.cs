@@ -1,20 +1,20 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="Partition.cs" company="delta">
+// <copyright file="PrimaryKey.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Партишин
+	/// Первичный ключ
 	/// </summary>
-	public class Partition : DatabaseObjectBase
+	public class PrimaryKey : DatabaseObjectBase
 	{
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name">Название партишин</param>
-		public Partition(string name) : base(name)
+		/// <param name="name">Название объекта</param>
+		public PrimaryKey(string name) : base(name)
 		{
 		}
 	}

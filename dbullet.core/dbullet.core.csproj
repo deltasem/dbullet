@@ -47,6 +47,8 @@
     <Compile Include="dbo\DatabaseObjectBase.cs" />
     <Compile Include="dbo\DbTypeExtensions.cs" />
     <Compile Include="dbo\Partition.cs" />
+    <Compile Include="dbo\PartitionableObject.cs" />
+    <Compile Include="dbo\PrimaryKey.cs" />
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="engine\Executor.cs" />
