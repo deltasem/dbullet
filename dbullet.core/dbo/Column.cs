@@ -25,20 +25,11 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Конструктор
 		/// </summary>
-		/// <param name="name">Название столбца</param>
-		/// <param name="columnType">Тип столбца</param>
-		public Column(string name, ColumnType columnType)
-			: this(name, columnType, true)
-		{
-		}
-
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="name">Название столбца</param>
+		/// <param name="name">Имя столбца</param>
 		/// <param name="dbType">Тип столбца</param>
-		public Column(string name, DbType dbType)
-			: this(name, new ColumnType(dbType), true)
+		/// <param name="nullable">Может содержать null</param>
+		public Column(string name, DbType dbType, bool nullable = true)
+			: this(name, new ColumnType(dbType), nullable)
 		{
 		}
 
@@ -48,7 +39,7 @@ namespace dbullet.core.dbo
 		/// <param name="name">Имя столбца</param>
 		/// <param name="columnType">Тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
-		public Column(string name, ColumnType columnType, bool nullable)
+		public Column(string name, ColumnType columnType, bool nullable = true)
 			: base(name)
 		{
 			this.columnType = columnType;

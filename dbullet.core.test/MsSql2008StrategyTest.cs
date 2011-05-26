@@ -4,7 +4,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient.Moles;
 using dbullet.core.dbo;
@@ -37,7 +36,7 @@ namespace dbullet.core.test
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p => { return 0; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
-			var table = new Table("TestTable", new List<Column>());
+			var table = new Table("TestTable");
 			target.CreateTable(table);
 		}
 
@@ -59,8 +58,9 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			var target = new MsSql2008Strategy(new MSqlConnection());
-			var table = new Table(
-				"TestTable", new List<Column> { new Column("test", DbType.Int32), new Column("test2", DbType.String.Size(50)) });
+			var table = new Table("TestTable");
+			table.AddColumn(new Column("test", DbType.Int32));
+			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
 		}
 

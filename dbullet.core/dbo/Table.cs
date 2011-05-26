@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Data;
 using System.Linq;
 using dbullet.core.exception;
 
@@ -48,7 +49,7 @@ namespace dbullet.core.dbo
 		/// </summary>
 		/// <param name="name">Название таблицы</param>
 		/// <param name="columns">Столбцы</param>
-		public Table(string name, List<Column> columns) : this(name, "PRIMARY", columns)
+		private Table(string name, List<Column> columns) : this(name, "PRIMARY", columns)
 		{
 		}
 
@@ -58,7 +59,7 @@ namespace dbullet.core.dbo
 		/// <param name="name">Название таблицы</param>
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="columns">Столбцы</param>
-		public Table(string name, string partitionName, List<Column> columns) : base(name)
+		private Table(string name, string partitionName, List<Column> columns) : base(name)
 		{
 			this.columns = columns;
 			this.partitionName = partitionName;
@@ -95,11 +96,38 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
+		/// Добавляет колонку к таблице
+		/// </summary>
+		/// <param name="name">Имя столбца</param>
+		/// <param name="dbType">DB тип столбца</param>
+		/// <param name="nullable">Может содержать null</param>
+		/// <returns>Табилца, с добавленой колонкой</returns>
+		public Table AddColumn(string name, DbType dbType, bool nullable = true)
+		{
+			columns.Add(new Column(name, dbType, nullable));
+			return this;
+		}
+
+		/// <summary>
+		/// Добавляет колонку к таблице
+		/// </summary>
+		/// <param name="name">Название столбца</param>
+		/// <param name="columnType">Тип столбца</param>
+		/// <param name="nullable">Может содержать null</param>
+		/// <returns>Табилца, с добавленой колонкой</returns>
+		public Table AddColumn(string name, ColumnType columnType, bool nullable = true)
+		{
+			columns.Add(new Column(name, columnType, nullable));
+			return this;
+		}
+
+		/// <summary>
 		/// Добавляет первичный ключ
 		/// </summary>
 		/// <param name="columnName">Колонка</param>
+		/// <param name="partition">Партиция</param>
 		/// <returns>Таблица с первичным ключем</returns>
-		public Table AddPrimaryKey(string columnName)
+		public Table AddPrimaryKey(string columnName, string partition = "PRIMARY")
 		{
 			var column = columns.FirstOrDefault(p => p.Name == columnName);
 			if (column == null)
@@ -107,7 +135,7 @@ namespace dbullet.core.dbo
 				throw new CollumnExpectedException();
 			}
 
-			column.Constraint = new PrimaryKey(string.Format("PK_{0}", Name).ToUpper());
+			column.Constraint = new PrimaryKey(string.Format("PK_{0}", Name).ToUpper(), partition);
 			return this;
 		}
 	}
