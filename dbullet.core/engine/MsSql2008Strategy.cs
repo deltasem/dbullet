@@ -150,6 +150,36 @@ namespace dbullet.core.engine
 				}
 			}
 		}
+
+		/// <summary>
+		/// Удаляет таблицу
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		public void DropTable(string tableName)
+		{
+			if (string.IsNullOrEmpty(tableName))
+			{
+				throw new TableExpectedException();
+			}
+
+			try
+			{
+				connection.Open();
+				using (var cmd = new SqlCommand(string.Empty, connection))
+				{
+					cmd.CommandText = string.Format("drop table {0}", tableName);
+					cmd.ExecuteNonQuery();
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
+			}
+		}
+
 		#endregion
 
 		#region IsTableExist

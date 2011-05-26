@@ -47,5 +47,14 @@ namespace dbullet.core
 		{
 			return strategy.IsTableExist(tableName);
 		}
+
+		/// <summary>
+		/// Удаляет таблицу
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		public void DropTable(string tableName)
+		{
+			strategy.DropTable(tableName);
+		}
 	}
 }

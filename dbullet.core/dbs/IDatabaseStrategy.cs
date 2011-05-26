@@ -19,6 +19,12 @@ namespace dbullet.core.dbs
 		void CreateTable(Table table);
 
 		/// <summary>
+		/// Удаляет таблицу
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		void DropTable(string tableName);
+
+		/// <summary>
 		/// Существует ли таблица
 		/// </summary>
 		/// <param name="tableName">Название таблицы</param>

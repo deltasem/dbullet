@@ -47,11 +47,13 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void CreateTable()
 		{
+			bool executed = false;
 			string cmd = string.Empty;
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 				{
+					executed = true;
 					Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [PRIMARY]", p.CommandText);
 					return 0;
 				};
@@ -62,6 +64,7 @@ namespace dbullet.core.test
 			table.AddColumn(new Column("test", DbType.Int32));
 			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
+			Assert.IsTrue(executed);
 		}
 
 		/// <summary>
@@ -71,11 +74,13 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void CreateTableCustomPartition()
 		{
+			bool executed = false;
 			string cmd = string.Empty;
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
+				executed = true;
 				Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", p.CommandText);
 				return 0;
 			};
@@ -86,6 +91,7 @@ namespace dbullet.core.test
 				.AddColumn(new Column("test", DbType.Int32))
 				.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
+			Assert.IsTrue(executed);
 		}
 
 		/// <summary>
@@ -95,11 +101,13 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void CreateTableCustomPartitionWithPrimaryKey()
 		{
+			bool executed = false;
 			string cmd = string.Empty;
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
+				executed = true;
 				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", p.CommandText);
 				return 0;
 			};
@@ -112,6 +120,7 @@ namespace dbullet.core.test
 				.AddColumn(new Column("test2", DbType.String.Size(50)))				
 				.AddPrimaryKey("testid");
 			target.CreateTable(table);
+			Assert.IsTrue(executed);
 		}
 
 		/// <summary>
@@ -162,22 +171,24 @@ namespace dbullet.core.test
 		[HostType("Moles")]
 		public void IsTableExistsTxtTest()
 		{
+			bool executed = false;
 			string cmd = string.Empty;
-			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			MSqlCommand.AllInstances.ExecuteScalar = p =>
 			{
+				executed = true;
 				Assert.AreEqual(
 					"select count(*) from sysobjects " +
 					"where id = object_id(N'ExistingTable') and OBJECTPROPERTY(id, N'IsTable') = 1",
 					p.CommandText);
-				return 0;
+				return 1;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
 			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
 			MSqlConnection.AllInstances.Open = p => { };
 			MSqlConnection.AllInstances.Close = p => { };
-			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
 			var strategy = new MsSql2008Strategy(new MSqlConnection());
 			strategy.IsTableExist("ExistingTable");
+			Assert.IsTrue(executed);
 		}
 
 		/// <summary>
@@ -223,6 +234,42 @@ namespace dbullet.core.test
 			var strategy = new MsSql2008Strategy(new MSqlConnection());
 			var actual = strategy.IsTableExist("ExistingTable");
 			Assert.AreEqual(false, actual);
+		}
+
+		/// <summary>
+		/// Удаление таблицы без названия
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void DropEmptyTable()
+		{
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			AssertHelpers.Throws<TableExpectedException>(() => strategy.DropTable(string.Empty));
+		}
+
+		/// <summary>
+		/// Удаление таблицы
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void DropTable()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("drop table TableForDrop", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.DropTable("TableForDrop");
+			Assert.IsTrue(executed);
 		}
 	}
 }
