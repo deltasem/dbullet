@@ -58,10 +58,12 @@ namespace dbullet.core.engine
 				case DbType.Int32:
 					sb.Append(" int ");
 					break;
+				case DbType.Boolean:
+					sb.Append(" bit ");
+					break;
 				case DbType.AnsiString:
 				case DbType.Binary:
 				case DbType.Byte:
-				case DbType.Boolean:
 				case DbType.Currency:
 				case DbType.Date:
 				case DbType.DateTime:

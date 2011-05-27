@@ -99,7 +99,7 @@ namespace dbullet.core.test
 			};
 			var target = new MsSql2008SysStrategy(new MSqlConnection());
 			target.SetCurrentVersion(18);
-			Assert.AreEqual("insert into dbullet(18)", cmd);
+			Assert.AreEqual("insert into dbullet(Version) values(18)", cmd);
 		}
 	}
 }

@@ -88,7 +88,7 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
-					cmd.CommandText = string.Format("insert into dbullet({0})", version);
+					cmd.CommandText = string.Format("insert into dbullet(Version) values({0})", version);
 					cmd.ExecuteScalar();
 				}
 			}

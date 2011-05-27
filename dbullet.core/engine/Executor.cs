@@ -75,6 +75,7 @@ namespace dbullet.core.engine
 
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{
+				// todo: сделать откат обновления, если возникло исключение
 				var currentVersion = systemStrategy.GetLastVersion();
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion)
