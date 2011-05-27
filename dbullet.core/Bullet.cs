@@ -15,11 +15,6 @@ namespace dbullet.core
 	public abstract class Bullet : IDatabaseStrategy
 	{
 		/// <summary>
-		/// Стратегия
-		/// </summary>
-		private readonly IDatabaseStrategy strategy = new MsSql2008Strategy(null);
-
-		/// <summary>
 		/// Обновление
 		/// </summary>
 		public abstract void Update();
@@ -35,7 +30,7 @@ namespace dbullet.core
 		/// <param name="table">Таблица</param>
 		public void CreateTable(Table table)
 		{
-			strategy.CreateTable(table);
+			Executor.DatabaseStrategy.CreateTable(table);
 		}
 
 		/// <summary>
@@ -45,7 +40,7 @@ namespace dbullet.core
 		/// <returns>true - если существует, иначе false</returns>
 		public bool IsTableExist(string tableName)
 		{
-			return strategy.IsTableExist(tableName);
+			return Executor.DatabaseStrategy.IsTableExist(tableName);
 		}
 
 		/// <summary>
@@ -54,7 +49,7 @@ namespace dbullet.core
 		/// <param name="tableName">Название таблицы</param>
 		public void DropTable(string tableName)
 		{
-			strategy.DropTable(tableName);
+			Executor.DatabaseStrategy.DropTable(tableName);
 		}
 	}
 }

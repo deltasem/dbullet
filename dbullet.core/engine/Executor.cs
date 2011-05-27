@@ -19,6 +19,32 @@ namespace dbullet.core.engine
 	public class Executor
 	{
 		/// <summary>
+		/// Системная стратегия
+		/// </summary>
+		private static ISysDatabaseStrategy systemStrategy;
+
+		/// <summary>
+		/// Стратегия работы с БД
+		/// </summary>
+		private static IDatabaseStrategy databaseStrategy;
+
+		/// <summary>
+		/// Стратегия работы с БД
+		/// </summary>
+		public static IDatabaseStrategy DatabaseStrategy
+		{
+			get { return databaseStrategy; }
+		}
+
+		/// <summary>
+		/// Системная стратегия
+		/// </summary>
+		internal static ISysDatabaseStrategy SystemStrategy
+		{
+			get { return systemStrategy; }
+		}
+
+		/// <summary>
 		/// Выполнить обновление
 		/// </summary>
 		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
@@ -43,8 +69,9 @@ namespace dbullet.core.engine
 				throw new NotSupportedException("Only MS SQL supported");
 			}
 
-			// todo: вынести в фабрику
-			ISysDatabaseStrategy systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
+			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
+			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
+			systemStrategy.InitDatabase();
 
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{

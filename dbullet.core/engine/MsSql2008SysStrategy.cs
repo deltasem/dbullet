@@ -59,6 +59,12 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (var cmd = new SqlCommand("select max(Version) from dbullet", connection))
 				{
+					var res = cmd.ExecuteScalar();
+					if (res == System.DBNull.Value)
+					{
+						return 0;
+					}
+
 					return int.Parse(cmd.ExecuteScalar().ToString());
 				}
 			}

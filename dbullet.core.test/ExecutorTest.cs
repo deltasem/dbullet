@@ -97,6 +97,7 @@ namespace dbullet.core.test
 					typeof(TestBullet1)
 				}
 			};
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
 			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => 0;
 			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => { };
 			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
@@ -120,6 +121,7 @@ namespace dbullet.core.test
 				}
 			};
 			int[] currentVersion = { 1 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
 			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
 			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
 			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
@@ -144,6 +146,7 @@ namespace dbullet.core.test
 				}
 			};
 			int[] currentVersion = { 0 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
 			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
 			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
 			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);

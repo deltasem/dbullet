@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Data;
 using System.Data.SqlClient.Moles;
 using dbullet.core.engine;
 using dbullet.core.engine.Moles;
@@ -37,6 +38,24 @@ namespace dbullet.core.test
 			var target = new MsSql2008SysStrategy(new MSqlConnection());
 			var actual = target.GetLastVersion();
 			Assert.AreEqual(100500, actual);
+		}
+
+		/// <summary>
+		/// Когда еще нет ниодной версии
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void GetLastVersionNull()
+		{
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p =>
+			{
+				return System.DBNull.Value;
+			};
+			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			var actual = target.GetLastVersion();
+			Assert.AreEqual(0, actual);
 		}
 
 		/// <summary>
