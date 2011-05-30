@@ -271,5 +271,130 @@ namespace dbullet.core.test
 			strategy.DropTable("TableForDrop");
 			Assert.IsTrue(executed);
 		}
+
+		/// <summary>
+		/// Создание индекса
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void CreateIndex()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }));
+			Assert.IsTrue(executed);
+		}
+
+		/// <summary>
+		/// Создание индекса оп убыванию
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void CreateIndexDesc()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index desc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index", Direction.Descending) }));
+			Assert.IsTrue(executed);
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void CreateIndexPartitional()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [INDEX_PARTITION]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "INDEX_PARTITION"));
+			Assert.IsTrue(executed);
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void CreateIndexClustered()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create clustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "PRIMARY", IndexType.Clustered));
+			Assert.IsTrue(executed);
+		}
+
+		/// <summary>
+		/// Создание уникального индекса
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void CreateIndexUnique()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create unique nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p => { return 1; };
+			var strategy = new MsSql2008Strategy(new MSqlConnection());
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "PRIMARY", IndexType.Nonclustered, true));
+			Assert.IsTrue(executed);
+		}
 	}
 }

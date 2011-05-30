@@ -47,6 +47,10 @@
     <Compile Include="dbo\Database.cs" />
     <Compile Include="dbo\DatabaseObjectBase.cs" />
     <Compile Include="dbo\DbTypeExtensions.cs" />
+    <Compile Include="dbo\Direction.cs" />
+    <Compile Include="dbo\Index.cs" />
+    <Compile Include="dbo\IndexColumn.cs" />
+    <Compile Include="dbo\IndexType.cs" />
     <Compile Include="dbo\IPartitionable.cs" />
     <Compile Include="dbo\PrimaryKey.cs" />
     <Compile Include="dbo\Table.cs" />
@@ -58,6 +62,7 @@
     <Compile Include="engine\MsSql2008SysStrategy.cs" />
     <Compile Include="engine\SupportedStrategy.cs" />
     <Compile Include="exception\CollumnExpectedException.cs" />
+    <Compile Include="exception\DublicateColumnException.cs" />
     <Compile Include="exception\TableExpectedException.cs" />
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

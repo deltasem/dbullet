@@ -217,6 +217,46 @@ namespace dbullet.core.engine
 				}
 			}
 		}
+
+		/// <summary>
+		/// Создаёт индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		public void CreateIndex(Index index)
+		{
+			try
+			{
+				connection.Open();
+				var sb = new StringBuilder("create ");
+				sb.AppendFormat("{0}", index.IsUnique ? "unique " : string.Empty);
+				sb.AppendFormat("{0} index ", index.IndexType == IndexType.Clustered ? "clustered" : "nonclustered");
+				sb.AppendFormat("{0} on {1} (", index.Name, index.Table.Name);
+				for (int i = 0; i < index.Columns.Count; i++)
+				{
+					var column = index.Columns[i];
+					sb.AppendFormat("{0} {1}", column.Name, column.Direction == Direction.Ascending ? "asc" : "desc");
+					if (i != index.Columns.Count - 1)
+					{
+						sb.Append(", ");
+					}
+				}
+
+				sb.Append(") whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)");
+				sb.AppendFormat(" ON [{0}]", index.PartitionName);
+				using (var cmd = new SqlCommand(sb.ToString(), connection))
+				{
+					cmd.ExecuteNonQuery();
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
+			}
+		}
+
 		#endregion
 	}
 }
