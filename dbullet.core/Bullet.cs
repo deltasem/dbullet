@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
@@ -41,6 +42,15 @@ namespace dbullet.core
 		public bool IsTableExist(string tableName)
 		{
 			return Executor.DatabaseStrategy.IsTableExist(tableName);
+		}
+
+		/// <summary>
+		/// Создаёт индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		public void CreateIndex(Index index)
+		{
+			Executor.DatabaseStrategy.CreateIndex(index);
 		}
 
 		/// <summary>

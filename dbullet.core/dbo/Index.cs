@@ -30,6 +30,11 @@ namespace dbullet.core.dbo
 		private readonly string partitionName;
 
 		/// <summary>
+		/// Таблица
+		/// </summary>
+		private readonly Table table;
+
+		/// <summary>
 		/// Столбцы для индекса
 		/// </summary>
 		private readonly List<IndexColumn> columns;
@@ -38,11 +43,25 @@ namespace dbullet.core.dbo
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название объекта</param>
+		/// <param name="table">Таблица</param>
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
-			: this(name, new IndexColumn[0], partitionName, indexType, isUnique)
+		public Index(string name, string table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+			: this(name, new Table(table), new IndexColumn[0], partitionName, indexType, isUnique)
+		{
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="name">Название объекта</param>
+		/// <param name="table">Таблица</param>
+		/// <param name="partitionName">Партиция</param>
+		/// <param name="indexType">Тип индекса</param>
+		/// <param name="isUnique">Уникальный индекс</param>
+		public Index(string name, Table table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+			: this(name, table, new IndexColumn[0], partitionName, indexType, isUnique)
 		{
 		}
 
@@ -50,13 +69,29 @@ namespace dbullet.core.dbo
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название индекса</param>
+		/// <param name="table">Таблица</param>
 		/// <param name="columns">Столбцы для индекса</param>
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+		public Index(string name, string table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+			: this(name, new Table(table), columns, partitionName, indexType, isUnique)
+		{
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="name">Название индекса</param>
+		/// <param name="table">Таблица</param>
+		/// <param name="columns">Столбцы для индекса</param>
+		/// <param name="partitionName">Партиция</param>
+		/// <param name="indexType">Тип индекса</param>
+		/// <param name="isUnique">Уникальный индекс</param>
+		public Index(string name, Table table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: base(name)
 		{
+			this.table = table;
 			this.columns = new List<IndexColumn>(columns);
 			this.indexType = indexType;
 			this.partitionName = partitionName;
@@ -93,6 +128,14 @@ namespace dbullet.core.dbo
 		public string PartitionName
 		{
 			get { return partitionName; }
+		}
+
+		/// <summary>
+		/// Таблица
+		/// </summary>
+		public Table Table
+		{
+			get { return table; }
 		}
 
 		/// <summary>

@@ -18,6 +18,6 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// По убыванию
 		/// </summary>
-		Desending,
+		Descending,
 	}
 }

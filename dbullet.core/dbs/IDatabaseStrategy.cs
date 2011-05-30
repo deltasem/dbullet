@@ -30,5 +30,11 @@ namespace dbullet.core.dbs
 		/// <param name="tableName">Название таблицы</param>
 		/// <returns>true - если существует, иначе false</returns>
 		bool IsTableExist(string tableName);
+
+		/// <summary>
+		/// Создаёт индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		void CreateIndex(Index index);
 	}
 }

@@ -21,7 +21,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void AddColumnSameObjectTest()
 		{
-			var idx = new Index("IDX_TEST");
+			var idx = new Index("IDX_TEST", "testTable");
 			var idx2 = idx.AddColumn(new IndexColumn("testcol"));
 			Assert.AreSame(idx, idx2);
 		}
@@ -32,7 +32,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void AddColumnTest()
 		{
-			var idx = new Index("IDX_TEST");
+			var idx = new Index("IDX_TEST", "testTable");
 			idx.AddColumn(new IndexColumn("Test"));
 			Assert.AreEqual(1, idx.Columns.Count);
 		}
@@ -43,7 +43,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void AddColumnDublicateTest()
 		{
-			var idx = new Index("IDX_TEST");
+			var idx = new Index("IDX_TEST", "testTable");
 			idx.AddColumn(new IndexColumn("Test"));
 			AssertHelpers.Throws<DublicateColumnException>(() => idx.AddColumn(new IndexColumn("Test")));
 		}
