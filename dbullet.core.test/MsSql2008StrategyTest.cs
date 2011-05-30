@@ -3,24 +3,6 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-//-----------------------------------------------------------------------
-// Для успешного прохождения тестов необходимо установить в false
-// значения useLegacyV2RuntimeActivationPolicy и legacyCasPolicy
-// в файле C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.Moles.VsHost.exe.Config
-// и C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.Moles.VsHost.x86.exe.Config
-// пример файла:
-// <?xml version="1.0" encoding="utf-8" ?>
-// <configuration>
-//   <startup useLegacyV2RuntimeActivationPolicy="false">
-//     <supportedRuntime version="v4.0" />
-//     <supportedRuntime version="v2.0.50727" />
-//   </startup>
-//   <runtime>
-//      <legacyCasPolicy enabled="false" />
-//   </runtime>
-// </configuration>
-//-----------------------------------------------------------------------
 using System;
 using System.Data;
 using System.Data.SqlClient.Moles;
@@ -41,17 +23,6 @@ namespace dbullet.core.test
 		/// Контекст
 		/// </summary>
 		public TestContext TestContext { get; set; }
-
-		/// <summary>
-		/// Инициализация тестов
-		/// </summary>
-		/// <param name="context">Контекст</param>
-		[ClassInitialize]
-		public static void TestInitialize(TestContext context)
-		{
-			// для того чтобы коректно отрабатывали тесты с RazorEngine
-			typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.ToString();
-		}
 
 		/// <summary>
 		/// Создание таблицы без столбцов

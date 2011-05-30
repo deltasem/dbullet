@@ -164,7 +164,7 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
-					cmd.CommandText = Razor.Parse("drop table @Model.Name", new { Name = tableName }, "drop table");
+					cmd.CommandText = Razor.Parse("drop table @Model.Name", new Table(tableName), "drop table");
 					cmd.ExecuteNonQuery();
 				}
 			}
@@ -195,7 +195,7 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				var str = Razor.Parse("select count(*) from sysobjects where id = object_id(N'@Model.Name') and OBJECTPROPERTY(id, N'IsTable') = 1", new { Name = tableName }, "table exists");
+				var str = Razor.Parse("select count(*) from sysobjects where id = object_id(N'@Model.Name') and OBJECTPROPERTY(id, N'IsTable') = 1", new Table(tableName), "table exists");
 				using (var cmd = new SqlCommand(str, connection))
 				{
 					return cmd.ExecuteScalar().ToString() == "1";
