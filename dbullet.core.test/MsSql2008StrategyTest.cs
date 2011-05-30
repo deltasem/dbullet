@@ -3,6 +3,24 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
+//-----------------------------------------------------------------------
+// Для успешного прохождения тестов необходимо установить в false
+// значения useLegacyV2RuntimeActivationPolicy и legacyCasPolicy
+// в файле C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.Moles.VsHost.exe.Config
+// и C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PrivateAssemblies\Microsoft.Moles.VsHost.x86.exe.Config
+// пример файла:
+// <?xml version="1.0" encoding="utf-8" ?>
+// <configuration>
+//   <startup useLegacyV2RuntimeActivationPolicy="false">
+//     <supportedRuntime version="v4.0" />
+//     <supportedRuntime version="v2.0.50727" />
+//   </startup>
+//   <runtime>
+//      <legacyCasPolicy enabled="false" />
+//   </runtime>
+// </configuration>
+//-----------------------------------------------------------------------
 using System;
 using System.Data;
 using System.Data.SqlClient.Moles;
@@ -23,6 +41,17 @@ namespace dbullet.core.test
 		/// Контекст
 		/// </summary>
 		public TestContext TestContext { get; set; }
+
+		/// <summary>
+		/// Инициализация тестов
+		/// </summary>
+		/// <param name="context">Контекст</param>
+		[ClassInitialize]
+		public static void TestInitialize(TestContext context)
+		{
+			// для того чтобы коректно отрабатывали тесты с RazorEngine
+			typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly.ToString();
+		}
 
 		/// <summary>
 		/// Создание таблицы без столбцов
@@ -54,7 +83,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 				{
 					executed = true;
-					Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [PRIMARY]", p.CommandText);
+					Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 					return 0;
 				};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -81,7 +110,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", p.CommandText);
+				Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -108,7 +137,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", p.CommandText);
+				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -284,7 +313,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -309,7 +338,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index desc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index desc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -334,7 +363,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [INDEX_PARTITION]", p.CommandText);
+				Assert.AreEqual("create nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [INDEX_PARTITION]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -359,7 +388,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create clustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				Assert.AreEqual("create clustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
@@ -384,7 +413,7 @@ namespace dbullet.core.test
 			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
 			{
 				executed = true;
-				Assert.AreEqual("create unique nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText);
+				Assert.AreEqual("create unique nonclustered index INDEX_NAME on TABLE_NAME (column4index asc) whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
 				return 0;
 			};
 			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };

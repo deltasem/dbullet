@@ -11,6 +11,8 @@ using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.exception;
+using RazorEngine;
+using RazorEngine.Templating;
 
 namespace dbullet.core.engine
 {
@@ -120,29 +122,22 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
-					var sb = new StringBuilder();
-					sb.AppendFormat("create table {0} ", table.Name);
-					sb.Append("(");
-					for (int i = 0; i < table.Columns.Count; i++)
-					{
-						var column = table.Columns[i];
-						sb.Append(BuildColumnCreateCommand(column));
-						if (i != table.Columns.Count - 1)
-						{
-							sb.Append(", ");
-						}
-					}
-
-					var pk = table.Columns.FirstOrDefault(p => p.Constraint != null);
-					if (pk != null)
-					{
-						sb.AppendFormat(", constraint {0} primary key clustered({1} asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]", pk.Constraint.Name, pk.Name);
-					}
-
-					sb.AppendFormat(") on [{0}]", table.PartitionName);
-					cmd.CommandText = sb.ToString();
+					var t = Razor.Parse(@"create table @Model.Name (
+@for (int i = 0; i < Model.Columns.Count; i++){
+@dbullet.core.engine.MsSql2008Strategy.BuildColumnCreateCommand(Model.Columns[i])
+@(i != Model.Columns.Count - 1 ? "", "" : """")
+}
+@{var pk = Model.Columns.FirstOrDefault(p => p.Constraint != null);}
+@(pk == null? """":string.Format("", constraint {0} primary key clustered({1} asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]"", pk.Constraint.Name, pk.Name))
+) on [@Model.PartitionName]
+", table, "create table");
+					cmd.CommandText = t;
 					cmd.ExecuteNonQuery();
 				}
+			}
+			catch (TemplateCompilationException ex)
+			{
+				ex.Errors.ToList().ForEach(p => Console.WriteLine(p.ErrorText));
 			}
 			finally
 			{
@@ -169,7 +164,7 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
-					cmd.CommandText = string.Format("drop table {0}", tableName);
+					cmd.CommandText = Razor.Parse("drop table @Model.Name", new { Name = tableName }, "drop table");
 					cmd.ExecuteNonQuery();
 				}
 			}
@@ -200,10 +195,7 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				var str = string.Format(
-					"select count(*) from sysobjects " +
-					"where id = object_id(N'{0}') and OBJECTPROPERTY(id, N'IsTable') = 1",
-					tableName);
+				var str = Razor.Parse("select count(*) from sysobjects where id = object_id(N'@Model.Name') and OBJECTPROPERTY(id, N'IsTable') = 1", new { Name = tableName }, "table exists");
 				using (var cmd = new SqlCommand(str, connection))
 				{
 					return cmd.ExecuteScalar().ToString() == "1";
@@ -227,23 +219,17 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				var sb = new StringBuilder("create ");
-				sb.AppendFormat("{0}", index.IsUnique ? "unique " : string.Empty);
-				sb.AppendFormat("{0} index ", index.IndexType == IndexType.Clustered ? "clustered" : "nonclustered");
-				sb.AppendFormat("{0} on {1} (", index.Name, index.Table.Name);
-				for (int i = 0; i < index.Columns.Count; i++)
-				{
-					var column = index.Columns[i];
-					sb.AppendFormat("{0} {1}", column.Name, column.Direction == Direction.Ascending ? "asc" : "desc");
-					if (i != index.Columns.Count - 1)
-					{
-						sb.Append(", ");
-					}
-				}
-
-				sb.Append(") whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)");
-				sb.AppendFormat(" ON [{0}]", index.PartitionName);
-				using (var cmd = new SqlCommand(sb.ToString(), connection))
+				var t = Razor.Parse(@"create @(Model.IsUnique ? ""unique "" : string.Empty)
+@(Model.IndexType == dbullet.core.dbo.IndexType.Clustered ? ""clustered"" : ""nonclustered"") 
+index @Model.Name on @Model.Table.Name (
+@for (int i = 0; i < @Model.Columns.Count; i++){
+@Model.Columns[i].Name @(Model.Columns[i].Direction == dbullet.core.dbo.Direction.Ascending ? "" asc"" : "" desc"")
+@(i != Model.Columns.Count - 1 ? "", "" : """")
+}
+) 
+whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) 
+ON [@Model.PartitionName]", index, "create index");
+				using (var cmd = new SqlCommand(t, connection))
 				{
 					cmd.ExecuteNonQuery();
 				}
