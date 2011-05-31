@@ -45,12 +45,16 @@ namespace dbullet.core.engine.MsSql
 				case DbType.Boolean:
 					sb.Append(" bit ");
 					break;
+				case DbType.Date:
+					sb.Append(" date ");
+					break;
+				case DbType.DateTime:
+					sb.Append(" datetime ");
+					break;
 				case DbType.AnsiString:
 				case DbType.Binary:
 				case DbType.Byte:
 				case DbType.Currency:
-				case DbType.Date:
-				case DbType.DateTime:
 				case DbType.Double:
 				case DbType.Guid:
 				case DbType.Int16:

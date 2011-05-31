@@ -141,6 +141,17 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Добавить колонку к индексу
 		/// </summary>
+		/// <param name="name">Название объекта</param>
+		/// <param name="direction">Направление сортировки</param>
+		/// <returns>Индекс, с добавленой колонкой</returns>
+		public Index AddColumn(string name, Direction direction = Direction.Ascending)
+		{
+			return AddColumn(new IndexColumn(name, direction));
+		}
+
+		/// <summary>
+		/// Добавить колонку к индексу
+		/// </summary>
 		/// <param name="column">Колонка</param>
 		/// <returns>Индекс, с добавленой колонкой</returns>
 		public Index AddColumn(IndexColumn column)

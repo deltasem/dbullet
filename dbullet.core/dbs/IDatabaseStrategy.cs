@@ -36,5 +36,11 @@ namespace dbullet.core.dbs
 		/// </summary>
 		/// <param name="index">Индеес</param>
 		void CreateIndex(Index index);
+
+		/// <summary>
+		/// Удаляет индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		void DropIndex(Index index);
 	}
 }

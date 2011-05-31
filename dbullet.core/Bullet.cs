@@ -61,5 +61,14 @@ namespace dbullet.core
 		{
 			Executor.DatabaseStrategy.DropTable(tableName);
 		}
+
+		/// <summary>
+		/// Удаляет индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		public void DropIndex(Index index)
+		{
+			Executor.DatabaseStrategy.DropIndex(index);
+		}
 	}
 }
