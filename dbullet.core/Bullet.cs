@@ -88,5 +88,15 @@ namespace dbullet.core
 		{
 			Executor.DatabaseStrategy.DropForeignKey(foreignKey);
 		}
+
+		/// <summary>
+		/// Удалить внешний ключ
+		/// </summary>
+		/// <param name="name">Имя ключа</param>
+		/// <param name="tableName">Таблица с ключем</param>
+		public void DropForeignKey(string name, string tableName)
+		{
+			DropForeignKey(new ForeignKey(name, tableName, string.Empty, string.Empty, string.Empty));
+		}
 	}
 }
