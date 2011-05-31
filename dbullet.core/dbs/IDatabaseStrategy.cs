@@ -42,5 +42,17 @@ namespace dbullet.core.dbs
 		/// </summary>
 		/// <param name="index">Индеес</param>
 		void DropIndex(Index index);
+
+		/// <summary>
+		/// Создать внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		void CreateForeignKey(ForeignKey foreignKey);
+
+		/// <summary>
+		/// Удалить внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		void DropForeignKey(ForeignKey foreignKey);
 	}
 }

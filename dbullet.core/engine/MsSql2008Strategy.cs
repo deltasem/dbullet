@@ -92,10 +92,28 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Удалить индекс
 		/// </summary>
-		/// <param name="index"></param>
+		/// <param name="index">Индекс</param>
 		public void DropIndex(Index index)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropIndexTemplate(), index, "drop index"));
+		}
+
+		/// <summary>
+		/// Создать внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		public void CreateForeignKey(ForeignKey foreignKey)
+		{
+			ExecuteNonQuery(Razor.Parse(manager.GetCreateForeignKeyTemplate(), foreignKey, "create foreignkey"));
+		}
+
+		/// <summary>
+		/// Удалить внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		public void DropForeignKey(ForeignKey foreignKey)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <summary>

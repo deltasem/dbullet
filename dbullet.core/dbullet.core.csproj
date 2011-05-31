@@ -51,6 +51,8 @@
     <Compile Include="dbo\DatabaseObjectBase.cs" />
     <Compile Include="dbo\DbTypeExtensions.cs" />
     <Compile Include="dbo\Direction.cs" />
+    <Compile Include="dbo\ForeignAction.cs" />
+    <Compile Include="dbo\ForeignKey.cs" />
     <Compile Include="dbo\Index.cs" />
     <Compile Include="dbo\IndexColumn.cs" />
     <Compile Include="dbo\IndexType.cs" />
@@ -79,6 +81,7 @@
     <EmbeddedResource Include="engine\MsSql\DropTable.cshtml" />
     <EmbeddedResource Include="engine\MsSql\IsTableExist.cshtml" />
     <EmbeddedResource Include="engine\MsSql\DropIndex.cshtml" />
+    <EmbeddedResource Include="engine\MsSql\CreateForeignKey.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
