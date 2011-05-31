@@ -39,7 +39,6 @@ namespace dbullet.core.engine
 			this.connection = connection;
 		}
 
-		#region CreateTable
 		/// <summary>
 		/// Создаёт таблицу
 		/// </summary>
@@ -51,26 +50,7 @@ namespace dbullet.core.engine
 				throw new CollumnExpectedException();
 			}
 
-			try
-			{
-				connection.Open();
-				using (IDbCommand cmd = connection.CreateCommand())
-				{
-					cmd.CommandText = Razor.Parse(manager.GetCreateTableTemplate(), table, "create table");
-					cmd.ExecuteNonQuery();
-				}
-			}
-			catch (TemplateCompilationException ex)
-			{
-				ex.Errors.ToList().ForEach(p => Console.WriteLine(p.ErrorText));
-			}
-			finally
-			{
-				if (connection != null)
-				{
-					connection.Close();
-				}
-			}
+			ExecuteNonQuery(Razor.Parse(manager.GetCreateTableTemplate(), table, "create table"));
 		}
 
 		/// <summary>
@@ -84,27 +64,9 @@ namespace dbullet.core.engine
 				throw new TableExpectedException();
 			}
 
-			try
-			{
-				connection.Open();
-				using (IDbCommand cmd = connection.CreateCommand())
-				{
-					cmd.CommandText = Razor.Parse(manager.GetDropTableTemplate(), new Table(tableName), "drop table");
-					cmd.ExecuteNonQuery();
-				}
-			}
-			finally
-			{
-				if (connection != null)
-				{
-					connection.Close();
-				}
-			}
+			ExecuteNonQuery(Razor.Parse(manager.GetDropTableTemplate(), new Table(tableName), "drop table"));
 		}
 
-		#endregion
-
-		#region IsTableExist
 		/// <summary>
 		/// Существует ли таблица
 		/// </summary>
@@ -117,13 +79,32 @@ namespace dbullet.core.engine
 				throw new ArgumentException();
 			}
 
+			return ExecuteScalar(Razor.Parse(manager.GetIsTableExistTemplate(), new Table(tableName), "table exists")).ToString() == "1";
+		}
+
+		/// <summary>
+		/// Создаёт индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		public void CreateIndex(Index index)
+		{
+			ExecuteNonQuery(Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index"));
+		}
+
+		/// <summary>
+		/// Выполнить запрос
+		/// </summary>
+		/// <param name="commandText">запрос</param>
+		/// <returns>Результат</returns>
+		private object ExecuteScalar(string commandText)
+		{
 			try
 			{
 				connection.Open();
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
-					cmd.CommandText = Razor.Parse(manager.GetIsTableExistTemplate(), new Table(tableName), "table exists");
-					return cmd.ExecuteScalar().ToString() == "1";
+					cmd.CommandText = commandText;
+					return cmd.ExecuteScalar();
 				}
 			}
 			finally
@@ -136,17 +117,17 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Создаёт индекс
+		/// Выполнить запрос
 		/// </summary>
-		/// <param name="index">Индеес</param>
-		public void CreateIndex(Index index)
+		/// <param name="commandText">Запрос</param>
+		private void ExecuteNonQuery(string commandText)
 		{
 			try
 			{
 				connection.Open();
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
-					cmd.CommandText = Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index");
+					cmd.CommandText = commandText;
 					cmd.ExecuteNonQuery();
 				}
 			}
@@ -158,7 +139,5 @@ namespace dbullet.core.engine
 				}
 			}
 		}
-
-		#endregion
 	}
 }
