@@ -92,7 +92,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetCreateTableTemplate()
 		{
-			return GetTemplateFromResource("CreateTable.template");
+			return GetTemplateFromResource("CreateTable.cshtml");
 		}
 
 		/// <summary>
@@ -101,7 +101,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetIsTableExistTemplate()
 		{
-			return GetTemplateFromResource("IsTableExist.template");
+			return GetTemplateFromResource("IsTableExist.cshtml");
 		}
 
 		/// <summary>
@@ -110,7 +110,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetCreateIndexTemplate()
 		{
-			return GetTemplateFromResource("CreateIndex.template");
+			return GetTemplateFromResource("CreateIndex.cshtml");
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetDropTableTemplate()
 		{
-			return GetTemplateFromResource("DropTable.template");
+			return GetTemplateFromResource("DropTable.cshtml");
 		}
 
 		/// <summary>
