@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient.Moles;
 using dbullet.core.dbo;
 using dbullet.core.engine;
+using dbullet.core.engine.MsSql;
 using dbullet.core.exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -130,7 +131,7 @@ namespace dbullet.core.test
 		public void BuildColumnCreateCommandStringWithoutSizeTest()
 		{
 			AssertHelpers.Throws<ArgumentException>(
-				() => MsSql2008Strategy.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
+				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
 				"String must have length");
 		}
 
@@ -140,7 +141,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void BuildColumnCreateCommandStringTest()
 		{
-			var t = MsSql2008Strategy.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
 			Assert.AreEqual("TestColumn nvarchar(50) null", t);
 		}
 
@@ -150,7 +151,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void BuildColumnCreateCommandNumericTest()
 		{
-			var t = MsSql2008Strategy.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
 			Assert.AreEqual("TestColumn decimal(10, 5) null", t);
 		}
 
@@ -160,7 +161,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void BuildColumnCreateCommandIntTest()
 		{
-			var t = MsSql2008Strategy.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
 			Assert.AreEqual("TestColumn int null", t);
 		}
 

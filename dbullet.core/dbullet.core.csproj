@@ -61,8 +61,10 @@
     <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
+    <Compile Include="engine\ITemplateManager.cs" />
     <Compile Include="engine\MsSql2008Strategy.cs" />
     <Compile Include="engine\MsSql2008SysStrategy.cs" />
+    <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />
     <Compile Include="engine\SupportedStrategy.cs" />
     <Compile Include="exception\CollumnExpectedException.cs" />
     <Compile Include="exception\DublicateColumnException.cs" />
