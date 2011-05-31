@@ -128,7 +128,9 @@ namespace dbullet.core.engine
 @(i != Model.Columns.Count - 1 ? "", "" : """")
 }
 @{var pk = Model.Columns.FirstOrDefault(p => p.Constraint != null);}
-@(pk == null? """":string.Format("", constraint {0} primary key clustered({1} asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]"", pk.Constraint.Name, pk.Name))
+@if (pk != null){
+@:, constraint @pk.Constraint.Name primary key clustered(@pk.Name asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+}
 ) on [@Model.PartitionName]
 ", table, "create table");
 					cmd.CommandText = t;
