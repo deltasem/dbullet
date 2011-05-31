@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
@@ -28,13 +28,13 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Подключение к базе
 		/// </summary>
-		private readonly SqlConnection connection;
+		private readonly IDbConnection connection;
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="connection">Соединение с БД</param>
-		public MsSql2008Strategy(SqlConnection connection)
+		public MsSql2008Strategy(IDbConnection connection)
 		{
 			this.connection = connection;
 		}
@@ -54,10 +54,9 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				using (var cmd = new SqlCommand(string.Empty, connection))
+				using (IDbCommand cmd = connection.CreateCommand())
 				{
-					var t = Razor.Parse(manager.GetCreateTableTemplate(), table, "create table");
-					cmd.CommandText = t;
+					cmd.CommandText = Razor.Parse(manager.GetCreateTableTemplate(), table, "create table");
 					cmd.ExecuteNonQuery();
 				}
 			}
@@ -88,7 +87,7 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				using (var cmd = new SqlCommand(string.Empty, connection))
+				using (IDbCommand cmd = connection.CreateCommand())
 				{
 					cmd.CommandText = Razor.Parse(manager.GetDropTableTemplate(), new Table(tableName), "drop table");
 					cmd.ExecuteNonQuery();
@@ -121,9 +120,9 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				var str = Razor.Parse(manager.GetIsTableExistTemplate(), new Table(tableName), "table exists");
-				using (var cmd = new SqlCommand(str, connection))
+				using (IDbCommand cmd = connection.CreateCommand())
 				{
+					cmd.CommandText = Razor.Parse(manager.GetIsTableExistTemplate(), new Table(tableName), "table exists");
 					return cmd.ExecuteScalar().ToString() == "1";
 				}
 			}
@@ -145,9 +144,9 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				var t = Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index");
-				using (var cmd = new SqlCommand(t, connection))
+				using (IDbCommand cmd = connection.CreateCommand())
 				{
+					cmd.CommandText = Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index");
 					cmd.ExecuteNonQuery();
 				}
 			}
