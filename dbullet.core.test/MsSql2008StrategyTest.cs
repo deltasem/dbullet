@@ -125,6 +125,35 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
+		/// Создание таблицы с первичным ключем в не стандартной партиции
+		/// </summary>
+		[HostType("Moles")]
+		[TestMethod]
+		public void CreateTableWithPrimaryKeyCustomPartition()
+		{
+			bool executed = false;
+			string cmd = string.Empty;
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteNonQuery = p =>
+			{
+				executed = true;
+				Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]", p.CommandText.Replace("\r", string.Empty).Replace("\n", string.Empty));
+				return 0;
+			};
+			MSqlCommand.AllInstances.CommandTextSetString = (p, r) => { cmd = r; };
+			MSqlCommand.AllInstances.CommandTextGet = p => { return cmd; };
+			var target = new MsSql2008Strategy(new MSqlConnection());
+			var table = new Table(
+				"TestTable")
+				.AddColumn(new Column("testid", DbType.Int32))
+				.AddColumn(new Column("test2", DbType.String.Size(50)))
+				.AddPrimaryKey("testid", "TESTPARTIOTION");
+			target.CreateTable(table);
+			Assert.IsTrue(executed);
+		}
+
+		/// <summary>
 		/// Если строка без размера - сгенерить ошибкуx
 		/// </summary>
 		[TestMethod]
