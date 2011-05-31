@@ -69,10 +69,15 @@
     <Compile Include="exception\CollumnExpectedException.cs" />
     <Compile Include="exception\DublicateColumnException.cs" />
     <Compile Include="exception\TableExpectedException.cs" />
+    <Compile Include="exception\TemplateNotFoundException.cs" />
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="engine\MsSql\CreateTable.template" />
+    <EmbeddedResource Include="engine\MsSql\CreateIndex.template" />
+    <EmbeddedResource Include="engine\MsSql\DropTable.template" />
+    <EmbeddedResource Include="engine\MsSql\IsTableExist.template" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Data;
+using System.IO;
 using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.exception;
@@ -16,6 +17,7 @@ namespace dbullet.core.engine.MsSql
 	/// </summary>
 	public class MsSqlTemplateManager : ITemplateManager
 	{
+		#region BuildColumnCreateCommand
 		/// <summary>
 		/// Создаёт текст создания столбца
 		/// </summary>
@@ -80,9 +82,9 @@ namespace dbullet.core.engine.MsSql
 			}
 
 			sb.Append(column.Nullable ? "null" : "not null");
-
 			return sb.ToString();
-		}
+		} 
+		#endregion
 
 		/// <summary>
 		/// Возвращает шаблон для создания таблицы
@@ -90,17 +92,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetCreateTableTemplate()
 		{
-			return @"create table @Model.Name (
-@for (int i = 0; i < Model.Columns.Count; i++){
-@dbullet.core.engine.MsSql.MsSqlTemplateManager.BuildColumnCreateCommand(Model.Columns[i])
-@(i != Model.Columns.Count - 1 ? "", "" : """")
-}
-@{var pk = Model.Columns.FirstOrDefault(p => p.Constraint != null);}
-@if (pk != null){
-@:, constraint @pk.Constraint.Name primary key clustered(@pk.Name asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-}
-) on [@Model.PartitionName]
-";
+			return GetTemplateFromResource("CreateTable.template");
 		}
 
 		/// <summary>
@@ -109,7 +101,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetIsTableExistTemplate()
 		{
-			return "select count(*) from sysobjects where id = object_id(N'@Model.Name') and OBJECTPROPERTY(id, N'IsTable') = 1";
+			return GetTemplateFromResource("IsTableExist.template");
 		}
 
 		/// <summary>
@@ -118,16 +110,7 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Шаблон</returns>
 		public string GetCreateIndexTemplate()
 		{
-			return @"create @(Model.IsUnique ? ""unique "" : string.Empty)
-@(Model.IndexType == dbullet.core.dbo.IndexType.Clustered ? ""clustered"" : ""nonclustered"") 
-index @Model.Name on @Model.Table.Name (
-@for (int i = 0; i < @Model.Columns.Count; i++){
-@Model.Columns[i].Name @(Model.Columns[i].Direction == dbullet.core.dbo.Direction.Ascending ? "" asc"" : "" desc"")
-@(i != Model.Columns.Count - 1 ? "", "" : """")
-}
-) 
-whth (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) 
-ON [@Model.PartitionName]";
+			return GetTemplateFromResource("CreateIndex.template");
 		}
 
 		/// <summary>
@@ -136,7 +119,28 @@ ON [@Model.PartitionName]";
 		/// <returns>Шаблон</returns>
 		public string GetDropTableTemplate()
 		{
-			return "drop table @Model.Name";
+			return GetTemplateFromResource("DropTable.template");
+		}
+
+		/// <summary>
+		/// Получить шаблон из ресурса
+		/// </summary>
+		/// <param name="resourceName">Название ресурса</param>
+		/// <returns>Шаблон</returns>
+		private string GetTemplateFromResource(string resourceName)
+		{
+			using (var resource = GetType().Assembly.GetManifestResourceStream("dbullet.core.engine.MsSql." + resourceName))
+			{
+				if (resource == null)
+				{
+					throw new TemplateNotFoundException();
+				}
+
+				using (StreamReader sr = new StreamReader(resource))
+				{
+					return sr.ReadToEnd();
+				}
+			}
 		}
 	}
 }
