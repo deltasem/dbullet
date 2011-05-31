@@ -123,6 +123,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон для удаления индекса
+		/// </summary>
+		/// <returns></returns>
+		public string GetDropIndexTemplate()
+		{
+			return GetTemplateFromResource("DropIndex.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>

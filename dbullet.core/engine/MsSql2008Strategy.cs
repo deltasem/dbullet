@@ -90,6 +90,15 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
+		/// Удалить индекс
+		/// </summary>
+		/// <param name="index"></param>
+		public void DropIndex(Index index)
+		{
+			ExecuteNonQuery(Razor.Parse(manager.GetDropIndexTemplate(), index, "drop index"));
+		}
+
+		/// <summary>
 		/// Выполнить запрос
 		/// </summary>
 		/// <param name="commandText">запрос</param>
