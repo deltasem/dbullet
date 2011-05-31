@@ -129,10 +129,28 @@ namespace dbullet.core.engine.MsSql
 		/// <summary>
 		/// Возвращает шаблон для удаления индекса
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Шаблон</returns>
 		public string GetDropIndexTemplate()
 		{
 			return GetTemplateFromResource("DropIndex.cshtml");
+		}
+
+		/// <summary>
+		/// Возвращает шаблон для создения внешнего ключа
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetCreateForeignKeyTemplate()
+		{
+			return GetTemplateFromResource("CreateForeignKey.cshtml");
+		}
+
+		/// <summary>
+		/// Возвращает шаблон для удаления внешнего ключа
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetDropForeignKeyTemplate()
+		{
+			return GetTemplateFromResource("DropForeignKey.cshtml");
 		}
 
 		/// <summary>

@@ -14,6 +14,11 @@ namespace dbullet.core.test.tools
 	public class TestConnection : IDbConnection
 	{
 		/// <summary>
+		/// Последний запрос
+		/// </summary>
+		private string lastCommandText;
+
+		/// <summary>
 		/// Состояние
 		/// </summary>
 		private ConnectionState state;
@@ -26,7 +31,11 @@ namespace dbullet.core.test.tools
 		/// <summary>
 		/// Последний запрос
 		/// </summary>
-		public string LastCommandText { get; set; }
+		public string LastCommandText
+		{
+			get { return lastCommandText.Replace("\r", string.Empty).Replace("\n", string.Empty); }
+			set { lastCommandText = value; }
+		}
 
 		/// <summary>
 		/// Значение для ExecuteScalar

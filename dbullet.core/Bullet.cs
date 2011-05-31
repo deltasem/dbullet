@@ -70,5 +70,23 @@ namespace dbullet.core
 		{
 			Executor.DatabaseStrategy.DropIndex(index);
 		}
+
+		/// <summary>
+		/// Создать внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		public void CreateForeignKey(ForeignKey foreignKey)
+		{
+			Executor.DatabaseStrategy.CreateForeignKey(foreignKey);
+		}
+
+		/// <summary>
+		/// Удалить внешний ключ
+		/// </summary>
+		/// <param name="foreignKey">Внешний ключ</param>
+		public void DropForeignKey(ForeignKey foreignKey)
+		{
+			Executor.DatabaseStrategy.DropForeignKey(foreignKey);
+		}
 	}
 }
