@@ -113,7 +113,7 @@ namespace dbullet.core.engine
 		/// <param name="foreignKey">Внешний ключ</param>
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
-			throw new NotImplementedException();
+			ExecuteNonQuery(Razor.Parse(manager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
 		}
 
 		/// <summary>

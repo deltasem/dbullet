@@ -331,5 +331,17 @@ namespace dbullet.core.test
 			strategy.CreateForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
 			Assert.AreEqual("alter table TABLE1 add constraint FK_TEST foreign key (ID_TABLE1) references TABLE2 (ID_TABLE2) on update no action on delete no action", connection.LastCommandText);
 		}
+
+		/// <summary>
+		/// Удаление внешнего ключа
+		/// </summary>
+		[TestMethod]
+		public void DropForeignKey()
+		{
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
+			strategy.DropForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
+			Assert.AreEqual("alter table TABLE1 drop constraint FK_TEST", connection.LastCommandText);
+		}
 	}
 }

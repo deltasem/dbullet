@@ -145,6 +145,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон для удаления внешнего ключа
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetDropForeignKeyTemplate()
+		{
+			return GetTemplateFromResource("DropForeignKey.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>
