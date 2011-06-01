@@ -69,6 +69,7 @@
     <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />
     <Compile Include="engine\SupportedStrategy.cs" />
     <Compile Include="exception\CollumnExpectedException.cs" />
+    <Compile Include="exception\ConflictingDataException.cs" />
     <Compile Include="exception\DublicateColumnException.cs" />
     <Compile Include="exception\TableExpectedException.cs" />
     <Compile Include="exception\TemplateNotFoundException.cs" />

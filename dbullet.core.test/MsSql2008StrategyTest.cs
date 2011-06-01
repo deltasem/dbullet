@@ -343,7 +343,5 @@ namespace dbullet.core.test
 			strategy.DropForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
 			Assert.AreEqual("alter table TABLE1 drop constraint FK_TEST", connection.LastCommandText);
 		}
-
-		// todo: добавить проверку на создание внешних ключей с действием set null и не поддерживающими null колонками
 	}
 }
