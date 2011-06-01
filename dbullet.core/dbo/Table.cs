@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Data;
 using System.Linq;
 using dbullet.core.exception;
@@ -136,6 +137,28 @@ namespace dbullet.core.dbo
 			}
 
 			column.Constraint = new PrimaryKey(string.Format("PK_{0}", Name).ToUpper(), partition);
+			return this;
+		}
+
+		/// <summary>
+		/// Дефалтное значение для последнего столбца
+		/// </summary>
+		/// <param name="defaultValue">Дефалтное значение</param>
+		/// <returns>Текущая таблица</returns>
+		public Table Default(string defaultValue)
+		{
+			if (columns.Count == 0)
+			{
+				throw new CollumnExpectedException();
+			}
+
+			var column = columns.Last();
+			if (column.Constraint != null)
+			{
+				throw new ConflictingDataException("Попытка добавить дефалт два раза");
+			}
+
+			column.Constraint = new Default(defaultValue);
 			return this;
 		}
 	}

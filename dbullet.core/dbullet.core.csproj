@@ -50,6 +50,7 @@
     <Compile Include="dbo\Database.cs" />
     <Compile Include="dbo\DatabaseObjectBase.cs" />
     <Compile Include="dbo\DbTypeExtensions.cs" />
+    <Compile Include="dbo\Default.cs" />
     <Compile Include="dbo\Direction.cs" />
     <Compile Include="dbo\ForeignAction.cs" />
     <Compile Include="dbo\ForeignKey.cs" />
