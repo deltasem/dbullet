@@ -158,7 +158,7 @@ namespace dbullet.core.dbo
 				throw new ConflictingDataException("Попытка добавить дефалт два раза");
 			}
 
-			column.Constraint = new Default(defaultValue);
+			column.Constraint = new Default(string.Format("DF_{0}_{1}", Name, column.Name).ToUpper(), defaultValue);
 			return this;
 		}
 	}

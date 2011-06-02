@@ -18,8 +18,9 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Конструктор
 		/// </summary>
+		/// <param name="name">Название дефалта</param>
 		/// <param name="value">Значение</param>
-		public Default(string value) : base(string.Empty)
+		public Default(string name, string value) : base(name)
 		{
 			this.value = value;
 		}

@@ -94,6 +94,17 @@ namespace dbullet.core.test
 			Assert.AreEqual("100500", constraint.Value);
 		}
 
-		// todo: Добавить тесты для формирования названия дефалта + переделать конструктор дефалта
+		/// <summary>
+		/// Добавление дефалта должно генерировать его имя
+		/// </summary>
+		[TestMethod]
+		public void AddDefaultAutoName()
+		{
+			var tbl = new Table("test")
+				.AddColumn(new Column("testid", System.Data.DbType.Int32));
+			tbl.Default("100500");
+			Assert.AreEqual("DF_TEST_TESTID", tbl.Columns[0].Constraint.Name);
+		}
+
 	}
 }
