@@ -343,5 +343,20 @@ namespace dbullet.core.test
 			strategy.DropForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
 			Assert.AreEqual("alter table TABLE1 drop constraint FK_TEST", connection.LastCommandText);
 		}
+
+		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		[TestMethod]
+		public void CreateTableWithDefault()
+		{
+			var connection = new TestConnection();
+			var target = new MsSql2008Strategy(connection);
+			var table = new Table("TestTable");
+			table.AddColumn(new Column("test", DbType.Int32)).Default("100500");
+			table.AddColumn(new Column("test2", DbType.String.Size(50))).Default("this is the test");
+			target.CreateTable(table);
+			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default '100500', test2 nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]", connection.LastCommandText);
+		}
 	}
 }

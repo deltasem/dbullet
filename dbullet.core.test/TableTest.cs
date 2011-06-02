@@ -105,6 +105,5 @@ namespace dbullet.core.test
 			tbl.Default("100500");
 			Assert.AreEqual("DF_TEST_TESTID", tbl.Columns[0].Constraint.Name);
 		}
-
 	}
 }
