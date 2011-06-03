@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты удаления внешних ключей
+	/// РўРµСЃС‚С‹ СѓРґР°Р»РµРЅРёСЏ РІРЅРµС€РЅРёС… РєР»СЋС‡РµР№
 	/// </summary>
 	[TestClass]
 	public class DropForeignKeyTest
 	{
 		/// <summary>
-		/// Удаление внешнего ключа
+		/// РЈРґР°Р»РµРЅРёРµ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р°
 		/// </summary>
 		[TestMethod]
 		public void RegularDropForeignKey()

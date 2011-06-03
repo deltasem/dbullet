@@ -8,7 +8,7 @@ using System;
 namespace dbullet.core.exception
 {
 	/// <summary>
-	/// Конфликтующие данные
+	/// РљРѕРЅС„Р»РёРєС‚СѓСЋС‰РёРµ РґР°РЅРЅС‹Рµ
 	/// </summary>
 	public class ConflictingDataException : ApplicationException
 	{

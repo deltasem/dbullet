@@ -12,13 +12,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты InsertRows
+	/// РўРµСЃС‚С‹ InsertRows
 	/// </summary>
 	[TestClass]
 	public class InsertRowsTest
 	{
 		/// <summary>
-		/// Добавление в неуказанную таблицу
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ РІ РЅРµСѓРєР°Р·Р°РЅРЅСѓСЋ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
 		[TestMethod]
 		public void EmptyTable()
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Добавление, без указания данных
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ, Р±РµР· СѓРєР°Р·Р°РЅРёСЏ РґР°РЅРЅС‹С…
 		/// </summary>
 		[TestMethod]
 		public void EmptyData()
@@ -40,7 +40,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная вставк записи
+		/// РћР±С‹С‡РЅР°СЏ РІСЃС‚Р°РІРє Р·Р°РїРёСЃРё
 		/// </summary>
 		[TestMethod]
 		public void RegularInsert()
@@ -52,7 +52,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная вставк записи
+		/// РћР±С‹С‡РЅР°СЏ РІСЃС‚Р°РІРє Р·Р°РїРёСЃРё
 		/// </summary>
 		[TestMethod]
 		public void InsertTwoRow()

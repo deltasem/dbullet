@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тест удаления индексов
+	/// РўРµСЃС‚ СѓРґР°Р»РµРЅРёСЏ РёРЅРґРµРєСЃРѕРІ
 	/// </summary>
 	[TestClass]
 	public class DropIndexTest
 	{
 		/// <summary>
-		/// Удаление индекса
+		/// РЈРґР°Р»РµРЅРёРµ РёРЅРґРµРєСЃР°
 		/// </summary>
 		[TestMethod]
 		public void RegularDropIndex()

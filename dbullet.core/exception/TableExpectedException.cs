@@ -8,7 +8,7 @@ using System;
 namespace dbullet.core.exception
 {
 	/// <summary>
-	/// Необходима таблица
+	/// РќРµРѕР±С…РѕРґРёРјР° С‚Р°Р±Р»РёС†Р°
 	/// </summary>
 	public class TableExpectedException : ApplicationException
 	{

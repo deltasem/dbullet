@@ -12,13 +12,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты процедуры создания колонки
+	/// РўРµСЃС‚С‹ РїСЂРѕС†РµРґСѓСЂС‹ СЃРѕР·РґР°РЅРёСЏ РєРѕР»РѕРЅРєРё
 	/// </summary>
 	[TestClass]
 	public class BuildColumnCreateCommandTest
 	{
 		/// <summary>
-		/// Если строка без размера - сгенерить ошибкуx
+		/// Р•СЃР»Рё СЃС‚СЂРѕРєР° Р±РµР· СЂР°Р·РјРµСЂР° - СЃРіРµРЅРµСЂРёС‚СЊ РѕС€РёР±РєСѓx
 		/// </summary>
 		[TestMethod]
 		public void StringWithoutSize()
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка-строка
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР°-СЃС‚СЂРѕРєР°
 		/// </summary>
 		[TestMethod]
 		public void StringDatatype()
@@ -39,7 +39,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка-число
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР°-С‡РёСЃР»Рѕ
 		/// </summary>
 		[TestMethod]
 		public void NumericDatatype()
@@ -49,7 +49,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка целое число
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР° С†РµР»РѕРµ С‡РёСЃР»Рѕ
 		/// </summary>
 		[TestMethod]
 		public void IntDataType()
@@ -59,7 +59,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка булевый тип
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР° Р±СѓР»РµРІС‹Р№ С‚РёРї
 		/// </summary>
 		[TestMethod]
 		public void BooleanDataType()
@@ -69,7 +69,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка дата
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР° РґР°С‚Р°
 		/// </summary>
 		[TestMethod]
 		public void DateDataType()
@@ -79,7 +79,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Обычная колонка дата
+		/// РћР±С‹С‡РЅР°СЏ РєРѕР»РѕРЅРєР° РґР°С‚Р°
 		/// </summary>
 		[TestMethod]
 		public void DateTimeDataType()

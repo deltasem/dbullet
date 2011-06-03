@@ -10,84 +10,84 @@ using dbullet.core.exception;
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Индекс
+	/// РРЅРґРµРєСЃ
 	/// </summary>
 	public class Index : DatabaseObjectBase, IPartitionable
 	{
 		/// <summary>
-		/// Тип индекса
+		/// РўРёРї РёРЅРґРµРєСЃР°
 		/// </summary>
 		private readonly IndexType indexType;
 
 		/// <summary>
-		/// Уникальность индекса
+		/// РЈРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ РёРЅРґРµРєСЃР°
 		/// </summary>
 		private readonly bool isUnique;
 
 		/// <summary>
-		/// Название партиции
+		/// РќР°Р·РІР°РЅРёРµ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		private readonly string partitionName;
 
 		/// <summary>
-		/// Таблица
+		/// РўР°Р±Р»РёС†Р°
 		/// </summary>
 		private readonly Table table;
 
 		/// <summary>
-		/// Столбцы для индекса
+		/// РЎС‚РѕР»Р±С†С‹ РґР»СЏ РёРЅРґРµРєСЃР°
 		/// </summary>
 		private readonly List<IndexColumn> columns;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название объекта</param>
-		/// <param name="table">Таблица</param>
-		/// <param name="partitionName">Партиция</param>
-		/// <param name="indexType">Тип индекса</param>
-		/// <param name="isUnique">Уникальный индекс</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РѕР±СЉРµРєС‚Р°</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <param name="indexType">РўРёРї РёРЅРґРµРєСЃР°</param>
+		/// <param name="isUnique">РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ</param>
 		public Index(string name, string table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, new Table(table), new IndexColumn[0], partitionName, indexType, isUnique)
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название объекта</param>
-		/// <param name="table">Таблица</param>
-		/// <param name="partitionName">Партиция</param>
-		/// <param name="indexType">Тип индекса</param>
-		/// <param name="isUnique">Уникальный индекс</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РѕР±СЉРµРєС‚Р°</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <param name="indexType">РўРёРї РёРЅРґРµРєСЃР°</param>
+		/// <param name="isUnique">РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ</param>
 		public Index(string name, Table table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, table, new IndexColumn[0], partitionName, indexType, isUnique)
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название индекса</param>
-		/// <param name="table">Таблица</param>
-		/// <param name="columns">Столбцы для индекса</param>
-		/// <param name="partitionName">Партиция</param>
-		/// <param name="indexType">Тип индекса</param>
-		/// <param name="isUnique">Уникальный индекс</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РёРЅРґРµРєСЃР°</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
+		/// <param name="columns">РЎС‚РѕР»Р±С†С‹ РґР»СЏ РёРЅРґРµРєСЃР°</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <param name="indexType">РўРёРї РёРЅРґРµРєСЃР°</param>
+		/// <param name="isUnique">РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ</param>
 		public Index(string name, string table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, new Table(table), columns, partitionName, indexType, isUnique)
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название индекса</param>
-		/// <param name="table">Таблица</param>
-		/// <param name="columns">Столбцы для индекса</param>
-		/// <param name="partitionName">Партиция</param>
-		/// <param name="indexType">Тип индекса</param>
-		/// <param name="isUnique">Уникальный индекс</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РёРЅРґРµРєСЃР°</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
+		/// <param name="columns">РЎС‚РѕР»Р±С†С‹ РґР»СЏ РёРЅРґРµРєСЃР°</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <param name="indexType">РўРёРї РёРЅРґРµРєСЃР°</param>
+		/// <param name="isUnique">РЈРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ</param>
 		public Index(string name, Table table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: base(name)
 		{
@@ -99,7 +99,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Тип индекса
+		/// РўРёРї РёРЅРґРµРєСЃР°
 		/// </summary>
 		public IndexType IndexType
 		{
@@ -107,7 +107,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Уникальность индекса
+		/// РЈРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ РёРЅРґРµРєСЃР°
 		/// </summary>
 		public bool IsUnique
 		{
@@ -115,7 +115,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Столбцы для индекса
+		/// РЎС‚РѕР»Р±С†С‹ РґР»СЏ РёРЅРґРµРєСЃР°
 		/// </summary>
 		public List<IndexColumn> Columns
 		{
@@ -123,7 +123,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Название партиции
+		/// РќР°Р·РІР°РЅРёРµ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		public string PartitionName
 		{
@@ -131,7 +131,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Таблица
+		/// РўР°Р±Р»РёС†Р°
 		/// </summary>
 		public Table Table
 		{
@@ -139,21 +139,21 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Добавить колонку к индексу
+		/// Р”РѕР±Р°РІРёС‚СЊ РєРѕР»РѕРЅРєСѓ Рє РёРЅРґРµРєСЃСѓ
 		/// </summary>
-		/// <param name="name">Название объекта</param>
-		/// <param name="direction">Направление сортировки</param>
-		/// <returns>Индекс, с добавленой колонкой</returns>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РѕР±СЉРµРєС‚Р°</param>
+		/// <param name="direction">РќР°РїСЂР°РІР»РµРЅРёРµ СЃРѕСЂС‚РёСЂРѕРІРєРё</param>
+		/// <returns>РРЅРґРµРєСЃ, СЃ РґРѕР±Р°РІР»РµРЅРѕР№ РєРѕР»РѕРЅРєРѕР№</returns>
 		public Index AddColumn(string name, Direction direction = Direction.Ascending)
 		{
 			return AddColumn(new IndexColumn(name, direction));
 		}
 
 		/// <summary>
-		/// Добавить колонку к индексу
+		/// Р”РѕР±Р°РІРёС‚СЊ РєРѕР»РѕРЅРєСѓ Рє РёРЅРґРµРєСЃСѓ
 		/// </summary>
-		/// <param name="column">Колонка</param>
-		/// <returns>Индекс, с добавленой колонкой</returns>
+		/// <param name="column">РљРѕР»РѕРЅРєР°</param>
+		/// <returns>РРЅРґРµРєСЃ, СЃ РґРѕР±Р°РІР»РµРЅРѕР№ РєРѕР»РѕРЅРєРѕР№</returns>
 		public Index AddColumn(IndexColumn column)
 		{
 			if (columns.FirstOrDefault(p => p.Name == column.Name) != null)

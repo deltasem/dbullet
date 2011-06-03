@@ -13,13 +13,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты создания таблиц
+	/// РўРµСЃС‚С‹ СЃРѕР·РґР°РЅРёСЏ С‚Р°Р±Р»РёС†
 	/// </summary>
 	[TestClass]
 	public class CreateTableTest
 	{
 		/// <summary>
-		/// Создание таблицы без столбцов
+		/// РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Р±РµР· СЃС‚РѕР»Р±С†РѕРІ
 		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(CollumnExpectedException))]
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Нормальное создание
+		/// РќРѕСЂРјР°Р»СЊРЅРѕРµ СЃРѕР·РґР°РЅРёРµ
 		/// </summary>
 		[TestMethod]
 		public void RegularCreateTable()
@@ -46,7 +46,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Нормальное создание в другой партиции
+		/// РќРѕСЂРјР°Р»СЊРЅРѕРµ СЃРѕР·РґР°РЅРёРµ РІ РґСЂСѓРіРѕР№ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		[TestMethod]
 		public void CustomPartition()
@@ -61,7 +61,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Нормальное создание в другой партиции c первичным ключем
+		/// РќРѕСЂРјР°Р»СЊРЅРѕРµ СЃРѕР·РґР°РЅРёРµ РІ РґСЂСѓРіРѕР№ РїР°СЂС‚РёС†РёРё c РїРµСЂРІРёС‡РЅС‹Рј РєР»СЋС‡РµРј
 		/// </summary>
 		[TestMethod]
 		public void CustomPartitionWithPrimaryKey()
@@ -78,7 +78,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание таблицы с первичным ключем в не стандартной партиции
+		/// РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ СЃ РїРµСЂРІРёС‡РЅС‹Рј РєР»СЋС‡РµРј РІ РЅРµ СЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		[TestMethod]
 		public void WithPrimaryKeyCustomPartition()
@@ -95,7 +95,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Нормальное создание
+		/// РќРѕСЂРјР°Р»СЊРЅРѕРµ СЃРѕР·РґР°РЅРёРµ
 		/// </summary>
 		[TestMethod]
 		public void WithDefault()

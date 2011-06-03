@@ -6,27 +6,27 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Дефалт для поля
+	/// Р”РµС„Р°Р»С‚ РґР»СЏ РїРѕР»СЏ
 	/// </summary>
 	public class Default : Constraint
 	{
 		/// <summary>
-		/// Значение
+		/// Р—РЅР°С‡РµРЅРёРµ
 		/// </summary>
 		private readonly string value;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название дефалта</param>
-		/// <param name="value">Значение</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РґРµС„Р°Р»С‚Р°</param>
+		/// <param name="value">Р—РЅР°С‡РµРЅРёРµ</param>
 		public Default(string name, string value) : base(name)
 		{
 			this.value = value;
 		}
 
 		/// <summary>
-		/// Значение
+		/// Р—РЅР°С‡РµРЅРёРµ
 		/// </summary>
 		public string Value
 		{

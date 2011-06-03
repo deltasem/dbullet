@@ -14,22 +14,22 @@ using dbullet.core.dbs;
 namespace dbullet.core.engine
 {
 	/// <summary>
-	/// Выполнитель
+	/// Р’С‹РїРѕР»РЅРёС‚РµР»СЊ
 	/// </summary>
 	public class Executor
 	{
 		/// <summary>
-		/// Системная стратегия
+		/// РЎРёСЃС‚РµРјРЅР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ
 		/// </summary>
 		private static ISysDatabaseStrategy systemStrategy;
 
 		/// <summary>
-		/// Стратегия работы с БД
+		/// РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”
 		/// </summary>
 		private static IDatabaseStrategy databaseStrategy;
 
 		/// <summary>
-		/// Стратегия работы с БД
+		/// РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”
 		/// </summary>
 		public static IDatabaseStrategy DatabaseStrategy
 		{
@@ -37,7 +37,7 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Системная стратегия
+		/// РЎРёСЃС‚РµРјРЅР°СЏ СЃС‚СЂР°С‚РµРіРёСЏ
 		/// </summary>
 		internal static ISysDatabaseStrategy SystemStrategy
 		{
@@ -45,11 +45,11 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Выполнить обновление
+		/// Р’С‹РїРѕР»РЅРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ
 		/// </summary>
-		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
+		/// <param name="assemblyName">РќР°Р·РІР°РЅРёРµ СЃР±РѕСЂРєРё, СЃРѕРґРµСЂР¶Р°С‰РµР№ Р±СѓР»РµС‚С‹</param>
+		/// <param name="connectionString">РЎС‚СЂРѕРєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ</param>
+		/// <param name="strategy">РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”</param>
 		public static void Execute(string assemblyName, string connectionString, SupportedStrategy strategy)
 		{
 			var asm = Assembly.Load(assemblyName);
@@ -57,11 +57,11 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Выполнить обновление
+		/// Р’С‹РїРѕР»РЅРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ
 		/// </summary>
-		/// <param name="assembly">Сборка, содержащая булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
+		/// <param name="assembly">РЎР±РѕСЂРєР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ Р±СѓР»РµС‚С‹</param>
+		/// <param name="connectionString">РЎС‚СЂРѕРєР° РїРѕРґРєР»СЋС‡РµРЅРёСЏ</param>
+		/// <param name="strategy">РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”</param>
 		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy)
 		{
 			if (strategy != SupportedStrategy.Mssql2008)
@@ -75,7 +75,7 @@ namespace dbullet.core.engine
 
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{
-				// todo: сделать откат обновления, если возникло исключение
+				// todo: СЃРґРµР»Р°С‚СЊ РѕС‚РєР°С‚ РѕР±РЅРѕРІР»РµРЅРёСЏ, РµСЃР»Рё РІРѕР·РЅРёРєР»Рѕ РёСЃРєР»СЋС‡РµРЅРёРµ
 				var currentVersion = systemStrategy.GetLastVersion();
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion)
@@ -88,10 +88,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Возвращает список булетов из сборки
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє Р±СѓР»РµС‚РѕРІ РёР· СЃР±РѕСЂРєРё
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
-		/// <returns>Упорядоченный список булетов</returns>
+		/// <param name="assembly">РЎР±РѕСЂРєР° СЃ Р±СѓР»РµС‚Р°РјРё</param>
+		/// <returns>РЈРїРѕСЂСЏРґРѕС‡РµРЅРЅС‹Р№ СЃРїРёСЃРѕРє Р±СѓР»РµС‚РѕРІ</returns>
 		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly)
 		{
 			return assembly.GetTypes()

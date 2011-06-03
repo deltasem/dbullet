@@ -6,57 +6,57 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Внешний ключ
+	/// Р’РЅРµС€РЅРёР№ РєР»СЋС‡
 	/// </summary>
 	public class ForeignKey : DatabaseObjectBase
 	{
 		/// <summary>
-		/// Исходная таблица
+		/// РСЃС…РѕРґРЅР°СЏ С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		private readonly string srcTableName;
 
 		/// <summary>
-		/// Колонка исходной таблицы для ключа
+		/// РљРѕР»РѕРЅРєР° РёСЃС…РѕРґРЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°
 		/// </summary>
 		private readonly string srcColumnName;
 
 		/// <summary>
-		/// Ссылочная таблица
+		/// РЎСЃС‹Р»РѕС‡РЅР°СЏ С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		private readonly string refTableName;
 
 		/// <summary>
-		/// Колонка ссылочной таблицы для ключа
+		/// РљРѕР»РѕРЅРєР° СЃСЃС‹Р»РѕС‡РЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°
 		/// </summary>
 		private readonly string refColumnName;
 
 		/// <summary>
-		/// Действие при удалении
+		/// Р”РµР№СЃС‚РІРёРµ РїСЂРё СѓРґР°Р»РµРЅРёРё
 		/// </summary>
 		private readonly ForeignAction deleteAction;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="srcTableName">Исходная таблица</param>
-		/// <param name="srcColumnName">Колонка исходной таблицы для ключа</param>
-		/// <param name="refTableName">Ссылочная таблица</param>
-		/// <param name="refColumnName">Колонка ссылочной таблицы для ключа</param>
-		/// <param name="deleteAction">Действие при удалении</param>
+		/// <param name="srcTableName">РСЃС…РѕРґРЅР°СЏ С‚Р°Р±Р»РёС†Р°</param>
+		/// <param name="srcColumnName">РљРѕР»РѕРЅРєР° РёСЃС…РѕРґРЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°</param>
+		/// <param name="refTableName">РЎСЃС‹Р»РѕС‡РЅР°СЏ С‚Р°Р±Р»РёС†Р°</param>
+		/// <param name="refColumnName">РљРѕР»РѕРЅРєР° СЃСЃС‹Р»РѕС‡РЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°</param>
+		/// <param name="deleteAction">Р”РµР№СЃС‚РІРёРµ РїСЂРё СѓРґР°Р»РµРЅРёРё</param>
 		public ForeignKey(string srcTableName, string srcColumnName, string refTableName, string refColumnName, ForeignAction deleteAction = ForeignAction.SetNull)
 			: this(string.Format("FK_{0}_{1}", srcTableName, refTableName), srcTableName, srcColumnName, refTableName, refColumnName, deleteAction)
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название ключа</param>
-		/// <param name="srcTableName">Исходная таблица</param>
-		/// <param name="srcColumnName">Колонка исходной таблицы для ключа</param>
-		/// <param name="refTableName">Ссылочная таблица</param>
-		/// <param name="refColumnName">Колонка ссылочной таблицы для ключа</param>
-		/// <param name="deleteAction">Действие при удалении</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РєР»СЋС‡Р°</param>
+		/// <param name="srcTableName">РСЃС…РѕРґРЅР°СЏ С‚Р°Р±Р»РёС†Р°</param>
+		/// <param name="srcColumnName">РљРѕР»РѕРЅРєР° РёСЃС…РѕРґРЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°</param>
+		/// <param name="refTableName">РЎСЃС‹Р»РѕС‡РЅР°СЏ С‚Р°Р±Р»РёС†Р°</param>
+		/// <param name="refColumnName">РљРѕР»РѕРЅРєР° СЃСЃС‹Р»РѕС‡РЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°</param>
+		/// <param name="deleteAction">Р”РµР№СЃС‚РІРёРµ РїСЂРё СѓРґР°Р»РµРЅРёРё</param>
 		public ForeignKey(string name, string srcTableName, string srcColumnName, string refTableName, string refColumnName, ForeignAction deleteAction = ForeignAction.SetNull)
 			: base(name)
 		{
@@ -68,7 +68,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Исходная таблица
+		/// РСЃС…РѕРґРЅР°СЏ С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		public string SrcTableName
 		{
@@ -76,7 +76,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Колонка исходной таблицы для ключа
+		/// РљРѕР»РѕРЅРєР° РёСЃС…РѕРґРЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°
 		/// </summary>
 		public string SrcColumnName
 		{
@@ -84,7 +84,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Ссылочная таблица
+		/// РЎСЃС‹Р»РѕС‡РЅР°СЏ С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		public string RefTableName
 		{
@@ -92,7 +92,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Колонка ссылочной таблицы для ключа
+		/// РљРѕР»РѕРЅРєР° СЃСЃС‹Р»РѕС‡РЅРѕР№ С‚Р°Р±Р»РёС†С‹ РґР»СЏ РєР»СЋС‡Р°
 		/// </summary>
 		public string RefColumnName
 		{
@@ -100,7 +100,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Действие при удалении
+		/// Р”РµР№СЃС‚РІРёРµ РїСЂРё СѓРґР°Р»РµРЅРёРё
 		/// </summary>
 		public ForeignAction DeleteAction
 		{

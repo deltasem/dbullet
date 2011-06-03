@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="UnsuportedDbTypeException.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>

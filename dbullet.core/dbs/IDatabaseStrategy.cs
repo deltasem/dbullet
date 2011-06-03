@@ -8,58 +8,58 @@ namespace dbullet.core.dbs
 	using dbo;
 
 	/// <summary>
-	/// Элементарные операции для работы с базой
+	/// Р­Р»РµРјРµРЅС‚Р°СЂРЅС‹Рµ РѕРїРµСЂР°С†РёРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№
 	/// </summary>
 	public interface IDatabaseStrategy
 	{
 		/// <summary>
-		/// Создаёт таблицу
+		/// РЎРѕР·РґР°С‘С‚ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="table">Таблица</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
 		void CreateTable(Table table);
 
 		/// <summary>
-		/// Удаляет таблицу
+		/// РЈРґР°Р»СЏРµС‚ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
+		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
 		void DropTable(string tableName);
 
 		/// <summary>
-		/// Существует ли таблица
+		/// РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
 		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
-		/// <returns>true - если существует, иначе false</returns>
+		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <returns>true - РµСЃР»Рё СЃСѓС‰РµСЃС‚РІСѓРµС‚, РёРЅР°С‡Рµ false</returns>
 		bool IsTableExist(string tableName);
 
 		/// <summary>
-		/// Создаёт индекс
+		/// РЎРѕР·РґР°С‘С‚ РёРЅРґРµРєСЃ
 		/// </summary>
-		/// <param name="index">Индеес</param>
+		/// <param name="index">РРЅРґРµРµСЃ</param>
 		void CreateIndex(Index index);
 
 		/// <summary>
-		/// Удаляет индекс
+		/// РЈРґР°Р»СЏРµС‚ РёРЅРґРµРєСЃ
 		/// </summary>
-		/// <param name="index">Индеес</param>
+		/// <param name="index">РРЅРґРµРµСЃ</param>
 		void DropIndex(Index index);
 
 		/// <summary>
-		/// Создать внешний ключ
+		/// РЎРѕР·РґР°С‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="foreignKey">Внешний ключ</param>
+		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
 		void CreateForeignKey(ForeignKey foreignKey);
 
 		/// <summary>
-		/// Удалить внешний ключ
+		/// РЈРґР°Р»РёС‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="foreignKey">Внешний ключ</param>
+		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
 		void DropForeignKey(ForeignKey foreignKey);
 
 		/// <summary>
-		/// Добавляет записи в таблицу
+		/// Р”РѕР±Р°РІР»СЏРµС‚ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
+		/// <param name="table">РўР°Р±Р»РёС†С‹</param>
+		/// <param name="rows">Р—Р°РїРёСЃРё</param>
 		void InsertRows(string table, params object[] rows);
 	}
 }

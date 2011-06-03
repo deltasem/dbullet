@@ -6,7 +6,7 @@
 namespace dbullet.core.engine
 {
 	/// <summary>
-	/// Поддерживаемые стратегии работы с БД
+	/// РџРѕРґРґРµСЂР¶РёРІР°РµРјС‹Рµ СЃС‚СЂР°С‚РµРіРёРё СЂР°Р±РѕС‚С‹ СЃ Р‘Р”
 	/// </summary>
 	public enum SupportedStrategy
 	{

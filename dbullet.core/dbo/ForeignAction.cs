@@ -6,22 +6,22 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Действия при удалении
+	/// Р”РµР№СЃС‚РІРёСЏ РїСЂРё СѓРґР°Р»РµРЅРёРё
 	/// </summary>
 	public enum ForeignAction
 	{
 		/// <summary>
-		/// Нет действия
+		/// РќРµС‚ РґРµР№СЃС‚РІРёСЏ
 		/// </summary>
 		NoAction,
 		
 		/// <summary>
-		/// Каскадное удаление
+		/// РљР°СЃРєР°РґРЅРѕРµ СѓРґР°Р»РµРЅРёРµ
 		/// </summary>
 		Cascade,
 
 		/// <summary>
-		/// Установка null
+		/// РЈСЃС‚Р°РЅРѕРІРєР° null
 		/// </summary>
 		SetNull,
 	}

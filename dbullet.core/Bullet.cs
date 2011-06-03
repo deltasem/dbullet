@@ -11,99 +11,99 @@ using dbullet.core.engine;
 namespace dbullet.core
 {
 	/// <summary>
-	/// Операции, которые можно произвести над БД
+	/// РћРїРµСЂР°С†РёРё, РєРѕС‚РѕСЂС‹Рµ РјРѕР¶РЅРѕ РїСЂРѕРёР·РІРµСЃС‚Рё РЅР°Рґ Р‘Р”
 	/// </summary>
 	public abstract class Bullet : IDatabaseStrategy
 	{
 		/// <summary>
-		/// Обновление
+		/// РћР±РЅРѕРІР»РµРЅРёРµ
 		/// </summary>
 		public abstract void Update();
 
 		/// <summary>
-		/// Отмена обновления
+		/// РћС‚РјРµРЅР° РѕР±РЅРѕРІР»РµРЅРёСЏ
 		/// </summary>
 		public abstract void Downgrade();
 
 		/// <summary>
-		/// Создаёт таблицу
+		/// РЎРѕР·РґР°С‘С‚ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="table">Таблица</param>
+		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
 		public void CreateTable(Table table)
 		{
 			Executor.DatabaseStrategy.CreateTable(table);
 		}
 
 		/// <summary>
-		/// Существует ли таблица
+		/// РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
 		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
-		/// <returns>true - если существует, иначе false</returns>
+		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <returns>true - РµСЃР»Рё СЃСѓС‰РµСЃС‚РІСѓРµС‚, РёРЅР°С‡Рµ false</returns>
 		public bool IsTableExist(string tableName)
 		{
 			return Executor.DatabaseStrategy.IsTableExist(tableName);
 		}
 
 		/// <summary>
-		/// Создаёт индекс
+		/// РЎРѕР·РґР°С‘С‚ РёРЅРґРµРєСЃ
 		/// </summary>
-		/// <param name="index">Индеес</param>
+		/// <param name="index">РРЅРґРµРµСЃ</param>
 		public void CreateIndex(Index index)
 		{
 			Executor.DatabaseStrategy.CreateIndex(index);
 		}
 
 		/// <summary>
-		/// Удаляет таблицу
+		/// РЈРґР°Р»СЏРµС‚ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
+		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
 		public void DropTable(string tableName)
 		{
 			Executor.DatabaseStrategy.DropTable(tableName);
 		}
 
 		/// <summary>
-		/// Удаляет индекс
+		/// РЈРґР°Р»СЏРµС‚ РёРЅРґРµРєСЃ
 		/// </summary>
-		/// <param name="index">Индеес</param>
+		/// <param name="index">РРЅРґРµРµСЃ</param>
 		public void DropIndex(Index index)
 		{
 			Executor.DatabaseStrategy.DropIndex(index);
 		}
 
 		/// <summary>
-		/// Создать внешний ключ
+		/// РЎРѕР·РґР°С‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="foreignKey">Внешний ключ</param>
+		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
 		public void CreateForeignKey(ForeignKey foreignKey)
 		{
 			Executor.DatabaseStrategy.CreateForeignKey(foreignKey);
 		}
 
 		/// <summary>
-		/// Удалить внешний ключ
+		/// РЈРґР°Р»РёС‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="foreignKey">Внешний ключ</param>
+		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
 			Executor.DatabaseStrategy.DropForeignKey(foreignKey);
 		}
 
 		/// <summary>
-		/// Удалить внешний ключ
+		/// РЈРґР°Р»РёС‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="name">Имя ключа</param>
-		/// <param name="tableName">Таблица с ключем</param>
+		/// <param name="name">РРјСЏ РєР»СЋС‡Р°</param>
+		/// <param name="tableName">РўР°Р±Р»РёС†Р° СЃ РєР»СЋС‡РµРј</param>
 		public void DropForeignKey(string name, string tableName)
 		{
 			DropForeignKey(new ForeignKey(name, tableName, string.Empty, string.Empty, string.Empty));
 		}
 
 		/// <summary>
-		/// Добавляет записи в таблицу
+		/// Р”РѕР±Р°РІР»СЏРµС‚ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ
 		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
+		/// <param name="table">РўР°Р±Р»РёС†С‹</param>
+		/// <param name="rows">Р—Р°РїРёСЃРё</param>
 		public void InsertRows(string table, params object[] rows)
 		{
 			Executor.DatabaseStrategy.InsertRows(table, rows);

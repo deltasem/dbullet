@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты удаления таблиц
+	/// РўРµСЃС‚С‹ СѓРґР°Р»РµРЅРёСЏ С‚Р°Р±Р»РёС†
 	/// </summary>
 	[TestClass]
 	public class DropTableTest
 	{
 		/// <summary>
-		/// Удаление таблицы без названия
+		/// РЈРґР°Р»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹ Р±РµР· РЅР°Р·РІР°РЅРёСЏ
 		/// </summary>
 		[TestMethod]
 		public void EmptyTable()
@@ -27,7 +27,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Удаление таблицы
+		/// РЈРґР°Р»РµРЅРёРµ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
 		[TestMethod]
 		public void RegularDropTable()

@@ -1,4 +1,4 @@
-﻿@{System.Reflection.PropertyInfo[] props = (System.Reflection.PropertyInfo[])Model[1]; string[] values = (string[])Model[2];}
+@{System.Reflection.PropertyInfo[] props = (System.Reflection.PropertyInfo[])Model[1]; string[] values = (string[])Model[2];}
 insert into @Model[0] (
 @for(int i = 0; i < props.Length; i++){
 @props[i].Name@(i != props.Length-1?", ":"")

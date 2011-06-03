@@ -6,32 +6,32 @@
 namespace dbullet.core.engine
 {
 	/// <summary>
-	/// Менеджер темплейтов
+	/// РњРµРЅРµРґР¶РµСЂ С‚РµРјРїР»РµР№С‚РѕРІ
 	/// </summary>
 	public interface ITemplateManager
 	{
 		/// <summary>
-		/// Возвращает шаблон для создания таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		string GetCreateTableTemplate();
 
 		/// <summary>
-		/// Возвращает шаблон для проверки существования таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		string GetIsTableExistTemplate();
 
 		/// <summary>
-		/// Возвращает шаблон для создания индекса
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РёРЅРґРµРєСЃР°
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		string GetCreateIndexTemplate();
 
 		/// <summary>
-		/// Возвращает шаблон для удаления таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		string GetDropTableTemplate();
 	}
 }

@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты создания внешних ключей
+	/// РўРµСЃС‚С‹ СЃРѕР·РґР°РЅРёСЏ РІРЅРµС€РЅРёС… РєР»СЋС‡РµР№
 	/// </summary>
 	[TestClass]
 	public class CreateForeignKeyTest
 	{
 		/// <summary>
-		/// Создание внешнего ключа
+		/// РЎРѕР·РґР°РЅРёРµ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р°
 		/// </summary>
 		[TestMethod]
 		public void RegularCreateFK()
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание внешнего ключа имя автогенерируемое
+		/// РЎРѕР·РґР°РЅРёРµ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р° РёРјСЏ Р°РІС‚РѕРіРµРЅРµСЂРёСЂСѓРµРјРѕРµ
 		/// </summary>
 		[TestMethod]
 		public void DefaultName()
@@ -41,7 +41,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание внешнего ключа имя автогенерируемое
+		/// РЎРѕР·РґР°РЅРёРµ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р° РёРјСЏ Р°РІС‚РѕРіРµРЅРµСЂРёСЂСѓРµРјРѕРµ
 		/// </summary>
 		[TestMethod]
 		public void Cascade()
@@ -53,7 +53,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание внешнего ключа имя автогенерируемое
+		/// РЎРѕР·РґР°РЅРёРµ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р° РёРјСЏ Р°РІС‚РѕРіРµРЅРµСЂРёСЂСѓРµРјРѕРµ
 		/// </summary>
 		[TestMethod]
 		public void NoAction()

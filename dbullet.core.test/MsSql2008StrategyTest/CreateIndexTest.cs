@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты создания индексов
+	/// РўРµСЃС‚С‹ СЃРѕР·РґР°РЅРёСЏ РёРЅРґРµРєСЃРѕРІ
 	/// </summary>
 	[TestClass]
 	public class CreateIndexTest
 	{
 		/// <summary>
-		/// Создание индекса
+		/// РЎРѕР·РґР°РЅРёРµ РёРЅРґРµРєСЃР°
 		/// </summary>
 		[TestMethod]
 		public void RegularCreateIndex()
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание индекса оп убыванию
+		/// РЎРѕР·РґР°РЅРёРµ РёРЅРґРµРєСЃР° РѕРї СѓР±С‹РІР°РЅРёСЋ
 		/// </summary>
 		[TestMethod]
 		public void Desc()
@@ -41,7 +41,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание индекса в нестандартной партиции
+		/// РЎРѕР·РґР°РЅРёРµ РёРЅРґРµРєСЃР° РІ РЅРµСЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		[TestMethod]
 		public void Partitional()
@@ -53,7 +53,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание индекса в нестандартной партиции
+		/// РЎРѕР·РґР°РЅРёРµ РёРЅРґРµРєСЃР° РІ РЅРµСЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		[TestMethod]
 		public void Clustered()
@@ -65,7 +65,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Создание уникального индекса
+		/// РЎРѕР·РґР°РЅРёРµ СѓРЅРёРєР°Р»СЊРЅРѕРіРѕ РёРЅРґРµРєСЃР°
 		/// </summary>
 		[TestMethod]
 		public void Unique()

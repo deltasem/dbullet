@@ -11,13 +11,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
-	/// Тесты IsTableExistsTest
+	/// РўРµСЃС‚С‹ IsTableExistsTest
 	/// </summary>
 	[TestClass]
 	public class IsTableExistsTest
 	{
 		/// <summary>
-		/// Проверяет, существует ли таблица
+		/// РџСЂРѕРІРµСЂСЏРµС‚, СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		[TestMethod]
 		public void ByName()
@@ -32,7 +32,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Проверяет, существует ли таблица
+		/// РџСЂРѕРІРµСЂСЏРµС‚, СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		[TestMethod]
 		public void RegularIsTableExists()
@@ -43,7 +43,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Проверяет, существует ли таблица
+		/// РџСЂРѕРІРµСЂСЏРµС‚, СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
 		/// </summary>
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentException))]
@@ -54,7 +54,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
-		/// Таблица не существует
+		/// РўР°Р±Р»РёС†Р° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
 		/// </summary>
 		[TestMethod]
 		public void NotExists()

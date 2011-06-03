@@ -8,7 +8,7 @@ using System;
 namespace dbullet.core.exception
 {
 	/// <summary>
-	/// Дублирование столбца
+	/// Р”СѓР±Р»РёСЂРѕРІР°РЅРёРµ СЃС‚РѕР»Р±С†Р°
 	/// </summary>
 	public class DublicateColumnException : ApplicationException
 	{

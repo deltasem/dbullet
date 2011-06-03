@@ -6,27 +6,27 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Колонка для добавления в индекс
+	/// РљРѕР»РѕРЅРєР° РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ РёРЅРґРµРєСЃ
 	/// </summary>
 	public class IndexColumn : DatabaseObjectBase
 	{
 		/// <summary>
-		/// Направление сортировки
+		/// РќР°РїСЂР°РІР»РµРЅРёРµ СЃРѕСЂС‚РёСЂРѕРІРєРё
 		/// </summary>
 		private readonly Direction direction;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название объекта</param>
-		/// <param name="direction">Направление сортировки</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РѕР±СЉРµРєС‚Р°</param>
+		/// <param name="direction">РќР°РїСЂР°РІР»РµРЅРёРµ СЃРѕСЂС‚РёСЂРѕРІРєРё</param>
 		public IndexColumn(string name, Direction direction = Direction.Ascending) : base(name)
 		{
 			this.direction = direction;
 		}
 
 		/// <summary>
-		/// Направление сортировки
+		/// РќР°РїСЂР°РІР»РµРЅРёРµ СЃРѕСЂС‚РёСЂРѕРІРєРё
 		/// </summary>
 		public Direction Direction
 		{

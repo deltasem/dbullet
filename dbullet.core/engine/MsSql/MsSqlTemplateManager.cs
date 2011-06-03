@@ -13,16 +13,16 @@ using dbullet.core.exception;
 namespace dbullet.core.engine.MsSql
 {
 	/// <summary>
-	/// Темплейты для MsSql
+	/// РўРµРјРїР»РµР№С‚С‹ РґР»СЏ MsSql
 	/// </summary>
 	public class MsSqlTemplateManager : ITemplateManager
 	{
 		#region BuildColumnCreateCommand
 		/// <summary>
-		/// Создаёт текст создания столбца
+		/// РЎРѕР·РґР°С‘С‚ С‚РµРєСЃС‚ СЃРѕР·РґР°РЅРёСЏ СЃС‚РѕР»Р±С†Р°
 		/// </summary>
-		/// <param name="column">Столбец</param>
-		/// <returns>Текст создания столбца</returns>
+		/// <param name="column">РЎС‚РѕР»Р±РµС†</param>
+		/// <returns>РўРµРєСЃС‚ СЃРѕР·РґР°РЅРёСЏ СЃС‚РѕР»Р±С†Р°</returns>
 		public static string BuildColumnCreateCommand(Column column)
 		{
 			if (column.ColumnType.DbType == DbType.String && column.ColumnType.Length == 0)
@@ -91,82 +91,82 @@ namespace dbullet.core.engine.MsSql
 		#endregion
 
 		/// <summary>
-		/// Возвращает шаблон для создания таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetCreateTableTemplate()
 		{
 			return GetTemplateFromResource("CreateTable.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для проверки существования таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetIsTableExistTemplate()
 		{
 			return GetTemplateFromResource("IsTableExist.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для создания индекса
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РёРЅРґРµРєСЃР°
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetCreateIndexTemplate()
 		{
 			return GetTemplateFromResource("CreateIndex.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для удаления таблицы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetDropTableTemplate()
 		{
 			return GetTemplateFromResource("DropTable.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для удаления индекса
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РёРЅРґРµРєСЃР°
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetDropIndexTemplate()
 		{
 			return GetTemplateFromResource("DropIndex.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для создения внешнего ключа
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СЃРѕР·РґРµРЅРёСЏ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р°
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetCreateForeignKeyTemplate()
 		{
 			return GetTemplateFromResource("CreateForeignKey.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для удаления внешнего ключа
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РІРЅРµС€РЅРµРіРѕ РєР»СЋС‡Р°
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetDropForeignKeyTemplate()
 		{
 			return GetTemplateFromResource("DropForeignKey.cshtml");
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для вставки записей
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ С€Р°Р±Р»РѕРЅ РґР»СЏ РІСЃС‚Р°РІРєРё Р·Р°РїРёСЃРµР№
 		/// </summary>
-		/// <returns>Шаблон</returns>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		public string GetInsertRowsTemplate()
 		{
 			return GetTemplateFromResource("InsertRows.cshtml");
 		}
 
 		/// <summary>
-		/// Получить шаблон из ресурса
+		/// РџРѕР»СѓС‡РёС‚СЊ С€Р°Р±Р»РѕРЅ РёР· СЂРµСЃСѓСЂСЃР°
 		/// </summary>
-		/// <param name="resourceName">Название ресурса</param>
-		/// <returns>Шаблон</returns>
+		/// <param name="resourceName">РќР°Р·РІР°РЅРёРµ СЂРµСЃСѓСЂСЃР°</param>
+		/// <returns>РЁР°Р±Р»РѕРЅ</returns>
 		private string GetTemplateFromResource(string resourceName)
 		{
 			using (var resource = GetType().Assembly.GetManifestResourceStream("dbullet.core.engine.MsSql." + resourceName))

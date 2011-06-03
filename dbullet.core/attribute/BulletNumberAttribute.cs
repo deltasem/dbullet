@@ -8,27 +8,27 @@ using System;
 namespace dbullet.core.attribute
 {
 	/// <summary>
-	/// Все булеты должны быть помечены этим аттрибутом
+	/// Р’СЃРµ Р±СѓР»РµС‚С‹ РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ РїРѕРјРµС‡РµРЅС‹ СЌС‚РёРј Р°С‚С‚СЂРёР±СѓС‚РѕРј
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class BulletNumberAttribute : Attribute
 	{
 		/// <summary>
-		/// Ревизия булета
+		/// Р РµРІРёР·РёСЏ Р±СѓР»РµС‚Р°
 		/// </summary>
 		private readonly int revision;
 
 		/// <summary>
-		/// Этим аттрибутом нужно помечать булеты
+		/// Р­С‚РёРј Р°С‚С‚СЂРёР±СѓС‚РѕРј РЅСѓР¶РЅРѕ РїРѕРјРµС‡Р°С‚СЊ Р±СѓР»РµС‚С‹
 		/// </summary>
-		/// <param name="revision">Ревизия булета</param>
+		/// <param name="revision">Р РµРІРёР·РёСЏ Р±СѓР»РµС‚Р°</param>
 		public BulletNumberAttribute(int revision)
 		{
 			this.revision = revision;
 		}
 
 		/// <summary>
-		/// Ревизия булета
+		/// Р РµРІРёР·РёСЏ Р±СѓР»РµС‚Р°
 		/// </summary>
 		public int Revision
 		{

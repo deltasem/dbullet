@@ -10,13 +10,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dbullet.core.test
 {
 	/// <summary>
-	/// Тесты для индексов
+	/// РўРµСЃС‚С‹ РґР»СЏ РёРЅРґРµРєСЃРѕРІ
 	/// </summary>
 	[TestClass]
 	public class IndexTest
 	{
 		/// <summary>
-		/// Добавление колонки возвращает тот же индекс
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ РєРѕР»РѕРЅРєРё РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РѕС‚ Р¶Рµ РёРЅРґРµРєСЃ
 		/// </summary>
 		[TestMethod]
 		public void AddColumnSameObjectTest()
@@ -27,7 +27,7 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
-		/// Добавление колонки
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ РєРѕР»РѕРЅРєРё
 		/// </summary>
 		[TestMethod]
 		public void AddColumnTest()
@@ -38,7 +38,7 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
-		/// Добавление два раза одной и той же колонки должно вызвать исключение
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ РґРІР° СЂР°Р·Р° РѕРґРЅРѕР№ Рё С‚РѕР№ Р¶Рµ РєРѕР»РѕРЅРєРё РґРѕР»Р¶РЅРѕ РІС‹Р·РІР°С‚СЊ РёСЃРєР»СЋС‡РµРЅРёРµ
 		/// </summary>
 		[TestMethod]
 		public void AddColumnDublicateTest()

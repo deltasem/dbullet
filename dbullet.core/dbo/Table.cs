@@ -13,53 +13,53 @@ namespace dbullet.core.dbo
 	using System.Collections.Generic;
 
 	/// <summary>
-	/// Таблица
+	/// РўР°Р±Р»РёС†Р°
 	/// </summary>
 	public class Table : DatabaseObjectBase, IPartitionable
 	{
 		/// <summary>
-		/// Колонки
+		/// РљРѕР»РѕРЅРєРё
 		/// </summary>
 		private readonly List<Column> columns;
 
 		/// <summary>
-		/// Название партиции
+		/// РќР°Р·РІР°РЅРёРµ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		private string partitionName;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
 		public Table(string name) : this(name, "PRIMARY")
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
-		/// <param name="partitionName">Партиция</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
 		public Table(string name, string partitionName) : this(name, partitionName, new List<Column>())
 		{
 			this.partitionName = partitionName;
 		}
 		
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
-		/// <param name="columns">Столбцы</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <param name="columns">РЎС‚РѕР»Р±С†С‹</param>
 		private Table(string name, List<Column> columns) : this(name, "PRIMARY", columns)
 		{
 		}
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название таблицы</param>
-		/// <param name="partitionName">Партиция</param>
-		/// <param name="columns">Столбцы</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <param name="partitionName">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <param name="columns">РЎС‚РѕР»Р±С†С‹</param>
 		private Table(string name, string partitionName, List<Column> columns) : base(name)
 		{
 			this.columns = columns;
@@ -67,7 +67,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Столбцы
+		/// РЎС‚РѕР»Р±С†С‹
 		/// </summary>
 		public List<Column> Columns
 		{
@@ -78,7 +78,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Название партиции
+		/// РќР°Р·РІР°РЅРёРµ РїР°СЂС‚РёС†РёРё
 		/// </summary>
 		public string PartitionName
 		{
@@ -86,10 +86,10 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Добавляет колонку к таблице
+		/// Р”РѕР±Р°РІР»СЏРµС‚ РєРѕР»РѕРЅРєСѓ Рє С‚Р°Р±Р»РёС†Рµ
 		/// </summary>
-		/// <param name="column">Колонка</param>
-		/// <returns>Табилца, с добавленой колонкой</returns>
+		/// <param name="column">РљРѕР»РѕРЅРєР°</param>
+		/// <returns>РўР°Р±РёР»С†Р°, СЃ РґРѕР±Р°РІР»РµРЅРѕР№ РєРѕР»РѕРЅРєРѕР№</returns>
 		public Table AddColumn(Column column)
 		{
 			columns.Add(column);
@@ -97,12 +97,12 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Добавляет колонку к таблице
+		/// Р”РѕР±Р°РІР»СЏРµС‚ РєРѕР»РѕРЅРєСѓ Рє С‚Р°Р±Р»РёС†Рµ
 		/// </summary>
-		/// <param name="name">Имя столбца</param>
-		/// <param name="dbType">DB тип столбца</param>
-		/// <param name="nullable">Может содержать null</param>
-		/// <returns>Табилца, с добавленой колонкой</returns>
+		/// <param name="name">РРјСЏ СЃС‚РѕР»Р±С†Р°</param>
+		/// <param name="dbType">DB С‚РёРї СЃС‚РѕР»Р±С†Р°</param>
+		/// <param name="nullable">РњРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ null</param>
+		/// <returns>РўР°Р±РёР»С†Р°, СЃ РґРѕР±Р°РІР»РµРЅРѕР№ РєРѕР»РѕРЅРєРѕР№</returns>
 		public Table AddColumn(string name, DbType dbType, bool nullable = true)
 		{
 			columns.Add(new Column(name, dbType, nullable));
@@ -110,12 +110,12 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Добавляет колонку к таблице
+		/// Р”РѕР±Р°РІР»СЏРµС‚ РєРѕР»РѕРЅРєСѓ Рє С‚Р°Р±Р»РёС†Рµ
 		/// </summary>
-		/// <param name="name">Название столбца</param>
-		/// <param name="columnType">Тип столбца</param>
-		/// <param name="nullable">Может содержать null</param>
-		/// <returns>Табилца, с добавленой колонкой</returns>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ СЃС‚РѕР»Р±С†Р°</param>
+		/// <param name="columnType">РўРёРї СЃС‚РѕР»Р±С†Р°</param>
+		/// <param name="nullable">РњРѕР¶РµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ null</param>
+		/// <returns>РўР°Р±РёР»С†Р°, СЃ РґРѕР±Р°РІР»РµРЅРѕР№ РєРѕР»РѕРЅРєРѕР№</returns>
 		public Table AddColumn(string name, ColumnType columnType, bool nullable = true)
 		{
 			columns.Add(new Column(name, columnType, nullable));
@@ -123,11 +123,11 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Добавляет первичный ключ
+		/// Р”РѕР±Р°РІР»СЏРµС‚ РїРµСЂРІРёС‡РЅС‹Р№ РєР»СЋС‡
 		/// </summary>
-		/// <param name="columnName">Колонка</param>
-		/// <param name="partition">Партиция</param>
-		/// <returns>Таблица с первичным ключем</returns>
+		/// <param name="columnName">РљРѕР»РѕРЅРєР°</param>
+		/// <param name="partition">РџР°СЂС‚РёС†РёСЏ</param>
+		/// <returns>РўР°Р±Р»РёС†Р° СЃ РїРµСЂРІРёС‡РЅС‹Рј РєР»СЋС‡РµРј</returns>
 		public Table AddPrimaryKey(string columnName, string partition = "PRIMARY")
 		{
 			var column = columns.FirstOrDefault(p => p.Name == columnName);
@@ -141,10 +141,10 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Дефалтное значение для последнего столбца
+		/// Р”РµС„Р°Р»С‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ РїРѕСЃР»РµРґРЅРµРіРѕ СЃС‚РѕР»Р±С†Р°
 		/// </summary>
-		/// <param name="defaultValue">Дефалтное значение</param>
-		/// <returns>Текущая таблица</returns>
+		/// <param name="defaultValue">Р”РµС„Р°Р»С‚РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ</param>
+		/// <returns>РўРµРєСѓС‰Р°СЏ С‚Р°Р±Р»РёС†Р°</returns>
 		public Table Default(string defaultValue)
 		{
 			if (columns.Count == 0)
@@ -155,7 +155,7 @@ namespace dbullet.core.dbo
 			var column = columns.Last();
 			if (column.Constraint != null)
 			{
-				throw new ConflictingDataException("Попытка добавить дефалт два раза");
+				throw new ConflictingDataException("РџРѕРїС‹С‚РєР° РґРѕР±Р°РІРёС‚СЊ РґРµС„Р°Р»С‚ РґРІР° СЂР°Р·Р°");
 			}
 
 			column.Constraint = new Default(string.Format("DF_{0}_{1}", Name, column.Name).ToUpper(), defaultValue);

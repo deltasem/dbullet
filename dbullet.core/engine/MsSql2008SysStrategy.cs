@@ -12,24 +12,24 @@ using dbullet.core.dbs;
 namespace dbullet.core.engine
 {
 	/// <summary>
-	/// Реализация длы MS SQL 2008 стратегии
+	/// Р РµР°Р»РёР·Р°С†РёСЏ РґР»С‹ MS SQL 2008 СЃС‚СЂР°С‚РµРіРёРё
 	/// </summary>
 	public class MsSql2008SysStrategy : ISysDatabaseStrategy
 	{
 		/// <summary>
-		/// Подключение к базе
+		/// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ
 		/// </summary>
 		private readonly SqlConnection connection;
 
 		/// <summary>
-		/// Стратегия работы с базой
+		/// РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№
 		/// </summary>
 		private readonly MsSql2008Strategy sqlStrategy;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="connection">Соединение с БД</param>
+		/// <param name="connection">РЎРѕРµРґРёРЅРµРЅРёРµ СЃ Р‘Р”</param>
 		public MsSql2008SysStrategy(SqlConnection connection)
 		{
 			this.connection = connection;
@@ -37,8 +37,8 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Инициализация базы данных
-		/// Добавление, если нет системной таблицы
+		/// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+		/// Р”РѕР±Р°РІР»РµРЅРёРµ, РµСЃР»Рё РЅРµС‚ СЃРёСЃС‚РµРјРЅРѕР№ С‚Р°Р±Р»РёС†С‹
 		/// </summary>
 		public void InitDatabase()
 		{
@@ -49,9 +49,9 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Возвращает последнюю версию базы
+		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЃР»РµРґРЅСЋСЋ РІРµСЂСЃРёСЋ Р±Р°Р·С‹
 		/// </summary>
-		/// <returns>Версия базы</returns>
+		/// <returns>Р’РµСЂСЃРёСЏ Р±Р°Р·С‹</returns>
 		public int GetLastVersion()
 		{
 			try
@@ -78,9 +78,9 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Установка текущей версии
+		/// РЈСЃС‚Р°РЅРѕРІРєР° С‚РµРєСѓС‰РµР№ РІРµСЂСЃРёРё
 		/// </summary>
-		/// <param name="version">Версия</param>
+		/// <param name="version">Р’РµСЂСЃРёСЏ</param>
 		public void SetCurrentVersion(int version)
 		{
 			try

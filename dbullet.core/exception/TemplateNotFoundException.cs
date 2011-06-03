@@ -8,7 +8,7 @@ using System;
 namespace dbullet.core.exception
 {
 	/// <summary>
-	/// Не найден шаблон
+	/// РќРµ РЅР°Р№РґРµРЅ С€Р°Р±Р»РѕРЅ
 	/// </summary>
 	public class TemplateNotFoundException : ApplicationException
 	{

@@ -8,7 +8,7 @@ using System;
 namespace dbullet.core.exception
 {
 	/// <summary>
-	/// Необходимы столбцы
+	/// РќРµРѕР±С…РѕРґРёРјС‹ СЃС‚РѕР»Р±С†С‹
 	/// </summary>
 	public class CollumnExpectedException : ApplicationException
 	{

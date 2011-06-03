@@ -1,4 +1,4 @@
-﻿create @(Model.IsUnique ? "unique " : string.Empty)
+create @(Model.IsUnique ? "unique " : string.Empty)
 @(Model.IndexType == dbullet.core.dbo.IndexType.Clustered ? "clustered" : "nonclustered") 
 index @Model.Name on @Model.Table.Name (
 @for (int i = 0; i < @Model.Columns.Count; i++){
