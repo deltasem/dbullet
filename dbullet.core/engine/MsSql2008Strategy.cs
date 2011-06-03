@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Data;
+using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
 using dbullet.core.exception;
 using RazorEngine;
+using RazorEngine.Templating;
 
 namespace dbullet.core.engine
 {
@@ -123,7 +125,27 @@ namespace dbullet.core.engine
 		/// <param name="rows">Записи</param>
 		public void InsertRows(string table, params object[] rows)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(table))
+			{
+				throw new TableExpectedException();
+			}
+
+			if (rows == null || rows.Length == 0)
+			{
+				throw new ArgumentNullException();
+			}
+
+			foreach (var row in rows)
+			{
+				var props = row.GetType().GetProperties();
+				var values = new string[props.Length];
+				for (int i = 0; i < props.Length; i++)
+				{
+					values[i] = props[i].GetValue(row, null).ToString();
+				}
+
+				ExecuteScalar(Razor.Parse(manager.GetInsertRowsTemplate(), new object[] { table, props, values }, "insert rows"));
+			}
 		}
 
 		/// <summary>

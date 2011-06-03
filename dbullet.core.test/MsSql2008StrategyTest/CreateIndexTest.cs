@@ -7,6 +7,7 @@ using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>

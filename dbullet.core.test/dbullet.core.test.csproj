@@ -66,6 +66,7 @@
     <Compile Include="MsSql2008StrategyTest\DropForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropIndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropTableTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\InsertRowsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\IsTableExistsTest.cs" />
     <Compile Include="MsSql2008SysStrategyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

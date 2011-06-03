@@ -154,6 +154,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон для вставки записей
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetInsertRowsTemplate()
+		{
+			return GetTemplateFromResource("InsertRows.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>

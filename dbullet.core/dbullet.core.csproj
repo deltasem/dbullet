@@ -85,6 +85,7 @@
     <EmbeddedResource Include="engine\MsSql\DropIndex.cshtml" />
     <EmbeddedResource Include="engine\MsSql\CreateForeignKey.cshtml" />
     <EmbeddedResource Include="engine\MsSql\DropForeignKey.cshtml" />
+    <EmbeddedResource Include="engine\MsSql\InsertRows.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

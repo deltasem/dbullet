@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace dbullet.core.test.tools
@@ -13,6 +14,11 @@ namespace dbullet.core.test.tools
 	/// </summary>
 	public class TestConnection : IDbConnection
 	{
+		/// <summary>
+		/// Список комманд
+		/// </summary>
+		private readonly List<string> allCommands = new List<string>();
+
 		/// <summary>
 		/// Последний запрос
 		/// </summary>
@@ -33,8 +39,24 @@ namespace dbullet.core.test.tools
 		/// </summary>
 		public string LastCommandText
 		{
-			get { return lastCommandText.Replace("\r", string.Empty).Replace("\n", string.Empty); }
-			set { lastCommandText = value; }
+			get
+			{
+				return lastCommandText;
+			}
+
+			set
+			{
+				lastCommandText = value.Replace("\r", string.Empty).Replace("\n", string.Empty);
+				allCommands.Add(lastCommandText);
+			}
+		}
+
+		/// <summary>
+		/// Список комманд
+		/// </summary>
+		public List<string> AllCommands
+		{
+			get { return allCommands; }
 		}
 
 		/// <summary>
