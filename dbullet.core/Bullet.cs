@@ -98,5 +98,15 @@ namespace dbullet.core
 		{
 			DropForeignKey(new ForeignKey(name, tableName, string.Empty, string.Empty, string.Empty));
 		}
+
+		/// <summary>
+		/// Добавляет записи в таблицу
+		/// </summary>
+		/// <param name="table">Таблицы</param>
+		/// <param name="rows">Записи</param>
+		public void InsertRows(string table, params object[] rows)
+		{
+			Executor.DatabaseStrategy.InsertRows(table, rows);
+		}
 	}
 }

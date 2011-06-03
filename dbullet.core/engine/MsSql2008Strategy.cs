@@ -117,6 +117,16 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
+		/// Добавляет записи в таблицу
+		/// </summary>
+		/// <param name="table">Таблицы</param>
+		/// <param name="rows">Записи</param>
+		public void InsertRows(string table, params object[] rows)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
 		/// Выполнить запрос
 		/// </summary>
 		/// <param name="commandText">запрос</param>

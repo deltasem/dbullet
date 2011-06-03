@@ -54,5 +54,12 @@ namespace dbullet.core.dbs
 		/// </summary>
 		/// <param name="foreignKey">Внешний ключ</param>
 		void DropForeignKey(ForeignKey foreignKey);
+
+		/// <summary>
+		/// Добавляет записи в таблицу
+		/// </summary>
+		/// <param name="table">Таблицы</param>
+		/// <param name="rows">Записи</param>
+		void InsertRows(string table, params object[] rows);
 	}
 }
