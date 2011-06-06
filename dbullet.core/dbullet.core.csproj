@@ -80,6 +80,7 @@
     <Compile Include="exception\TemplateNotFoundException.cs" />
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tools\CsvParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="engine\MsSql\CreateTable.cshtml" />

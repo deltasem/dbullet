@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertHelpers.cs" />
+    <Compile Include="CsvParser\CsvParserTest.cs" />
     <Compile Include="ExecutorTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\BuildColumnCreateCommandTest.cs" />
