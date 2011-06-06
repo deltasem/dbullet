@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Data.SqlClient;
 using System.Reflection.Moles;
 using dbullet.core.attribute;
 using dbullet.core.engine;
@@ -27,6 +28,8 @@ namespace dbullet.core.test
 			TestBullet1.IsUpdateInvoked = false;
 			TestBullet2.IsUpdateInvoked = false;
 			TestBullet3.IsUpdateInvoked = false;
+			ErrorBullet.IsUpdateInvoked = false;
+			ErrorBullet.IsDowngradeInvoked = false;
 		}
 
 		/// <summary>
@@ -153,7 +156,88 @@ namespace dbullet.core.test
 			Assert.AreEqual(1, currentVersion[0]);
 		}
 
+		/// <summary>
+		/// При не прохождении любого скрипта из булета, должен быть выполнен откат
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void ExecuteWithErrors()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[]
+				{
+					typeof(ErrorBullet),
+				}
+			};
+			int[] currentVersion = { 1 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
+			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
+			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
+			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			Assert.AreEqual(1, currentVersion[0]);
+			Assert.IsTrue(ErrorBullet.IsDowngradeInvoked);
+		}
+
+		/// <summary>
+		/// При возникновении ошибки, не должно проходит обновление дальше
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void ExecuteWithErrorsNotContinue()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[]
+				{
+					typeof(ErrorBullet),
+					typeof(TestBullet3)
+				}
+			};
+			int[] currentVersion = { 1 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
+			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
+			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
+			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			Assert.AreEqual(1, currentVersion[0]);
+			Assert.IsFalse(TestBullet3.IsUpdateInvoked);
+		}
+
 		#region тестовые булеты
+		/// <summary>
+		/// Нормальный булет
+		/// </summary>
+		[BulletNumber(2)]
+		public class ErrorBullet : Bullet
+		{
+			/// <summary>
+			/// Был ли вызов
+			/// </summary>
+			public static bool IsUpdateInvoked { get; set; }
+
+			/// <summary>
+			/// Был ли проведен откат
+			/// </summary>
+			public static bool IsDowngradeInvoked { get; set; }
+
+			/// <summary>
+			/// Обновление
+			/// </summary>
+			public override void Update()
+			{
+				// todo: поменять на исключение, которое генерится при ошибке запроса
+				throw new Exception("fake exception");
+			}
+
+			/// <summary>
+			/// Отмена обновления
+			/// </summary>
+			public override void Downgrade()
+			{
+				IsDowngradeInvoked = true;
+			}
+		}
+
 		/// <summary>
 		/// Нормальный булет
 		/// </summary>
