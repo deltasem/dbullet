@@ -21,7 +21,14 @@ namespace dbullet.executor
 		public static void Main(string[] args)
 		{
 			Assembly asm = Assembly.LoadFile(args[0]);
-			Executor.Execute(asm, args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]));
+			if (args[3] == "downgrade")
+			{
+				Executor.ExecuteBack(asm, args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]), int.Parse(args[4]));
+			}
+			else
+			{
+				Executor.Execute(asm, args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]));
+			}
 		}
 	}
 }

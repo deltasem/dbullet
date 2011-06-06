@@ -82,7 +82,14 @@ namespace dbullet.core.engine
 					}
 					catch (Exception)
 					{
-						bullet.Downgrade();
+						try
+						{
+							bullet.Downgrade();
+						}
+						catch (Exception)
+						{
+						}
+
 						break;
 					}
 				}
@@ -90,20 +97,40 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Инициализация соединений с БД
+		/// Откатиться назад
 		/// </summary>
+		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
 		/// <param name="connectionString">Строка подключения</param>
 		/// <param name="strategy">Стратегия работы с БД</param>
-		private static void InitConnections(SupportedStrategy strategy, string connectionString)
+		/// <param name="stopVersion">Последняя версия</param>		
+		public static void ExecuteBack(string assemblyName, string connectionString, SupportedStrategy strategy, int stopVersion)
 		{
-			if (strategy != SupportedStrategy.Mssql2008)
-			{
-				throw new NotSupportedException("Only MS SQL supported");
-			}
+			var asm = Assembly.Load(assemblyName);
+			ExecuteBack(asm, connectionString, strategy, stopVersion);
+		}
 
-			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
-			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
-			systemStrategy.InitDatabase();
+		/// <summary>
+		/// Выполнить обновление
+		/// </summary>
+		/// <param name="assembly">Сборка, содержащая булеты</param>
+		/// <param name="connectionString">Строка подключения</param>
+		/// <param name="strategy">Стратегия работы с БД</param>
+		/// <param name="stopVersion">Последняя версия</param>
+		public static void ExecuteBack(Assembly assembly, string connectionString, SupportedStrategy strategy, int stopVersion)
+		{
+			InitConnections(strategy, connectionString);
+
+			foreach (var bulletType in GetBulletsInAssembly(assembly, true))
+			{
+				var currentVersion = systemStrategy.GetLastVersion();
+				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
+				if (currentVersion == bulletVersion && bulletVersion > stopVersion)
+				{
+					var bullet = (Bullet)Activator.CreateInstance(bulletType);
+					bullet.Downgrade();
+					systemStrategy.RemoveVersionInfo(bulletVersion);
+				}
+			}
 		}
 
 		/// <summary>
@@ -117,6 +144,23 @@ namespace dbullet.core.engine
 			return assembly.GetTypes()
 				.Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true))
 				.OrderBy(p => ((BulletNumberAttribute)p.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision * (revert ? -1 : 1));
+		}
+
+		/// <summary>
+		/// Инициализация соединений с БД
+		/// </summary>
+		/// <param name="strategy">Стратегия работы с БД</param>
+		/// <param name="connectionString">Строка подключения</param>
+		private static void InitConnections(SupportedStrategy strategy, string connectionString)
+		{
+			if (strategy != SupportedStrategy.Mssql2008)
+			{
+				throw new NotSupportedException("Only MS SQL supported");
+			}
+
+			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
+			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
+			systemStrategy.InitDatabase();
 		}
 	}
 }

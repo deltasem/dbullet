@@ -28,5 +28,11 @@ namespace dbullet.core.dbs
 		/// </summary>
 		/// <param name="version">Версия</param>
 		void SetCurrentVersion(int version);
+
+		/// <summary>
+		/// Удаление информации об указанной версии
+		/// </summary>
+		/// <param name="version">Версия</param>
+		void RemoveVersionInfo(int version);
 	}
 }

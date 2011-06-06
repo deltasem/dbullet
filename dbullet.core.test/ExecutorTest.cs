@@ -4,7 +4,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using System.Data.SqlClient;
 using System.Reflection.Moles;
 using dbullet.core.attribute;
 using dbullet.core.engine;
@@ -29,6 +28,9 @@ namespace dbullet.core.test
 			TestBullet2.IsUpdateInvoked = false;
 			TestBullet3.IsUpdateInvoked = false;
 			ErrorBullet.IsUpdateInvoked = false;
+			TestBullet1.IsDowngradeInvoked = false;
+			TestBullet2.IsDowngradeInvoked = false;
+			TestBullet3.IsDowngradeInvoked = false;
 			ErrorBullet.IsDowngradeInvoked = false;
 		}
 
@@ -161,6 +163,33 @@ namespace dbullet.core.test
 			Assert.IsFalse(TestBullet1.IsUpdateInvoked);
 			Assert.IsTrue(TestBullet2.IsUpdateInvoked);
 			Assert.IsTrue(TestBullet3.IsUpdateInvoked);
+		}
+
+		/// <summary>
+		/// Тесты должны вызываться в последовательности
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void ExecuteBackBulletSequence()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[]
+				{
+					typeof(TestBullet1),
+					typeof(TestBullet2),
+					typeof(TestBullet3),
+				}
+			};
+			int[] currentVersion = { 3 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
+			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
+			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
+			MMsSql2008SysStrategy.AllInstances.RemoveVersionInfoInt32 = (i, j) => currentVersion[0] = j - 1;
+			Executor.ExecuteBack(assembly, string.Empty, SupportedStrategy.Mssql2008, 1);
+			Assert.IsFalse(TestBullet1.IsDowngradeInvoked);
+			Assert.IsTrue(TestBullet2.IsDowngradeInvoked);
+			Assert.IsTrue(TestBullet3.IsDowngradeInvoked);
 		}
 
 		/// <summary>
@@ -302,6 +331,11 @@ namespace dbullet.core.test
 		public class TestBullet1 : Bullet
 		{
 			/// <summary>
+			/// Был ли проведен откат
+			/// </summary>
+			public static bool IsDowngradeInvoked { get; set; }
+
+			/// <summary>
 			/// Был ли вызов
 			/// </summary>
 			public static bool IsUpdateInvoked { get; set; }
@@ -319,7 +353,7 @@ namespace dbullet.core.test
 			/// </summary>
 			public override void Downgrade()
 			{
-				throw new NotImplementedException();
+				IsDowngradeInvoked = true;
 			}
 		}
 
@@ -335,6 +369,11 @@ namespace dbullet.core.test
 			public static bool IsUpdateInvoked { get; set; }
 
 			/// <summary>
+			/// Был ли проведен откат
+			/// </summary>
+			public static bool IsDowngradeInvoked { get; set; }
+
+			/// <summary>
 			/// Обновление
 			/// </summary>
 			public override void Update()
@@ -347,7 +386,7 @@ namespace dbullet.core.test
 			/// </summary>
 			public override void Downgrade()
 			{
-				throw new NotImplementedException();
+				IsDowngradeInvoked = true;
 			}
 		}
 
@@ -363,6 +402,11 @@ namespace dbullet.core.test
 			public static bool IsUpdateInvoked { get; set; }
 
 			/// <summary>
+			/// Был ли проведен откат
+			/// </summary>
+			public static bool IsDowngradeInvoked { get; set; }
+
+			/// <summary>
 			/// Обновление
 			/// </summary>
 			public override void Update()
@@ -375,7 +419,7 @@ namespace dbullet.core.test
 			/// </summary>
 			public override void Downgrade()
 			{
-				throw new NotImplementedException();
+				IsDowngradeInvoked = true;
 			}
 		}
 

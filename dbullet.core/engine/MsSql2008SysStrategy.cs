@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -89,6 +90,30 @@ namespace dbullet.core.engine
 				using (var cmd = new SqlCommand(string.Empty, connection))
 				{
 					cmd.CommandText = string.Format("insert into dbullet(Version) values({0})", version);
+					cmd.ExecuteScalar();
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Удаление информации об указанной версии
+		/// </summary>
+		/// <param name="version">Версия</param>
+		public void RemoveVersionInfo(int version)
+		{
+			try
+			{
+				connection.Open();
+				using (var cmd = new SqlCommand(string.Empty, connection))
+				{
+					cmd.CommandText = string.Format("delete from dbullet where version = {0}", version);
 					cmd.ExecuteScalar();
 				}
 			}

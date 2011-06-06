@@ -101,5 +101,25 @@ namespace dbullet.core.test
 			target.SetCurrentVersion(18);
 			Assert.AreEqual("insert into dbullet(Version) values(18)", cmd);
 		}
+
+		/// <summary>
+		/// Тест установки текущей версии
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void RemoveVersionInfo()
+		{
+			string cmd = string.Empty;
+			MSqlConnection.AllInstances.Open = p => { };
+			MSqlConnection.AllInstances.Close = p => { };
+			MSqlCommand.AllInstances.ExecuteScalar = p =>
+			{
+				cmd = p.CommandText;
+				return 1;
+			};
+			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			target.RemoveVersionInfo(18);
+			Assert.AreEqual("delete from dbullet where version = 18", cmd);
+		}
 	}
 }
