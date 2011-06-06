@@ -50,10 +50,11 @@ namespace dbullet.core.engine
 		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
 		/// <param name="connectionString">Строка подключения</param>
 		/// <param name="strategy">Стратегия работы с БД</param>
-		public static void Execute(string assemblyName, string connectionString, SupportedStrategy strategy)
+		/// <param name="stopVersion">Последняя версия</param>
+		public static void Execute(string assemblyName, string connectionString, SupportedStrategy strategy, int stopVersion = int.MaxValue)
 		{
 			var asm = Assembly.Load(assemblyName);
-			Execute(asm, connectionString, strategy);
+			Execute(asm, connectionString, strategy, stopVersion);
 		}
 
 		/// <summary>
@@ -62,22 +63,16 @@ namespace dbullet.core.engine
 		/// <param name="assembly">Сборка, содержащая булеты</param>
 		/// <param name="connectionString">Строка подключения</param>
 		/// <param name="strategy">Стратегия работы с БД</param>
-		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy)
+		/// <param name="stopVersion">Последняя версия</param>
+		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy, int stopVersion = int.MaxValue)
 		{
-			if (strategy != SupportedStrategy.Mssql2008)
-			{
-				throw new NotSupportedException("Only MS SQL supported");
-			}
-
-			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
-			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
-			systemStrategy.InitDatabase();
+			InitConnections(strategy, connectionString);
 
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{
 				var currentVersion = systemStrategy.GetLastVersion();
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
-				if (bulletVersion > currentVersion)
+				if (bulletVersion > currentVersion && bulletVersion <= stopVersion)
 				{
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					try
@@ -92,6 +87,23 @@ namespace dbullet.core.engine
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Инициализация соединений с БД
+		/// </summary>
+		/// <param name="connectionString">Строка подключения</param>
+		/// <param name="strategy">Стратегия работы с БД</param>
+		private static void InitConnections(SupportedStrategy strategy, string connectionString)
+		{
+			if (strategy != SupportedStrategy.Mssql2008)
+			{
+				throw new NotSupportedException("Only MS SQL supported");
+			}
+
+			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
+			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
+			systemStrategy.InitDatabase();
 		}
 
 		/// <summary>

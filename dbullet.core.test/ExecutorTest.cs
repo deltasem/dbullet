@@ -164,6 +164,33 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
+		/// Выполнение до определенной версии
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void ExecuteBulletToVersion()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[]
+				{
+					typeof(TestBullet1),
+					typeof(TestBullet2),
+					typeof(TestBullet3),
+				}
+			};
+			int[] currentVersion = { 0 };
+			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
+			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
+			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
+			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008, 2);
+			Assert.AreEqual(2, currentVersion[0]);
+			Assert.IsTrue(TestBullet1.IsUpdateInvoked);
+			Assert.IsTrue(TestBullet2.IsUpdateInvoked);
+			Assert.IsFalse(TestBullet3.IsUpdateInvoked);
+		}
+
+		/// <summary>
 		/// Версия должна записываться в базу
 		/// </summary>
 		[TestMethod]
