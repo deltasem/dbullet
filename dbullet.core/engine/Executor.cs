@@ -85,7 +85,7 @@ namespace dbullet.core.engine
 						bullet.Update();
 						systemStrategy.SetCurrentVersion(bulletVersion);
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						bullet.Downgrade();
 						break;
@@ -98,12 +98,13 @@ namespace dbullet.core.engine
 		/// Возвращает список булетов из сборки
 		/// </summary>
 		/// <param name="assembly">Сборка с булетами</param>
+		/// <param name="revert">В обратном порядке</param>
 		/// <returns>Упорядоченный список булетов</returns>
-		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly)
+		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly, bool revert = false)
 		{
 			return assembly.GetTypes()
 				.Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true))
-				.OrderBy(p => ((BulletNumberAttribute)p.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision);
+				.OrderBy(p => ((BulletNumberAttribute)p.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision * (revert ? -1 : 1));
 		}
 	}
 }

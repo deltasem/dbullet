@@ -87,6 +87,36 @@ namespace dbullet.core.test
 		}
 
 		/// <summary>
+		/// Булеты должны быть упорядоченными
+		/// </summary>
+		[TestMethod]
+		[HostType("Moles")]
+		public void GetBulletsInAssemblyOrderedRevert()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[]
+				{
+					typeof(TestBullet2WithouAttrs),
+					typeof(NotBulletWithAttrs),
+					typeof(TestBullet3),
+					typeof(TestBullet1),
+					typeof(TestBullet2),
+					typeof(NotBullet),
+				}
+			};
+			var actual = Executor.GetBulletsInAssembly(assembly, true);
+			var enumerator = actual.GetEnumerator();
+			Assert.IsTrue(enumerator.MoveNext());
+			Assert.AreEqual(typeof(TestBullet3), enumerator.Current);
+			Assert.IsTrue(enumerator.MoveNext());
+			Assert.AreEqual(typeof(TestBullet2), enumerator.Current);
+			Assert.IsTrue(enumerator.MoveNext());
+			Assert.AreEqual(typeof(TestBullet1), enumerator.Current);
+			Assert.IsFalse(enumerator.MoveNext());
+		}
+
+		/// <summary>
 		/// A test for Execute
 		/// </summary>
 		[TestMethod]
