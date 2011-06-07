@@ -22,7 +22,7 @@ namespace dbullet.core.test.tools
 		/// <summary>
 		/// Параметры SQL
 		/// </summary>
-		private readonly List<TestParametr> dbDataParametrs = new List<TestParametr>();
+		private readonly TestDataParametrCollection dbDataParametrs = new TestDataParametrCollection();
 
 		/// <summary>
 		/// Последний запрос
@@ -119,7 +119,7 @@ namespace dbullet.core.test.tools
 		/// <summary>
 		/// SQL параметры
 		/// </summary>
-		public List<TestParametr> DbDataParametrs
+		public TestDataParametrCollection DbDataParametrs
 		{
 			get { return dbDataParametrs; }
 		}

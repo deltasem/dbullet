@@ -178,8 +178,9 @@ namespace dbullet.core.engine
 					for (int i = 0; i < dataParams.Length; i++)
 					{
 						IDbDataParameter parameter = cmd.CreateParameter();
-						parameter.ParameterName = headers[i];
+						parameter.ParameterName = string.Format("@{0}", headers[i]);
 						dataParams[i] = parameter;
+						cmd.Parameters.Add(parameter);
 					}
 
 					for (var line = stream.ReadLine(); line != null; line = stream.ReadLine())

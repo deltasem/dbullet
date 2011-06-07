@@ -83,7 +83,7 @@ namespace dbullet.core.test.tools
 		/// <filterpriority>2</filterpriority>
 		public IDataParameterCollection Parameters
 		{
-			get { return null; }
+			get { return connection.DbDataParametrs; }
 		}
 
 		/// <summary>
@@ -131,7 +131,6 @@ namespace dbullet.core.test.tools
 		public IDbDataParameter CreateParameter()
 		{
 			var parametr = new TestParametr();
-			connection.DbDataParametrs.Add(parametr);
 			return parametr;
 		}
 

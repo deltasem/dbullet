@@ -106,7 +106,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
 				new Dictionary<string, System.Func<string, string>>());
-			Assert.AreEqual("COLUMN_NAME", connection.DbDataParametrs[0].ParameterName);
+			Assert.AreEqual("@COLUMN_NAME", connection.DbDataParametrs[0].ParameterName);
 		}
 
 		/// <summary>

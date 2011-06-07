@@ -75,6 +75,7 @@
     <Compile Include="TableTest.cs" />
     <Compile Include="tools\TestCommand.cs" />
     <Compile Include="tools\TestConnection.cs" />
+    <Compile Include="tools\TestDataParametrCollection.cs" />
     <Compile Include="tools\TestParametr.cs" />
   </ItemGroup>
   <ItemGroup>

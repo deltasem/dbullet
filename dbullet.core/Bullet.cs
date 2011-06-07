@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
@@ -122,6 +123,21 @@ namespace dbullet.core
 		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			Executor.DatabaseStrategy.LoadCsv(tableName, stream, modulator, csvQuotesType);
+		}
+
+		/// <summary>
+		/// Загружает поток в базу. Данные в формате CSV
+		/// </summary>
+		/// <param name="tableName">Таблица для загрузки</param>
+		/// <param name="resource">Имя ресурса</param>
+		/// <param name="modulator">Преобразования</param>
+		/// <param name="csvQuotesType">Тип кавычек CSV</param>
+		public void LoadCsv(string tableName, string resource, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		{
+			using(var stream = GetType().Assembly.GetManifestResourceStream(resource))
+			{
+				LoadCsv(tableName, new StreamReader(stream, Encoding.Default), modulator, csvQuotesType);
+			}
 		}
 	}
 }
