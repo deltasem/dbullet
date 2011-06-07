@@ -20,7 +20,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void EmptyStringCsv()
 		{
-			AssertHelpers.Throws<ArgumentNullException>(() => dbullet.core.tools.CsvParser.Parse(string.Empty));
+			AssertHelpers.Throws<ArgumentNullException>(() => core.tools.CsvParser.Parse(string.Empty));
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void CommaSeparator()
 		{
-			string[] res = dbullet.core.tools.CsvParser.Parse("value1,value2");
+			string[] res = core.tools.CsvParser.Parse("value1,value2");
 			Assert.AreEqual("value1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);
@@ -41,7 +41,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void SemicolonSeparator()
 		{
-			string[] res = dbullet.core.tools.CsvParser.Parse("value1;value2");
+			string[] res = core.tools.CsvParser.Parse("value1;value2");
 			Assert.AreEqual("value1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);
@@ -53,10 +53,105 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void CommaInValue()
 		{
-			string[] res = dbullet.core.tools.CsvParser.Parse("\"val,ue1\",value2");
+			string[] res = core.tools.CsvParser.Parse("\"val,ue1\",value2");
 			Assert.AreEqual("val,ue1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);			
+		}
+
+		/// <summary>
+		/// Точка с запятой внутри значения
+		/// </summary>
+		[TestMethod]
+		public void SemicolonInValue()
+		{
+			string[] res = core.tools.CsvParser.Parse("\"val;ue1\",value2");
+			Assert.AreEqual("val;ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Запятая внутри значения
+		/// </summary>
+		[TestMethod]
+		public void CommaInValueSingleQuote()
+		{
+			string[] res = core.tools.CsvParser.Parse("'val,ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			Assert.AreEqual("val,ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Точка с запятой внутри значения
+		/// </summary>
+		[TestMethod]
+		public void SemicolonInValueSingleQuote()
+		{
+			string[] res = core.tools.CsvParser.Parse("'val;ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			Assert.AreEqual("val;ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Двойные ковычки внутри
+		/// </summary>
+		[TestMethod]
+		public void QuoteInQuotes()
+		{
+			string[] res = core.tools.CsvParser.Parse("\"val\"\"ue1\",value2");
+			Assert.AreEqual("val\"ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// ковычки внутри
+		/// </summary>
+		[TestMethod]
+		public void SingleQuoteInSingleQuotes()
+		{
+			string[] res = core.tools.CsvParser.Parse("'val''ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			Assert.AreEqual("val'ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Одинарные ковычки внутри двойных
+		/// </summary>
+		[TestMethod]
+		public void SingleQuoteInQuotes()
+		{
+			string[] res = core.tools.CsvParser.Parse("\"val''ue1\",value2");
+			Assert.AreEqual("val''ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Двойные ковычки внутри одинарных
+		/// </summary>
+		[TestMethod]
+		public void QuoteInSingleQuotes()
+		{
+			string[] res = core.tools.CsvParser.Parse("'val\"\"ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			Assert.AreEqual("val\"\"ue1", res[0]);
+			Assert.AreEqual("value2", res[1]);
+			Assert.AreEqual(2, res.Length);
+		}
+
+		/// <summary>
+		/// Пустое поле
+		/// </summary>
+		[TestMethod]
+		public void EmptyField()
+		{
+			string[] res = core.tools.CsvParser.Parse("hello;;world");
+			Assert.AreEqual(3, res.Length);
+			Assert.AreEqual(string.Empty, res[1]);
 		}
 	}
 }
