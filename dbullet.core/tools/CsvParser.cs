@@ -30,7 +30,7 @@ namespace dbullet.core.tools
 		/// <param name="text">Текст в формате CSV</param>
 		/// <param name="quotesType">Типы ковычек</param>
 		/// <returns>Массив значений</returns>
-		public static string[] Parse(string text, CsvQutestType quotesType = CsvQutestType.DoubleQuotes)
+		public static string[] Parse(string text, CsvQuotesType quotesType = CsvQuotesType.DoubleQuotes)
 		{
 			if (string.IsNullOrEmpty(text))
 			{
@@ -42,10 +42,10 @@ namespace dbullet.core.tools
 			Match matchResults;
 			switch (quotesType)
 			{
-				case CsvQutestType.DoubleQuotes:
+				case CsvQuotesType.DoubleQuotes:
 					matchResults = parserDoubleQuotes.Match(text);
 					break;
-				case CsvQutestType.SingleQuotes:
+				case CsvQuotesType.SingleQuotes:
 					matchResults = parserSingleQuotes.Match(text);
 					break;
 				default:
@@ -56,11 +56,11 @@ namespace dbullet.core.tools
 			{
 				if (!string.IsNullOrEmpty(matchResults.Value))
 				{
-					if (quotesType == CsvQutestType.DoubleQuotes && matchResults.Groups[1].Value.StartsWith("\""))
+					if (quotesType == CsvQuotesType.DoubleQuotes && matchResults.Groups[1].Value.StartsWith("\""))
 					{
 						str.Add(matchResults.Groups[1].Value.Substring(1, matchResults.Groups[1].Value.Length - 2).Replace("\"\"", "\""));
 					}
-					else if (quotesType == CsvQutestType.SingleQuotes && matchResults.Groups[1].Value.StartsWith("'"))
+					else if (quotesType == CsvQuotesType.SingleQuotes && matchResults.Groups[1].Value.StartsWith("'"))
 					{
 						str.Add(matchResults.Groups[1].Value.Substring(1, matchResults.Groups[1].Value.Length - 2).Replace("''", "'"));
 					}

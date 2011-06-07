@@ -81,7 +81,7 @@
     <Compile Include="exception\UnsuportedDbTypeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tools\CsvParser.cs" />
-    <Compile Include="tools\CsvQutestType.cs" />
+    <Compile Include="tools\CsvQuotesType.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="engine\MsSql\CreateTable.cshtml" />
@@ -92,6 +92,7 @@
     <EmbeddedResource Include="engine\MsSql\CreateForeignKey.cshtml" />
     <EmbeddedResource Include="engine\MsSql\DropForeignKey.cshtml" />
     <EmbeddedResource Include="engine\MsSql\InsertRows.cshtml" />
+    <EmbeddedResource Include="engine\MsSql\InsertRowsStream.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

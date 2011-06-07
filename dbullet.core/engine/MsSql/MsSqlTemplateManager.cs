@@ -163,6 +163,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон для вставки записей потоком
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetInsertRowsStreamTemplate()
+		{
+			return GetTemplateFromResource("InsertRowsStream.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>

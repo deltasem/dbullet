@@ -130,7 +130,9 @@ namespace dbullet.core.test.tools
 		/// <filterpriority>2</filterpriority>
 		public IDbDataParameter CreateParameter()
 		{
-			throw new NotImplementedException();
+			var parametr = new TestParametr();
+			connection.DbDataParametrs.Add(parametr);
+			return parametr;
 		}
 
 		/// <summary>

@@ -77,7 +77,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void CommaInValueSingleQuote()
 		{
-			string[] res = core.tools.CsvParser.Parse("'val,ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			string[] res = core.tools.CsvParser.Parse("'val,ue1',value2", core.tools.CsvQuotesType.SingleQuotes);
 			Assert.AreEqual("val,ue1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);
@@ -89,7 +89,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void SemicolonInValueSingleQuote()
 		{
-			string[] res = core.tools.CsvParser.Parse("'val;ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			string[] res = core.tools.CsvParser.Parse("'val;ue1',value2", core.tools.CsvQuotesType.SingleQuotes);
 			Assert.AreEqual("val;ue1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);
@@ -113,7 +113,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void SingleQuoteInSingleQuotes()
 		{
-			string[] res = core.tools.CsvParser.Parse("'val''ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			string[] res = core.tools.CsvParser.Parse("'val''ue1',value2", core.tools.CsvQuotesType.SingleQuotes);
 			Assert.AreEqual("val'ue1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);
@@ -137,7 +137,7 @@ namespace dbullet.core.test.CsvParser
 		[TestMethod]
 		public void QuoteInSingleQuotes()
 		{
-			string[] res = core.tools.CsvParser.Parse("'val\"\"ue1',value2", core.tools.CsvQutestType.SingleQuotes);
+			string[] res = core.tools.CsvParser.Parse("'val\"\"ue1',value2", core.tools.CsvQuotesType.SingleQuotes);
 			Assert.AreEqual("val\"\"ue1", res[0]);
 			Assert.AreEqual("value2", res[1]);
 			Assert.AreEqual(2, res.Length);

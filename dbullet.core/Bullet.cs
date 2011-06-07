@@ -4,9 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
+using System.IO;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
+using dbullet.core.tools;
 
 namespace dbullet.core
 {
@@ -107,6 +110,18 @@ namespace dbullet.core
 		public void InsertRows(string table, params object[] rows)
 		{
 			Executor.DatabaseStrategy.InsertRows(table, rows);
+		}
+
+		/// <summary>
+		/// Загружает поток в базу. Данные в формате CSV
+		/// </summary>
+		/// <param name="tableName">Таблица для загрузки</param>
+		/// <param name="stream">Входной поток</param>
+		/// <param name="modulator">Преобразования</param>
+		/// <param name="csvQuotesType">Тип кавычек CSV</param>
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		{
+			Executor.DatabaseStrategy.LoadCsv(tableName, stream, modulator, csvQuotesType);
 		}
 	}
 }

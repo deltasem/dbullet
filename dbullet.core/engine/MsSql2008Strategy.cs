@@ -4,14 +4,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using System.IO;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
 using dbullet.core.exception;
+using dbullet.core.tools;
 using RazorEngine;
-using RazorEngine.Templating;
 
 namespace dbullet.core.engine
 {
@@ -145,6 +146,65 @@ namespace dbullet.core.engine
 				}
 
 				ExecuteScalar(Razor.Parse(manager.GetInsertRowsTemplate(), new object[] { table, props, values }, "insert rows"));
+			}
+		}
+
+		/// <summary>
+		/// Загружает поток в базу. Данные в формате CSV
+		/// </summary>
+		/// <param name="tableName">Таблица для загрузки</param>
+		/// <param name="stream">Входной поток</param>
+		/// <param name="modulator">Преобразования</param>
+		/// <param name="csvQuotesType">Тип кавычек CSV</param>
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		{
+			try
+			{
+				var firstLine = stream.ReadLine();
+				if (string.IsNullOrEmpty(firstLine))
+				{
+					throw new InvalidDataException();
+				}
+				
+				connection.Open();
+				using (IDbCommand cmd = connection.CreateCommand())
+				{
+					var headers = CsvParser.Parse(firstLine, csvQuotesType);
+					cmd.CommandText = Razor.Parse(
+						manager.GetInsertRowsStreamTemplate(), 
+						new object[] { tableName, headers },
+						"insert rows stream");
+					IDbDataParameter[] dataParams = new IDbDataParameter[headers.Length];
+					for (int i = 0; i < dataParams.Length; i++)
+					{
+						IDbDataParameter parameter = cmd.CreateParameter();
+						parameter.ParameterName = headers[i];
+						dataParams[i] = parameter;
+					}
+
+					for (var line = stream.ReadLine(); line != null; line = stream.ReadLine())
+					{
+						var lineValues = CsvParser.Parse(line, csvQuotesType);
+						if (lineValues.Length != dataParams.Length)
+						{
+							throw new InvalidDataException();
+						}
+
+						for (int i = 0; i < lineValues.Length; i++)
+						{
+							dataParams[i].Value = lineValues[i];
+						}
+
+						cmd.ExecuteNonQuery();
+					}
+				}
+			}
+			finally
+			{
+				if (connection != null)
+				{
+					connection.Close();
+				}
 			}
 		}
 
