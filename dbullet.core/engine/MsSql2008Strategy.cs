@@ -156,7 +156,7 @@ namespace dbullet.core.engine
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			try
 			{
@@ -193,12 +193,23 @@ namespace dbullet.core.engine
 
 						for (int i = 0; i < lineValues.Length; i++)
 						{
-							dataParams[i].Value = lineValues[i];
+							if (modulator != null && modulator.ContainsKey(headers[i]))
+							{
+								dataParams[i].Value = modulator[headers[i]](lineValues[i]);
+							}
+							else
+							{
+								dataParams[i].Value = lineValues[i];
+							}
 						}
 
 						cmd.ExecuteNonQuery();
 					}
 				}
+			}
+			catch (Exception ex)
+			{
+				throw;
 			}
 			finally
 			{

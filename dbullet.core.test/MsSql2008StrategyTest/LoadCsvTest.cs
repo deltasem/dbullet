@@ -3,9 +3,9 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Moles;
 using System.Text;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
 					new StreamReader(new MemoryStream()),
-					new Dictionary<string, System.Func<string, string>>()));
+					new Dictionary<string, Func<string, object>>()));
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
 					new StreamReader(new MemoryStream(Encoding.Default.GetBytes("\r\n100500,hello"))), 
-					new Dictionary<string, System.Func<string, string>>()));
+					new Dictionary<string, Func<string, object>>()));
 		}
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID"))),
-				new Dictionary<string, System.Func<string, string>>());
+				new Dictionary<string, Func<string, object>>());
 			Assert.IsTrue(string.IsNullOrEmpty(connection.LastCommandText));
 		}
 
@@ -75,7 +75,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
-				new Dictionary<string, System.Func<string, string>>());
+				new Dictionary<string, Func<string, object>>());
 			Assert.AreEqual("insert into TESTTABLE (ID) values(@ID);", connection.LastCommandText);
 		}
 
@@ -90,7 +90,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID,PASS\r\n100500,hello"))),
-				new Dictionary<string, System.Func<string, string>>());
+				new Dictionary<string, Func<string, object>>());
 			Assert.AreEqual(2, connection.DbDataParametrs.Count);
 		}
 
@@ -105,7 +105,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
-				new Dictionary<string, System.Func<string, string>>());
+				new Dictionary<string, Func<string, object>>());
 			Assert.AreEqual("@COLUMN_NAME", connection.DbDataParametrs[0].ParameterName);
 		}
 
@@ -120,7 +120,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
-				new Dictionary<string, System.Func<string, string>>());
+				new Dictionary<string, Func<string, object>>());
 			Assert.AreEqual("100500hello", connection.DbDataParametrs[0].Value);
 		}
 
@@ -136,7 +136,22 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				() => strategy.LoadCsv(
 					"TESTTABLE",
 					new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500,hello"))),
-					new Dictionary<string, System.Func<string, string>>()));
+					new Dictionary<string, Func<string, object>>()));
+		}
+
+		/// <summary>
+		/// Должен происходить вызов модулятора
+		/// </summary>
+		[TestMethod]
+		public void ModulatorInvoked()
+		{
+			TestConnection connection = new TestConnection();
+			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			strategy.LoadCsv(
+				"TESTTABLE",
+				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500"))),
+				new Dictionary<string, Func<string, object>> { { "COLUMN_NAME", p => "500100" } });
+			Assert.AreEqual("500100", connection.DbDataParametrs[0].Value);
 		}
 	}
 }

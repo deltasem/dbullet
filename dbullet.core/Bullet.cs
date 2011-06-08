@@ -120,7 +120,7 @@ namespace dbullet.core
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			Executor.DatabaseStrategy.LoadCsv(tableName, stream, modulator, csvQuotesType);
 		}
@@ -132,9 +132,9 @@ namespace dbullet.core
 		/// <param name="resource">Имя ресурса</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, string resource, Dictionary<string, Func<string, string>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		public void LoadCsv(string tableName, string resource, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
-			using(var stream = GetType().Assembly.GetManifestResourceStream(resource))
+			using (var stream = GetType().Assembly.GetManifestResourceStream(resource))
 			{
 				LoadCsv(tableName, new StreamReader(stream, Encoding.Default), modulator, csvQuotesType);
 			}
