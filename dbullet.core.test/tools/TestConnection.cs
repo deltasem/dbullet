@@ -20,6 +20,11 @@ namespace dbullet.core.test.tools
 		private readonly List<string> allCommands = new List<string>();
 
 		/// <summary>
+		/// Параметры SQL
+		/// </summary>
+		private readonly TestDataParametrCollection dbDataParametrs = new TestDataParametrCollection();
+
+		/// <summary>
 		/// Последний запрос
 		/// </summary>
 		private string lastCommandText;
@@ -109,6 +114,14 @@ namespace dbullet.core.test.tools
 		public ConnectionState State
 		{
 			get { return state; }
+		}
+
+		/// <summary>
+		/// SQL параметры
+		/// </summary>
+		public TestDataParametrCollection DbDataParametrs
+		{
+			get { return dbDataParametrs; }
 		}
 
 		/// <summary>
