@@ -20,6 +20,23 @@ namespace dbullet.core
 	public abstract class Bullet : IDatabaseStrategy
 	{
 		/// <summary>
+		/// Парсер даты
+		/// </summary>
+		/// <param name="d">дата строковая</param>
+		/// <returns>дата</returns>
+		public static object DateModulator(string d)
+		{
+			try
+			{
+				return DateTime.Parse(d);
+			}
+			catch (Exception)
+			{
+				return DBNull.Value;
+			}
+		}
+
+		/// <summary>
 		/// Обновление
 		/// </summary>
 		public abstract void Update();
@@ -100,7 +117,7 @@ namespace dbullet.core
 		/// <param name="tableName">Таблица с ключем</param>
 		public void DropForeignKey(string name, string tableName)
 		{
-			DropForeignKey(new ForeignKey(name, tableName, string.Empty, string.Empty, string.Empty));
+			DropForeignKey(new ForeignKey(name, tableName, String.Empty, String.Empty, String.Empty));
 		}
 
 		/// <summary>

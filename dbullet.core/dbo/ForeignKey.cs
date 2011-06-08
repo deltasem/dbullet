@@ -106,5 +106,14 @@ namespace dbullet.core.dbo
 		{
 			get { return deleteAction; }
 		}
+
+		/// <summary>
+		/// ТуСтринг
+		/// </summary>
+		/// <returns>Стринг</returns>
+		public override string ToString()
+		{
+			return string.Format("{5}({4}): {0}[{1}] => {2}[{3}]", srcTableName, srcColumnName, refTableName, refColumnName, deleteAction, Name);
+		}
 	}
 }

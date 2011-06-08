@@ -12,6 +12,7 @@ using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
 using dbullet.core.exception;
 using dbullet.core.tools;
+using NLog;
 using RazorEngine;
 
 namespace dbullet.core.engine
@@ -21,6 +22,11 @@ namespace dbullet.core.engine
 	/// </summary>
 	public class MsSql2008Strategy : IDatabaseStrategy
 	{
+		/// <summary>
+		/// Логгер
+		/// </summary>
+		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+
 		/// <summary>
 		/// Менеджер темплейтов
 		/// </summary>
@@ -52,6 +58,7 @@ namespace dbullet.core.engine
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateTableTemplate(), table, "create table"));
+			log.Info("Таблица {0} создана в разделе {1}", table.Name, table.PartitionName);
 		}
 
 		/// <summary>
@@ -66,6 +73,7 @@ namespace dbullet.core.engine
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetDropTableTemplate(), new Table(tableName), "drop table"));
+			log.Info("Таблица {0} удалена", tableName);
 		}
 
 		/// <summary>
@@ -90,6 +98,7 @@ namespace dbullet.core.engine
 		public void CreateIndex(Index index)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index"));
+			log.Info("Индекс {0} создан в разделе {1}", index.Name, index.PartitionName);
 		}
 
 		/// <summary>
@@ -99,6 +108,7 @@ namespace dbullet.core.engine
 		public void DropIndex(Index index)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropIndexTemplate(), index, "drop index"));
+			log.Info("Индекс {0} удален", index.Name);
 		}
 
 		/// <summary>
@@ -108,6 +118,7 @@ namespace dbullet.core.engine
 		public void CreateForeignKey(ForeignKey foreignKey)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateForeignKeyTemplate(), foreignKey, "create foreignkey"));
+			log.Info("Внешний ключ создан {0}", foreignKey);
 		}
 
 		/// <summary>
@@ -117,6 +128,7 @@ namespace dbullet.core.engine
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
+			log.Info("Внешний ключ {0} удален", foreignKey.Name);
 		}
 
 		/// <summary>
@@ -158,8 +170,10 @@ namespace dbullet.core.engine
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
 		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
+			DateTime begin = DateTime.Now;
 			try
 			{
+				log.Info("Страт импорта данных в таблицу {0}", tableName);
 				var firstLine = stream.ReadLine();
 				if (string.IsNullOrEmpty(firstLine))
 				{
@@ -206,9 +220,12 @@ namespace dbullet.core.engine
 						cmd.ExecuteNonQuery();
 					}
 				}
+
+				log.Info("Импорт завершен за {0}", DateTime.Now - begin);
 			}
 			catch (Exception ex)
 			{
+				log.Error(ex);
 				throw;
 			}
 			finally
@@ -236,6 +253,11 @@ namespace dbullet.core.engine
 					return cmd.ExecuteScalar();
 				}
 			}
+			catch (Exception ex)
+			{
+				log.Error(ex);
+				throw;
+			}
 			finally
 			{
 				if (connection != null)
@@ -259,6 +281,11 @@ namespace dbullet.core.engine
 					cmd.CommandText = commandText;
 					cmd.ExecuteNonQuery();
 				}
+			}
+			catch (Exception ex)
+			{
+				log.Error(ex);
+				throw;
 			}
 			finally
 			{
