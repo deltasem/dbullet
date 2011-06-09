@@ -249,6 +249,7 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
+					cmd.CommandTimeout = 0;
 					cmd.CommandText = commandText;
 					return cmd.ExecuteScalar();
 				}
@@ -278,6 +279,7 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
+					cmd.CommandTimeout = 0;
 					cmd.CommandText = commandText;
 					cmd.ExecuteNonQuery();
 				}
