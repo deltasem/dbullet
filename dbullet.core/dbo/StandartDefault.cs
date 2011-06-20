@@ -6,27 +6,27 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Системные дефалты
+	/// РЎРёСЃС‚РµРјРЅС‹Рµ РґРµС„Р°Р»С‚С‹
 	/// </summary>
 	public class StandartDefault : Default
 	{
 		/// <summary>
-		/// Тип дефалта
+		/// РўРёРї РґРµС„Р°Р»С‚Р°
 		/// </summary>
 		private readonly StandartDefaultType defaultType;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название дефалта</param>
-		/// <param name="defaultType">Тип дефалта</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РґРµС„Р°Р»С‚Р°</param>
+		/// <param name="defaultType">РўРёРї РґРµС„Р°Р»С‚Р°</param>
 		public StandartDefault(string name, StandartDefaultType defaultType) : base(name)
 		{
 			this.defaultType = defaultType;
 		}
 
 		/// <summary>
-		/// Тип дефалта
+		/// РўРёРї РґРµС„Р°Р»С‚Р°
 		/// </summary>
 		public StandartDefaultType DefaultType
 		{

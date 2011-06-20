@@ -6,17 +6,17 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Стандартные дефалтные значения для столбцов
+	/// РЎС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РґРµС„Р°Р»С‚РЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ СЃС‚РѕР»Р±С†РѕРІ
 	/// </summary>
 	public enum StandartDefaultType
 	{
 		/// <summary>
-		/// Текущее время
+		/// РўРµРєСѓС‰РµРµ РІСЂРµРјСЏ
 		/// </summary>
 		date,
 
 		/// <summary>
-		/// Новый GUID
+		/// РќРѕРІС‹Р№ GUID
 		/// </summary>
 		guid
 	}

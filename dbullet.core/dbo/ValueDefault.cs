@@ -6,20 +6,20 @@
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Дефалт-значение
+	/// Р”РµС„Р°Р»С‚-Р·РЅР°С‡РµРЅРёРµ
 	/// </summary>
 	public class ValueDefault : Default
 	{
 		/// <summary>
-		/// Значение
+		/// Р—РЅР°С‡РµРЅРёРµ
 		/// </summary>
 		private readonly string value;
 
 		/// <summary>
-		/// Конструктор
+		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 		/// </summary>
-		/// <param name="name">Название дефалта</param>
-		/// <param name="value">Значение</param>
+		/// <param name="name">РќР°Р·РІР°РЅРёРµ РґРµС„Р°Р»С‚Р°</param>
+		/// <param name="value">Р—РЅР°С‡РµРЅРёРµ</param>
 		public ValueDefault(string name, string value)
 			: base(name)
 		{
@@ -27,7 +27,7 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
-		/// Значение
+		/// Р—РЅР°С‡РµРЅРёРµ
 		/// </summary>
 		public string Value
 		{

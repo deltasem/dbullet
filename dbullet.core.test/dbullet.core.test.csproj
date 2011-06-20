@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="dbullet.core.Moles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
@@ -68,6 +68,7 @@
     <Compile Include="MsSql2008StrategyTest\DropForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropIndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropTableTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\GetDefaultValueTest.cs" />
     <Compile Include="MsSql2008StrategyTest\InsertRowsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\IsTableExistsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\LoadCsvTest.cs" />
