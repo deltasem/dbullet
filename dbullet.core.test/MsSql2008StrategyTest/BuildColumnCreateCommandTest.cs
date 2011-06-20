@@ -87,5 +87,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
 			Assert.AreEqual("TestColumn datetime null", t);
 		}
+
+		/// <summary>
+		/// Обычная колонка GUID
+		/// </summary>
+		[TestMethod]
+		public void GuidDataType()
+		{
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
+			Assert.AreEqual("TestColumn uniqueidentifier null", t);
+		}
 	}
 }

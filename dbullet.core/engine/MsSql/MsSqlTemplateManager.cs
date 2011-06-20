@@ -51,12 +51,14 @@ namespace dbullet.core.engine.MsSql
 				case DbType.DateTime:
 					sb.Append(" datetime ");
 					break;
+				case DbType.Guid:
+					sb.Append(" uniqueidentifier ");
+					break;
 				case DbType.AnsiString:
 				case DbType.Binary:
 				case DbType.Byte:
 				case DbType.Currency:
 				case DbType.Double:
-				case DbType.Guid:
 				case DbType.Int16:
 				case DbType.Int64:
 				case DbType.Object:
