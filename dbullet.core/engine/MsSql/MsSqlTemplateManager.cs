@@ -54,6 +54,9 @@ namespace dbullet.core.engine.MsSql
 				case DbType.Guid:
 					sb.Append(" uniqueidentifier ");
 					break;
+				case DbType.Xml:
+					sb.Append(" xml ");
+					break;
 				case DbType.AnsiString:
 				case DbType.Binary:
 				case DbType.Byte:
@@ -71,7 +74,6 @@ namespace dbullet.core.engine.MsSql
 				case DbType.VarNumeric:
 				case DbType.AnsiStringFixedLength:
 				case DbType.StringFixedLength:
-				case DbType.Xml:
 				case DbType.DateTime2:
 				case DbType.DateTimeOffset:
 				default:

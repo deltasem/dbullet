@@ -97,5 +97,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
 			Assert.AreEqual("TestColumn uniqueidentifier null", t);
 		}
+
+		/// <summary>
+		/// Обычная колонка GUID
+		/// </summary>
+		[TestMethod]
+		public void XmlDataType()
+		{
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
+			Assert.AreEqual("TestColumn xml null", t);
+		}
 	}
 }
