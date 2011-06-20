@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
@@ -14,6 +15,7 @@ using dbullet.core.exception;
 using dbullet.core.tools;
 using NLog;
 using RazorEngine;
+using RazorEngine.Templating;
 
 namespace dbullet.core.engine
 {
@@ -109,6 +111,30 @@ namespace dbullet.core.engine
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropIndexTemplate(), index, "drop index"));
 			log.Info("Индекс {0} удален", index.Name);
+		}
+
+		/// <summary>
+		/// Добавляет колонку
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		public void AddColumn(Table table, Column column)
+		{
+			if (!column.Nullable && (column.Constraint == null || !(column.Constraint is Default)))
+			{
+				throw new ArgumentException();
+			}
+
+			try
+			{
+				ExecuteNonQuery(Razor.Parse(manager.GetAddColumnTemplate(), new object[] { table, column }, "add column"));
+			}
+			catch (TemplateCompilationException ex)
+			{
+				ex.Errors.ToList().ForEach(p => Console.WriteLine(p.ErrorText));
+			}
+			
+			log.Info("Добавлен столбец {0} в таблицу {1}", column.Name, table.Name);
 		}
 
 		/// <summary>

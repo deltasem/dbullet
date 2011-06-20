@@ -18,35 +18,11 @@ namespace dbullet.core.dbs
 	public interface IDatabaseStrategy
 	{
 		/// <summary>
-		/// Создаёт таблицу
+		/// Добавляет колонку
 		/// </summary>
 		/// <param name="table">Таблица</param>
-		void CreateTable(Table table);
-
-		/// <summary>
-		/// Удаляет таблицу
-		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
-		void DropTable(string tableName);
-
-		/// <summary>
-		/// Существует ли таблица
-		/// </summary>
-		/// <param name="tableName">Название таблицы</param>
-		/// <returns>true - если существует, иначе false</returns>
-		bool IsTableExist(string tableName);
-
-		/// <summary>
-		/// Создаёт индекс
-		/// </summary>
-		/// <param name="index">Индеес</param>
-		void CreateIndex(Index index);
-
-		/// <summary>
-		/// Удаляет индекс
-		/// </summary>
-		/// <param name="index">Индеес</param>
-		void DropIndex(Index index);
+		/// <param name="column">Колонка</param>
+		void AddColumn(Table table, Column column);
 
 		/// <summary>
 		/// Создать внешний ключ
@@ -55,10 +31,34 @@ namespace dbullet.core.dbs
 		void CreateForeignKey(ForeignKey foreignKey);
 
 		/// <summary>
+		/// Создаёт индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		void CreateIndex(Index index);
+
+		/// <summary>
+		/// Создаёт таблицу
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		void CreateTable(Table table);
+
+		/// <summary>
 		/// Удалить внешний ключ
 		/// </summary>
 		/// <param name="foreignKey">Внешний ключ</param>
 		void DropForeignKey(ForeignKey foreignKey);
+
+		/// <summary>
+		/// Удаляет индекс
+		/// </summary>
+		/// <param name="index">Индеес</param>
+		void DropIndex(Index index);
+
+		/// <summary>
+		/// Удаляет таблицу
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		void DropTable(string tableName);
 
 		/// <summary>
 		/// Добавляет записи в таблицу
@@ -66,6 +66,13 @@ namespace dbullet.core.dbs
 		/// <param name="table">Таблицы</param>
 		/// <param name="rows">Записи</param>
 		void InsertRows(string table, params object[] rows);
+
+		/// <summary>
+		/// Существует ли таблица
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <returns>true - если существует, иначе false</returns>
+		bool IsTableExist(string tableName);
 
 		/// <summary>
 		/// Загружает поток в базу. Данные в формате CSV
