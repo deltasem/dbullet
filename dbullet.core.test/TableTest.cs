@@ -89,7 +89,7 @@ namespace dbullet.core.test
 				.AddColumn(new Column("col3", System.Data.DbType.Int32))
 				.AddPrimaryKey("testid");
 			tbl.Default("100500");
-			var constraint = tbl.Columns.Last().Constraint as Default;
+			var constraint = tbl.Columns.Last().Constraint as ValueDefault;
 			Assert.IsNotNull(constraint);
 			Assert.AreEqual("100500", constraint.Value);
 		}

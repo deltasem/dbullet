@@ -1,21 +1,23 @@
 //-----------------------------------------------------------------------
-// <copyright file="Default.cs" company="delta">
+// <copyright file="StandartDefaultType.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace dbullet.core.dbo
 {
 	/// <summary>
-	/// Р”РµС„Р°Р»С‚ РґР»СЏ РїРѕР»СЏ
+	/// Стандартные дефалтные значения для столбцов
 	/// </summary>
-	public abstract class Default : Constraint
+	public enum StandartDefaultType
 	{
 		/// <summary>
-		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+		/// Текущее время
 		/// </summary>
-		/// <param name="name">РќР°Р·РІР°РЅРёРµ РґРµС„Р°Р»С‚Р°</param>
-		public Default(string name) : base(name)
-		{
-		}
+		date,
+
+		/// <summary>
+		/// Новый GUID
+		/// </summary>
+		guid
 	}
 }

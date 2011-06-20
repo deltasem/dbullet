@@ -147,6 +147,29 @@ namespace dbullet.core.dbo
 		/// <returns>Текущая таблица</returns>
 		public Table Default(string defaultValue)
 		{
+			Column column = GetColumnForDefault();
+			column.Constraint = new ValueDefault(string.Format("DF_{0}_{1}", Name, column.Name).ToUpper(), defaultValue);
+			return this;
+		}
+
+		/// <summary>
+		/// Добавляет дефалт, зависящий от СУБД
+		/// </summary>
+		/// <param name="standartDefaultType">Дефалт</param>
+		/// <returns>Таблица с дефалтом</returns>
+		public Table Default(StandartDefaultType standartDefaultType)
+		{
+			Column column = GetColumnForDefault();
+			column.Constraint = new StandartDefault(string.Format("DF_{0}_{1}", Name, column.Name).ToUpper(), standartDefaultType);
+			return this;
+		}
+
+		/// <summary>
+		/// Ищет колонку для дефалта
+		/// </summary>
+		/// <returns>Колонка</returns>
+		private Column GetColumnForDefault()
+		{
 			if (columns.Count == 0)
 			{
 				throw new CollumnExpectedException();
@@ -158,8 +181,7 @@ namespace dbullet.core.dbo
 				throw new ConflictingDataException("Попытка добавить дефалт два раза");
 			}
 
-			column.Constraint = new Default(string.Format("DF_{0}_{1}", Name, column.Name).ToUpper(), defaultValue);
-			return this;
+			return column;
 		}
 	}
 }

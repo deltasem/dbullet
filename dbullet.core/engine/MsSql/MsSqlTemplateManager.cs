@@ -91,6 +91,42 @@ namespace dbullet.core.engine.MsSql
 		#endregion
 
 		/// <summary>
+		/// Возвращает значение дефалта
+		/// </summary>
+		/// <param name="def">Дефалт</param>
+		/// <returns>Значение дефалта</returns>
+		public static string GetDefaultValue(Default def)
+		{
+			string result = string.Empty;
+			ValueDefault vd = def as ValueDefault;
+			if (vd != null)
+			{
+				result = vd.Value;
+			}
+			else
+			{
+				StandartDefault sd = def as StandartDefault;
+				if (sd != null)
+				{
+					switch (sd.DefaultType)
+					{
+						case StandartDefaultType.date:
+							result = "getdate()";
+							break;
+						case StandartDefaultType.guid:
+							result = "newid()";
+							break;
+						default:
+							result = string.Empty;
+							break;
+					}
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Возвращает шаблон для создания таблицы
 		/// </summary>
 		/// <returns>Шаблон</returns>

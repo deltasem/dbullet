@@ -108,5 +108,33 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			target.CreateTable(table);
 			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default '100500', test2 nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]", connection.LastCommandText);
 		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - системное время
+		/// </summary>
+		[TestMethod]
+		public void WithStandartDefaultDate()
+		{
+			var connection = new TestConnection();
+			var target = new MsSql2008Strategy(connection);
+			var table = new Table("TestTable");
+			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.date);
+			target.CreateTable(table);
+			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]", connection.LastCommandText);
+		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - новый GUID
+		/// </summary>
+		[TestMethod]
+		public void WithStandartDefaultGuid()
+		{
+			var connection = new TestConnection();
+			var target = new MsSql2008Strategy(connection);
+			var table = new Table("TestTable");
+			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.guid);
+			target.CreateTable(table);
+			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]", connection.LastCommandText);
+		}
 	}
 }

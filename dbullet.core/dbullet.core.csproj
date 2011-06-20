@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog">
@@ -70,8 +70,11 @@
     <Compile Include="dbo\IndexType.cs" />
     <Compile Include="dbo\IPartitionable.cs" />
     <Compile Include="dbo\PrimaryKey.cs" />
+    <Compile Include="dbo\StandartDefault.cs" />
+    <Compile Include="dbo\StandartDefaultType.cs" />
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="dbo\ValueDefault.cs" />
     <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
