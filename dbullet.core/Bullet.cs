@@ -198,7 +198,7 @@ namespace dbullet.core
 		/// <param name="tableName">Таблица с ключем</param>
 		public void DropForeignKey(string name, string tableName)
 		{
-			DropForeignKey(new ForeignKey(name, tableName, String.Empty, String.Empty, String.Empty));
+			DropForeignKey(new ForeignKey(name, tableName, string.Empty, string.Empty, string.Empty));
 		}
 
 		/// <summary>
