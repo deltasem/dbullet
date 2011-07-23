@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="CollumnExpectedException.cs" company="delta">
+// <copyright file="ColumnExpectedException.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -10,7 +10,7 @@ namespace dbullet.core.exception
 	/// <summary>
 	/// Необходимы столбцы
 	/// </summary>
-	public class CollumnExpectedException : ApplicationException
+	public class ColumnExpectedException : ApplicationException
 	{
 	}
 }

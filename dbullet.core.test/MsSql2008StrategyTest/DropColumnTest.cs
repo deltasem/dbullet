@@ -4,13 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.exception;
 using dbullet.core.test.tools;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
@@ -27,7 +24,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void EmptyColumn()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection());
-			AssertHelpers.Throws<CollumnExpectedException>(() => strategy.DropColumn("test", null));
+			AssertHelpers.Throws<ColumnExpectedException>(() => strategy.DropColumn("test", null));
 		}
 
 		/// <summary>

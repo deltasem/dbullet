@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="CreateTableTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -22,7 +22,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Создание таблицы без столбцов
 		/// </summary>
 		[TestMethod]
-		[ExpectedException(typeof(CollumnExpectedException))]
+		[ExpectedException(typeof(ColumnExpectedException))]
 		public void WithoutCollumns()
 		{
 			var target = new MsSql2008Strategy(new TestConnection());

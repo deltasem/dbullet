@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="TableTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -28,7 +28,7 @@ namespace dbullet.core.test
 		public void AddPrimaryKeyWithoutColumn()
 		{
 			Table tbl = new Table("test");
-			AssertHelpers.Throws<CollumnExpectedException>(() => tbl.AddPrimaryKey("testid"));
+			AssertHelpers.Throws<ColumnExpectedException>(() => tbl.AddPrimaryKey("testid"));
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace dbullet.core.test
 		public void AddDefaultWithoutColumn()
 		{
 			var tbl = new Table("test");
-			AssertHelpers.Throws<CollumnExpectedException>(() => tbl.Default("test"));
+			AssertHelpers.Throws<ColumnExpectedException>(() => tbl.Default("test"));
 		}
 
 		/// <summary>

@@ -56,7 +56,7 @@ namespace dbullet.core.engine
 		{
 			if (table.Columns == null || table.Columns.Count == 0)
 			{
-				throw new CollumnExpectedException();
+				throw new ColumnExpectedException();
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateTableTemplate(), table, "create table"));
@@ -277,10 +277,10 @@ namespace dbullet.core.engine
 
 			if (string.IsNullOrWhiteSpace(column))
 			{
-				throw new CollumnExpectedException();
+				throw new ColumnExpectedException();
 			}
 
-			ExecuteNonQuery(Razor.Parse(manager.GetDropColumnTemplate(), new object[] {table, column}, "drop column"));
+			ExecuteNonQuery(Razor.Parse(manager.GetDropColumnTemplate(), new object[] { table, column }, "drop column"));
 			log.Info("Колонка {0} удалена из таблицы {1}", column, table);
 		}
 

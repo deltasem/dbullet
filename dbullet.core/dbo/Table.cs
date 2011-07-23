@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Table.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -133,7 +133,7 @@ namespace dbullet.core.dbo
 			var column = columns.FirstOrDefault(p => p.Name == columnName);
 			if (column == null)
 			{
-				throw new CollumnExpectedException();
+				throw new ColumnExpectedException();
 			}
 
 			column.Constraint = new PrimaryKey(string.Format("PK_{0}", Name).ToUpper(), partition);
@@ -172,7 +172,7 @@ namespace dbullet.core.dbo
 		{
 			if (columns.Count == 0)
 			{
-				throw new CollumnExpectedException();
+				throw new ColumnExpectedException();
 			}
 
 			var column = columns.Last();
