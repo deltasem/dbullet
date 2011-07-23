@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using dbullet.core.attribute;
 using dbullet.core.dbs;
+using StructureMap;
 
 namespace dbullet.core.engine
 {
@@ -19,58 +21,36 @@ namespace dbullet.core.engine
 	public class Executor
 	{
 		/// <summary>
-		/// Системная стратегия
+		/// Инициализация
 		/// </summary>
-		private static ISysDatabaseStrategy systemStrategy;
-
-		/// <summary>
-		/// Стратегия работы с БД
-		/// </summary>
-		private static IDatabaseStrategy databaseStrategy;
-
-		/// <summary>
-		/// Стратегия работы с БД
-		/// </summary>
-		public static IDatabaseStrategy DatabaseStrategy
+		/// <param name="connectionString">Строка подключения</param>
+		/// <param name="strategy">Стратегия работы с БД</param>
+		public static void Initialize(string connectionString, SupportedStrategy strategy)
 		{
-			get { return databaseStrategy; }
-		}
-
-		/// <summary>
-		/// Системная стратегия
-		/// </summary>
-		internal static ISysDatabaseStrategy SystemStrategy
-		{
-			get { return systemStrategy; }
+			InitConnections(strategy, connectionString);
 		}
 
 		/// <summary>
 		/// Выполнить обновление
 		/// </summary>
 		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
 		/// <param name="stopVersion">Последняя версия</param>
-		public static void Execute(string assemblyName, string connectionString, SupportedStrategy strategy, int stopVersion = int.MaxValue)
+		public static void Execute(string assemblyName, int stopVersion = int.MaxValue)
 		{
 			var asm = Assembly.Load(assemblyName);
-			Execute(asm, connectionString, strategy, stopVersion);
+			Execute(asm, stopVersion);
 		}
 
 		/// <summary>
 		/// Выполнить обновление
 		/// </summary>
 		/// <param name="assembly">Сборка, содержащая булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
 		/// <param name="stopVersion">Последняя версия</param>
-		public static void Execute(Assembly assembly, string connectionString, SupportedStrategy strategy, int stopVersion = int.MaxValue)
+		public static void Execute(Assembly assembly, int stopVersion = int.MaxValue)
 		{
-			InitConnections(strategy, connectionString);
-
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{
-				var currentVersion = systemStrategy.GetLastVersion();
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion();
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion && bulletVersion <= stopVersion)
 				{
@@ -78,7 +58,7 @@ namespace dbullet.core.engine
 					try
 					{
 						bullet.Update();
-						systemStrategy.SetCurrentVersion(bulletVersion);
+						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(bulletVersion);
 					}
 					catch (Exception)
 					{
@@ -100,35 +80,29 @@ namespace dbullet.core.engine
 		/// Откатиться назад
 		/// </summary>
 		/// <param name="assemblyName">Название сборки, содержащей булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
 		/// <param name="stopVersion">Последняя версия</param>		
-		public static void ExecuteBack(string assemblyName, string connectionString, SupportedStrategy strategy, int stopVersion)
+		public static void ExecuteBack(string assemblyName, int stopVersion)
 		{
 			var asm = Assembly.Load(assemblyName);
-			ExecuteBack(asm, connectionString, strategy, stopVersion);
+			ExecuteBack(asm, stopVersion);
 		}
 
 		/// <summary>
 		/// Выполнить обновление
 		/// </summary>
 		/// <param name="assembly">Сборка, содержащая булеты</param>
-		/// <param name="connectionString">Строка подключения</param>
-		/// <param name="strategy">Стратегия работы с БД</param>
 		/// <param name="stopVersion">Последняя версия</param>
-		public static void ExecuteBack(Assembly assembly, string connectionString, SupportedStrategy strategy, int stopVersion)
+		public static void ExecuteBack(Assembly assembly, int stopVersion)
 		{
-			InitConnections(strategy, connectionString);
-
 			foreach (var bulletType in GetBulletsInAssembly(assembly, true))
 			{
-				var currentVersion = systemStrategy.GetLastVersion();
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion();
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (currentVersion == bulletVersion && bulletVersion > stopVersion)
 				{
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					bullet.Downgrade();
-					systemStrategy.RemoveVersionInfo(bulletVersion);
+					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(bulletVersion);
 				}
 			}
 		}
@@ -158,9 +132,20 @@ namespace dbullet.core.engine
 				throw new NotSupportedException("Only MS SQL supported");
 			}
 
-			systemStrategy = new MsSql2008SysStrategy(new SqlConnection(connectionString));
-			databaseStrategy = new MsSql2008Strategy(new SqlConnection(connectionString));
-			systemStrategy.InitDatabase();
+			ObjectFactory.Initialize(x => InitializeStructureMap(x, connectionString));
+			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase();
+		}
+
+		/// <summary>
+		/// Инициализация IoC контейнера
+		/// </summary>
+		/// <param name="x">Инициализатор</param>
+		/// <param name="connectionString">Строка подключения</param>
+		private static void InitializeStructureMap(IInitializationExpression x, string connectionString)
+		{
+			x.ForSingletonOf<IDbConnection>().Use(new SqlConnection(connectionString));
+			x.ForSingletonOf<IDatabaseStrategy>().Use<MsSql2008Strategy>();
+			x.ForSingletonOf<ISysDatabaseStrategy>().Use<MsSql2008SysStrategy>();
 		}
 	}
 }

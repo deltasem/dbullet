@@ -3,10 +3,8 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
+
 using System.Data;
-using System.Data.SqlClient;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 
@@ -20,21 +18,22 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Подключение к базе
 		/// </summary>
-		private readonly SqlConnection connection;
+		private readonly IDbConnection connection;
 
 		/// <summary>
-		/// Стратегия работы с базой
+		/// Стратегия работы с БД
 		/// </summary>
-		private readonly MsSql2008Strategy sqlStrategy;
+		private readonly IDatabaseStrategy strategy;
 
 		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="connection">Соединение с БД</param>
-		public MsSql2008SysStrategy(SqlConnection connection)
+		/// <param name="strategy">Стратегия работы с БД</param>
+		public MsSql2008SysStrategy(IDbConnection connection, IDatabaseStrategy strategy)
 		{
 			this.connection = connection;
-			sqlStrategy = new MsSql2008Strategy(this.connection);
+			this.strategy = strategy;
 		}
 
 		/// <summary>
@@ -43,9 +42,9 @@ namespace dbullet.core.engine
 		/// </summary>
 		public void InitDatabase()
 		{
-			if (!sqlStrategy.IsTableExist("dbullet"))
+			if (!strategy.IsTableExist("dbullet"))
 			{
-				sqlStrategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
+				strategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
 			}
 		}
 
@@ -58,8 +57,9 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				using (var cmd = new SqlCommand("select max(Version) from dbullet", connection))
+				using (var cmd = connection.CreateCommand())
 				{
+					cmd.CommandText = "select max(Version) from dbullet";
 					var res = cmd.ExecuteScalar();
 					if (res == System.DBNull.Value)
 					{
@@ -87,7 +87,7 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				using (var cmd = new SqlCommand(string.Empty, connection))
+				using (var cmd = connection.CreateCommand())
 				{
 					cmd.CommandText = string.Format("insert into dbullet(Version) values({0})", version);
 					cmd.ExecuteScalar();
@@ -111,7 +111,7 @@ namespace dbullet.core.engine
 			try
 			{
 				connection.Open();
-				using (var cmd = new SqlCommand(string.Empty, connection))
+				using (var cmd = connection.CreateCommand())
 				{
 					cmd.CommandText = string.Format("delete from dbullet where version = {0}", version);
 					cmd.ExecuteScalar();

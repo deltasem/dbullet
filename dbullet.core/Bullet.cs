@@ -10,8 +10,8 @@ using System.IO;
 using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
-using dbullet.core.engine;
 using dbullet.core.tools;
+using StructureMap;
 
 namespace dbullet.core
 {
@@ -53,7 +53,7 @@ namespace dbullet.core
 		/// <param name="table">Таблица</param>
 		public void CreateTable(Table table)
 		{
-			Executor.DatabaseStrategy.CreateTable(table);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().CreateTable(table);
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace dbullet.core
 		/// <returns>true - если существует, иначе false</returns>
 		public bool IsTableExist(string tableName)
 		{
-			return Executor.DatabaseStrategy.IsTableExist(tableName);
+			return ObjectFactory.GetInstance<IDatabaseStrategy>().IsTableExist(tableName);
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace dbullet.core
 		/// <param name="index">Индеес</param>
 		public void CreateIndex(Index index)
 		{
-			Executor.DatabaseStrategy.CreateIndex(index);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().CreateIndex(index);
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace dbullet.core
 		/// <param name="tableName">Название таблицы</param>
 		public void DropTable(string tableName)
 		{
-			Executor.DatabaseStrategy.DropTable(tableName);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().DropTable(tableName);
 		}
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace dbullet.core
 		/// <param name="index">Индеес</param>
 		public void DropIndex(Index index)
 		{
-			Executor.DatabaseStrategy.DropIndex(index);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().DropIndex(index);
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace dbullet.core
 		/// <param name="column">Колонка</param>
 		public void AddColumn(Table table, Column column)
 		{
-			Executor.DatabaseStrategy.AddColumn(table, column);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().AddColumn(table, column);
 		}
 
 		/// <summary>
@@ -179,7 +179,7 @@ namespace dbullet.core
 		/// <param name="foreignKey">Внешний ключ</param>
 		public void CreateForeignKey(ForeignKey foreignKey)
 		{
-			Executor.DatabaseStrategy.CreateForeignKey(foreignKey);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().CreateForeignKey(foreignKey);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace dbullet.core
 		/// <param name="foreignKey">Внешний ключ</param>
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
-			Executor.DatabaseStrategy.DropForeignKey(foreignKey);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().DropForeignKey(foreignKey);
 		}
 
 		/// <summary>
@@ -208,7 +208,7 @@ namespace dbullet.core
 		/// <param name="rows">Записи</param>
 		public void InsertRows(string table, params object[] rows)
 		{
-			Executor.DatabaseStrategy.InsertRows(table, rows);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().InsertRows(table, rows);
 		}
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace dbullet.core
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
 		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
-			Executor.DatabaseStrategy.LoadCsv(tableName, stream, modulator, csvQuotesType);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().LoadCsv(tableName, stream, modulator, csvQuotesType);
 		}
 
 		/// <summary>

@@ -9,7 +9,7 @@ namespace dbullet.core.dbs
 	/// Методы для системных манипуляций
 	/// Увеличение / уменьшение версии, инициализация системной таблицы
 	/// </summary>
-	internal interface ISysDatabaseStrategy
+	public interface ISysDatabaseStrategy
 	{
 		/// <summary>
 		/// Инициализация базы данных

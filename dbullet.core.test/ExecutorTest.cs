@@ -6,9 +6,11 @@
 using System;
 using System.Reflection.Moles;
 using dbullet.core.attribute;
+using dbullet.core.dbs;
+using dbullet.core.dbs.Moles;
 using dbullet.core.engine;
-using dbullet.core.engine.Moles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StructureMap;
 
 namespace dbullet.core.test
 {
@@ -38,7 +40,6 @@ namespace dbullet.core.test
 		/// A test for GetBulletsInAssembly
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void GetBulletsInAssemblyTest()
 		{
 			var assembly = new SAssembly
@@ -62,7 +63,6 @@ namespace dbullet.core.test
 		/// Булеты должны быть упорядоченными
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void GetBulletsInAssemblyOrdered()
 		{
 			var assembly = new SAssembly 
@@ -92,7 +92,6 @@ namespace dbullet.core.test
 		/// Булеты должны быть упорядоченными
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void GetBulletsInAssemblyOrderedRevert()
 		{
 			var assembly = new SAssembly
@@ -104,7 +103,7 @@ namespace dbullet.core.test
 					typeof(TestBullet3),
 					typeof(TestBullet1),
 					typeof(TestBullet2),
-					typeof(NotBullet),
+					typeof(NotBullet)
 				}
 			};
 			var actual = Executor.GetBulletsInAssembly(assembly, true);
@@ -122,7 +121,6 @@ namespace dbullet.core.test
 		/// A test for Execute
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteSimple()
 		{
 			var assembly = new SAssembly
@@ -132,10 +130,12 @@ namespace dbullet.core.test
 					typeof(TestBullet1)
 				}
 			};
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => 0;
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => { };
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => 0
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly);
 			Assert.IsTrue(TestBullet1.IsUpdateInvoked);
 		}
 
@@ -143,7 +143,6 @@ namespace dbullet.core.test
 		/// Тесты должны вызываться в последовательности
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteBulletSequence()
 		{
 			var assembly = new SAssembly
@@ -152,14 +151,17 @@ namespace dbullet.core.test
 				{
 					typeof(TestBullet1),
 					typeof(TestBullet2),
-					typeof(TestBullet3),
+					typeof(TestBullet3)
 				}
 			};
 			int[] currentVersion = { 1 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly);
 			Assert.IsFalse(TestBullet1.IsUpdateInvoked);
 			Assert.IsTrue(TestBullet2.IsUpdateInvoked);
 			Assert.IsTrue(TestBullet3.IsUpdateInvoked);
@@ -169,7 +171,6 @@ namespace dbullet.core.test
 		/// Тесты должны вызываться в последовательности
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteBackBulletSequence()
 		{
 			var assembly = new SAssembly
@@ -178,15 +179,20 @@ namespace dbullet.core.test
 				{
 					typeof(TestBullet1),
 					typeof(TestBullet2),
-					typeof(TestBullet3),
+					typeof(TestBullet3)
 				}
 			};
 			int[] currentVersion = { 3 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			MMsSql2008SysStrategy.AllInstances.RemoveVersionInfoInt32 = (i, j) => currentVersion[0] = j - 1;
-			Executor.ExecuteBack(assembly, string.Empty, SupportedStrategy.Mssql2008, 1);
+
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				RemoveVersionInfoInt32 = (j) => currentVersion[0] = j - 1
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+
+			Executor.ExecuteBack(assembly, 1);
 			Assert.IsFalse(TestBullet1.IsDowngradeInvoked);
 			Assert.IsTrue(TestBullet2.IsDowngradeInvoked);
 			Assert.IsTrue(TestBullet3.IsDowngradeInvoked);
@@ -196,7 +202,6 @@ namespace dbullet.core.test
 		/// Выполнение до определенной версии
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteBulletToVersion()
 		{
 			var assembly = new SAssembly
@@ -205,14 +210,17 @@ namespace dbullet.core.test
 				{
 					typeof(TestBullet1),
 					typeof(TestBullet2),
-					typeof(TestBullet3),
+					typeof(TestBullet3)
 				}
 			};
 			int[] currentVersion = { 0 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008, 2);
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly, 2);
 			Assert.AreEqual(2, currentVersion[0]);
 			Assert.IsTrue(TestBullet1.IsUpdateInvoked);
 			Assert.IsTrue(TestBullet2.IsUpdateInvoked);
@@ -223,7 +231,6 @@ namespace dbullet.core.test
 		/// Версия должна записываться в базу
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecteVersionWriting()
 		{
 			var assembly = new SAssembly
@@ -235,10 +242,13 @@ namespace dbullet.core.test
 				}
 			};
 			int[] currentVersion = { 0 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			var strategy = new SISysDatabaseStrategy
+			{ 
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly);
 			Assert.AreEqual(1, currentVersion[0]);
 		}
 
@@ -246,7 +256,6 @@ namespace dbullet.core.test
 		/// При не прохождении любого скрипта из булета, должен быть выполнен откат
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteWithErrors()
 		{
 			var assembly = new SAssembly
@@ -257,10 +266,13 @@ namespace dbullet.core.test
 				}
 			};
 			int[] currentVersion = { 1 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly);
 			Assert.AreEqual(1, currentVersion[0]);
 			Assert.IsTrue(ErrorBullet.IsDowngradeInvoked);
 		}
@@ -269,7 +281,6 @@ namespace dbullet.core.test
 		/// При возникновении ошибки, не должно проходит обновление дальше
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void ExecuteWithErrorsNotContinue()
 		{
 			var assembly = new SAssembly
@@ -281,10 +292,13 @@ namespace dbullet.core.test
 				}
 			};
 			int[] currentVersion = { 1 };
-			MMsSql2008SysStrategy.AllInstances.InitDatabase = p => { };
-			MMsSql2008SysStrategy.AllInstances.GetLastVersion = p => currentVersion[0];
-			MMsSql2008SysStrategy.AllInstances.SetCurrentVersionInt32 = (i, j) => currentVersion[0] = j;
-			Executor.Execute(assembly, string.Empty, SupportedStrategy.Mssql2008);
+			var strategy = new SISysDatabaseStrategy
+			{
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+			};
+			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			Executor.Execute(assembly);
 			Assert.AreEqual(1, currentVersion[0]);
 			Assert.IsFalse(TestBullet3.IsUpdateInvoked);
 		}

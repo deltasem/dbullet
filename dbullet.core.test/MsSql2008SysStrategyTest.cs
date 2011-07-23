@@ -3,10 +3,10 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using System.Data;
-using System.Data.SqlClient.Moles;
+using System.Data.Moles;
+using dbullet.core.dbs.Moles;
 using dbullet.core.engine;
-using dbullet.core.engine.Moles;
+using Microsoft.Moles.Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dbullet.core.test
@@ -26,16 +26,18 @@ namespace dbullet.core.test
 		/// Проверка возврата последней версии
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void GetLastVersionTest()
 		{
-			MSqlConnection.AllInstances.Open = p => { };
-			MSqlConnection.AllInstances.Close = p => { };
-			MSqlCommand.AllInstances.ExecuteScalar = p =>
+			var connection = new SIDbConnection
 			{
-				return 100500;
+				CreateCommand = () => new SIDbCommand
+				{
+					ExecuteScalar = () => 100500, 
+					InstanceBehavior = BehavedBehaviors.DefaultValue
+				},
+				InstanceBehavior = BehavedBehaviors.DefaultValue
 			};
-			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			var target = new MsSql2008SysStrategy(connection, new SIDatabaseStrategy());
 			var actual = target.GetLastVersion();
 			Assert.AreEqual(100500, actual);
 		}
@@ -44,16 +46,18 @@ namespace dbullet.core.test
 		/// Когда еще нет ниодной версии
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void GetLastVersionNull()
 		{
-			MSqlConnection.AllInstances.Open = p => { };
-			MSqlConnection.AllInstances.Close = p => { };
-			MSqlCommand.AllInstances.ExecuteScalar = p =>
+			var connection = new SIDbConnection
 			{
-				return System.DBNull.Value;
+				CreateCommand = () => new SIDbCommand
+				{
+					ExecuteScalar = () => System.DBNull.Value,
+					InstanceBehavior = BehavedBehaviors.DefaultValue
+				},
+				InstanceBehavior = BehavedBehaviors.DefaultValue
 			};
-			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			var target = new MsSql2008SysStrategy(connection, new SIDatabaseStrategy());
 			var actual = target.GetLastVersion();
 			Assert.AreEqual(0, actual);
 		}
@@ -62,22 +66,23 @@ namespace dbullet.core.test
 		/// Проверка инициализации БД
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void InitDatabaseNewDatabaseTest()
 		{
 			bool tableWasCreated = false;
-			var target = new MsSql2008SysStrategy(new MSqlConnection());
-			MMsSql2008Strategy.AllInstances.IsTableExistString = (strategy, table) =>
-			{
-				return !table.Equals("dbullet") && strategy.IsTableExist(table);
-			};
-			MMsSql2008Strategy.AllInstances.CreateTableTable = (strategy, table) =>
-			{
-				if (Equals(table.Name, "dbullet"))
+			var connection = new SIDbConnection { InstanceBehavior = BehavedBehaviors.DefaultValue };
+			var strategy = new SIDatabaseStrategy 
+			{ 
+				InstanceBehavior = BehavedBehaviors.DefaultValue, 
+				IsTableExistString = table => !table.Equals("dbullet"),
+				CreateTableTable = table =>
 				{
-					tableWasCreated = true;
+					if (Equals(table.Name, "dbullet"))
+					{
+						tableWasCreated = true;
+					}
 				}
 			};
+			var target = new MsSql2008SysStrategy(connection, strategy);
 			target.InitDatabase();
 			Assert.IsTrue(tableWasCreated);
 		}
@@ -86,18 +91,25 @@ namespace dbullet.core.test
 		/// Тест установки текущей версии
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void SetCurrentVersionTest()
 		{
 			string cmd = string.Empty;
-			MSqlConnection.AllInstances.Open = p => { };
-			MSqlConnection.AllInstances.Close = p => { };
-			MSqlCommand.AllInstances.ExecuteScalar = p =>
-			{
-				cmd = p.CommandText;
-				return 1;
+			var connection = new SIDbConnection 
+			{ 
+				InstanceBehavior = BehavedBehaviors.DefaultValue,
+				CreateCommand = () => new SIDbCommand
+				{
+					ExecuteScalar = () => 1,
+					CommandTextSetString = (p) => cmd = p,
+					InstanceBehavior = BehavedBehaviors.DefaultValue
+				}
 			};
-			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			var strategy = new SIDatabaseStrategy
+			{
+				InstanceBehavior = BehavedBehaviors.DefaultValue
+			};
+
+			var target = new MsSql2008SysStrategy(connection, strategy);
 			target.SetCurrentVersion(18);
 			Assert.AreEqual("insert into dbullet(Version) values(18)", cmd);
 		}
@@ -106,18 +118,25 @@ namespace dbullet.core.test
 		/// Тест установки текущей версии
 		/// </summary>
 		[TestMethod]
-		[HostType("Moles")]
 		public void RemoveVersionInfo()
 		{
 			string cmd = string.Empty;
-			MSqlConnection.AllInstances.Open = p => { };
-			MSqlConnection.AllInstances.Close = p => { };
-			MSqlCommand.AllInstances.ExecuteScalar = p =>
+			var connection = new SIDbConnection
 			{
-				cmd = p.CommandText;
-				return 1;
+				InstanceBehavior = BehavedBehaviors.DefaultValue,
+				CreateCommand = () => new SIDbCommand
+				{
+					ExecuteScalar = () => 1,
+					CommandTextSetString = (p) => cmd = p,
+					InstanceBehavior = BehavedBehaviors.DefaultValue
+				}
 			};
-			var target = new MsSql2008SysStrategy(new MSqlConnection());
+			var strategy = new SIDatabaseStrategy
+			{
+				InstanceBehavior = BehavedBehaviors.DefaultValue
+			};
+
+			var target = new MsSql2008SysStrategy(connection, strategy);
 			target.RemoveVersionInfo(18);
 			Assert.AreEqual("delete from dbullet where version = 18", cmd);
 		}

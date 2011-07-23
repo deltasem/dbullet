@@ -31,13 +31,15 @@ namespace dbullet.executor
 			Console.WriteLine("Press 1 to upgrade or press 2 to downgrade");
 			var input = Console.ReadKey();
 
+			Executor.Initialize(args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]));
+
 			if (input.KeyChar == '2')
 			{
-				Executor.ExecuteBack(asm, args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]), 0);
+				Executor.ExecuteBack(asm, 0);
 			}
 			else if (input.KeyChar == '1')
 			{
-				Executor.Execute(asm, args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]));
+				Executor.Execute(asm);
 			}
 
 			Console.WriteLine("Press any key to exit");
