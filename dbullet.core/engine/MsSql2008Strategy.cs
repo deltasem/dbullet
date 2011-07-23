@@ -264,6 +264,27 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
+		/// Удаляет колонку из таблицы
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		public void DropColumn(string table, string column)
+		{
+			if (string.IsNullOrWhiteSpace(table))
+			{
+				throw new TableExpectedException();
+			}
+
+			if (string.IsNullOrWhiteSpace(column))
+			{
+				throw new CollumnExpectedException();
+			}
+
+			ExecuteNonQuery(Razor.Parse(manager.GetDropColumnTemplate(), new object[] {table, column}, "drop column"));
+			log.Info("Колонка {0} удалена из таблицы {1}", column, table);
+		}
+
+		/// <summary>
 		/// Выполнить запрос
 		/// </summary>
 		/// <param name="commandText">запрос</param>

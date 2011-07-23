@@ -221,6 +221,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон удаления колонки
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetDropColumnTemplate()
+		{
+			return GetTemplateFromResource("DropColumn.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>

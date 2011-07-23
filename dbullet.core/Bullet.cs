@@ -224,6 +224,16 @@ namespace dbullet.core
 		}
 
 		/// <summary>
+		/// Удаляет колонку из таблицы
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		public void DropColumn(string table, string column)
+		{
+			ObjectFactory.GetInstance<IDatabaseStrategy>().DropColumn(table, column);
+		}
+
+		/// <summary>
 		/// Загружает поток в базу. Данные в формате CSV
 		/// </summary>
 		/// <param name="tableName">Таблица для загрузки</param>

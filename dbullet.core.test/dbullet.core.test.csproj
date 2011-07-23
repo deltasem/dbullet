@@ -72,6 +72,7 @@
     <Compile Include="MsSql2008StrategyTest\CreateForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\CreateIndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\CreateTableTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\DropColumnTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropIndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropTableTest.cs" />

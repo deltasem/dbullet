@@ -82,5 +82,12 @@ namespace dbullet.core.dbs
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
 		void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes);
+
+		/// <summary>
+		/// Удаляет колонку из таблицы
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		void DropColumn(string table, string column);
 	}
 }
