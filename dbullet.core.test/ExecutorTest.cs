@@ -74,7 +74,7 @@ namespace dbullet.core.test
 					typeof(TestBullet3),
 					typeof(TestBullet1),
 					typeof(TestBullet2),
-					typeof(NotBullet),
+					typeof(NotBullet)
 				}
 			};
 			var actual = Executor.GetBulletsInAssembly(assembly);
