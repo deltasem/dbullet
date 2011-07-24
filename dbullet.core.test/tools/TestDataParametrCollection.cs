@@ -11,7 +11,7 @@ using System.Linq;
 namespace dbullet.core.test.tools
 {
 	/// <summary>
-	/// Колекция параметров
+	/// Коллекция параметров
 	/// </summary>
 	public class TestDataParametrCollection : List<TestParametr>, IDataParameterCollection
 	{

@@ -101,7 +101,7 @@ namespace dbullet.core.test.tools
 		/// <filterpriority>2</filterpriority>
 		public string Database
 		{
-			get { return String.Empty; }
+			get { return string.Empty; }
 		}
 
 		/// <summary>
