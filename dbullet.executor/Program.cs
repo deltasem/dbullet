@@ -35,7 +35,7 @@ namespace dbullet.executor
 
 			if (input.KeyChar == '2')
 			{
-				Executor.ExecuteBack(asm, 0);
+				Executor.ExecuteBack(asm, int.Parse(args[3]));
 			}
 			else if (input.KeyChar == '1')
 			{
