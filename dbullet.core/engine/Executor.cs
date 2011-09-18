@@ -62,12 +62,15 @@ namespace dbullet.core.engine
 					}
 					catch (Exception)
 					{
+						var strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 						try
 						{
+							ObjectFactory.Configure(x => x.ForSingletonOf<IDatabaseStrategy>().Use(new ProtectedStrategy(strategy)));
 							bullet.Downgrade();
 						}
-						catch (Exception)
+						finally
 						{
+							ObjectFactory.Configure(x => x.ForSingletonOf<IDatabaseStrategy>().Use(strategy));
 						}
 
 						break;

@@ -85,6 +85,7 @@
     <Compile Include="engine\MsSql2008Strategy.cs" />
     <Compile Include="engine\MsSql2008SysStrategy.cs" />
     <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />
+    <Compile Include="engine\ProtectedStrategy.cs" />
     <Compile Include="engine\SupportedStrategy.cs" />
     <Compile Include="exception\ColumnExpectedException.cs" />
     <Compile Include="exception\ConflictingDataException.cs" />

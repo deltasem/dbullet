@@ -4,8 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Data;
+using System.IO;
+using System.Linq;
 using System.Reflection.Moles;
 using dbullet.core.attribute;
+using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.dbs.Moles;
 using dbullet.core.engine;
@@ -134,7 +138,11 @@ namespace dbullet.core.test
 			{
 				GetLastVersion = () => 0
 			};
-			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			ObjectFactory.Initialize(x =>
+			{
+				x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy);
+				x.ForSingletonOf<IDatabaseStrategy>().Use(new SIDatabaseStrategy());
+			});
 			Executor.Execute(assembly);
 			Assert.IsTrue(TestBullet1.IsUpdateInvoked);
 		}
@@ -271,7 +279,11 @@ namespace dbullet.core.test
 				GetLastVersion = () => currentVersion[0],
 				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
 			};
-			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			ObjectFactory.Initialize(x =>
+			{
+				x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy);
+				x.ForSingletonOf<IDatabaseStrategy>().Use(new SIDatabaseStrategy());
+			});
 			Executor.Execute(assembly);
 			Assert.AreEqual(1, currentVersion[0]);
 			Assert.IsTrue(ErrorBullet.IsDowngradeInvoked);
@@ -297,13 +309,96 @@ namespace dbullet.core.test
 				GetLastVersion = () => currentVersion[0],
 				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
 			};
-			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
+			ObjectFactory.Initialize(x =>
+			{
+				x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy);
+				x.ForSingletonOf<IDatabaseStrategy>().Use(new SIDatabaseStrategy());
+			});
 			Executor.Execute(assembly);
 			Assert.AreEqual(1, currentVersion[0]);
 			Assert.IsFalse(TestBullet3.IsUpdateInvoked);
 		}
 
+		/// <summary>
+		/// При возникновении ошибки в ходе downgrade должны проходить остальные шаги
+		/// </summary>
+		[TestMethod]
+		public void ExecuteWithErrorsDowngradeWithErrors()
+		{
+			var assembly = new SAssembly
+			{
+				GetTypes01 = () => new[] 
+				{ 
+					typeof(ErrorStepBullet) 
+				}
+			};
+			int[] currentVersion = { 0 };
+			var strategy = new SISysDatabaseStrategy 
+			{ 
+				GetLastVersion = () => currentVersion[0],
+				SetCurrentVersionInt32 = (j) => currentVersion[0] = j
+			};
+			var results = new bool[11];
+			var mssqlStrategy = new SIDatabaseStrategy 
+			{
+				DropTableString = x => { results[0] = true; throw new Exception(); },
+				DropColumnStringString = (x, y) => { results[1] = true; throw new Exception(); },
+				DropForeignKeyForeignKey = x => { results[2] = true; throw new Exception(); },
+				DropIndexIndex = x => { results[3] = true; throw new Exception(); },
+				LoadCsvStringStreamReaderDictionaryOfStringFuncOfStringObjectCsvQuotesType = (x, y, z, t) => { results[4] = true; throw new Exception(); },
+				AddColumnTableColumn = (x, y) => { results[5] = true; throw new Exception(); },
+				CreateForeignKeyForeignKey = x => { results[6] = true; throw new Exception(); },
+				CreateIndexIndex = x => { results[7] = true; throw new Exception(); },
+				CreateTableTable = x => { results[8] = true; throw new Exception(); },
+				InsertRowsStringObjectArray = (x, y) => { results[9] = true; throw new Exception(); },
+				IsTableExistString = x => { results[10] = true; throw new Exception(); }
+			};
+			ObjectFactory.Initialize(x =>
+			{
+				x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy);
+				x.ForSingletonOf<IDatabaseStrategy>().Use(mssqlStrategy);
+			});
+
+			Executor.Execute(assembly);
+			var result = results.All(x => x);
+			Assert.IsTrue(result);
+		}
+
 		#region тестовые булеты
+		/// <summary>
+		/// Ошибки в момент довнгрейда
+		/// </summary>
+		[BulletNumber(1)]
+		public class ErrorStepBullet : Bullet
+		{
+			/// <summary>
+			/// Обновление
+			/// </summary>
+			public override void Update()
+			{
+				// todo: поменять на исключение, которое генерится при ошибке запроса
+				throw new Exception();
+			}
+
+			/// <summary>
+			/// Отмена обновления
+			/// </summary>
+			public override void Downgrade()
+			{
+				DropTable("test");
+				DropColumn("test", "test");
+				DropForeignKey(new ForeignKey("test", "test", "test", "test"));
+				DropIndex(new Index("test", "test"));
+				LoadCsv("test", new StreamReader(new MemoryStream()), null);
+				AddColumn("test", "test", DbType.Int32);
+				CreateForeignKey(new ForeignKey("test", "test", "test", "test"));
+				CreateIndex(new Index("test", "test"));
+				CreateTable(new Table("test"));
+				InsertRows("test");
+				IsTableExist("test");
+			}
+		}
+
 		/// <summary>
 		/// Нормальный булет
 		/// </summary>
