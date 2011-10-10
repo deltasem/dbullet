@@ -23,13 +23,19 @@ namespace dbullet.core.dbo
 		private readonly bool nullable;
 
 		/// <summary>
+		/// Идентити
+		/// </summary>
+		private readonly bool identity;
+		
+		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Имя столбца</param>
 		/// <param name="dbType">Тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
-		public Column(string name, DbType dbType, bool nullable = true)
-			: this(name, new ColumnType(dbType), nullable)
+		/// <param name="identity">Идентити</param>
+		public Column(string name, DbType dbType, bool nullable = true, bool identity = false)
+			: this(name, new ColumnType(dbType), nullable, identity)
 		{
 		}
 
@@ -39,11 +45,24 @@ namespace dbullet.core.dbo
 		/// <param name="name">Имя столбца</param>
 		/// <param name="columnType">Тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
-		public Column(string name, ColumnType columnType, bool nullable = true)
+		/// <param name="identity">Идентити</param>
+		public Column(string name, ColumnType columnType, bool nullable = true, bool identity = false)
 			: base(name)
 		{
 			this.columnType = columnType;
 			this.nullable = nullable;
+			this.identity = identity;
+		}
+
+		/// <summary>
+		/// Идентити
+		/// </summary>
+		public bool Identity
+		{
+			get
+			{
+				return identity;
+			}
 		}
 
 		/// <summary>

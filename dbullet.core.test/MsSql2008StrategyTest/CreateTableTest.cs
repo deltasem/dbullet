@@ -46,6 +46,21 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		}
 
 		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		[TestMethod]
+		public void RegularCreateTableWithIdentity()
+		{
+			var connection = new TestConnection();
+			var target = new MsSql2008Strategy(connection);
+			var table = new Table("TestTable");
+			table.AddColumn(new Column("test", DbType.Int32, false, true));
+			table.AddColumn(new Column("test2", DbType.String.Size(50)));
+			target.CreateTable(table);
+			Assert.AreEqual("create table TestTable (test int not null identity(1, 1), test2 nvarchar(50) null) on [PRIMARY]", connection.LastCommandText);
+		}
+
+		/// <summary>
 		/// Нормальное создание в другой партиции
 		/// </summary>
 		[TestMethod]

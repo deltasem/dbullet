@@ -90,6 +90,11 @@ namespace dbullet.core.engine.MsSql
 			}
 
 			sb.Append(column.Nullable ? "null" : "not null");
+			if (column.Identity)
+			{
+				sb.Append(" identity(1, 1)");
+			}
+
 			return sb.ToString();
 		} 
 		#endregion

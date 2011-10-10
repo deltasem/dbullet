@@ -102,10 +102,11 @@ namespace dbullet.core.dbo
 		/// <param name="name">Имя столбца</param>
 		/// <param name="dbType">DB тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
+		/// <param name="identity">Идентити</param>
 		/// <returns>Табилца, с добавленой колонкой</returns>
-		public Table AddColumn(string name, DbType dbType, bool nullable = true)
+		public Table AddColumn(string name, DbType dbType, bool nullable = true, bool identity = false)
 		{
-			columns.Add(new Column(name, dbType, nullable));
+			columns.Add(new Column(name, dbType, nullable, identity));
 			return this;
 		}
 
@@ -115,10 +116,11 @@ namespace dbullet.core.dbo
 		/// <param name="name">Название столбца</param>
 		/// <param name="columnType">Тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
+		/// <param name="identity">Идентити</param>
 		/// <returns>Табилца, с добавленой колонкой</returns>
-		public Table AddColumn(string name, ColumnType columnType, bool nullable = true)
+		public Table AddColumn(string name, ColumnType columnType, bool nullable = true, bool identity = false)
 		{
-			columns.Add(new Column(name, columnType, nullable));
+			columns.Add(new Column(name, columnType, nullable, identity));
 			return this;
 		}
 
