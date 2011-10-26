@@ -51,7 +51,7 @@ namespace dbullet.core.engine
 
 			if (!strategy.IsColumnExists("dbullet", "Assembly"))
 			{
-				var column = new Column("Assembly", DbType.String.Size(1024))
+				var column = new Column("Assembly", DbType.String.Size(1024), false)
 				             	{
 				             		Constraint = new ValueDefault("dbullet_assembly_default", assembly.GetName().Name)
 				             	};

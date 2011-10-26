@@ -27,7 +27,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			strategy.IsColumnExists("ExistingTable", "ExistingColumn");
 			Assert.AreEqual(
 				"select count(*) from syscolumns " +
-				"where id = object_id(N'ExistingTable') and name = 'ExistingColumn' = 1",
+				"where id = object_id(N'ExistingTable') and name = 'ExistingColumn'",
 				connection.LastCommandText);
 		}
 
