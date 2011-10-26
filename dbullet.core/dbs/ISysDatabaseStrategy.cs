@@ -3,6 +3,9 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
+using System.Reflection;
+
 namespace dbullet.core.dbs
 {
 	/// <summary>
@@ -20,8 +23,9 @@ namespace dbullet.core.dbs
 		/// <summary>
 		/// Возвращает последнюю версию базы
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <returns>Версия базы</returns>
-		int GetLastVersion();
+		int GetLastVersion(Assembly assembly);
 
 		/// <summary>
 		/// Установка текущей версии

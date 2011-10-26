@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="Executor.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -50,7 +50,7 @@ namespace dbullet.core.engine
 		{
 			foreach (var bulletType in GetBulletsInAssembly(assembly))
 			{
-				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion();
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly);
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion && bulletVersion <= stopVersion)
 				{
@@ -99,7 +99,7 @@ namespace dbullet.core.engine
 		{
 			foreach (var bulletType in GetBulletsInAssembly(assembly, true))
 			{
-				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion();
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly);
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (currentVersion == bulletVersion && bulletVersion > stopVersion)
 				{

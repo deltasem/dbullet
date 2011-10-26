@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System.Data;
+using System.Reflection;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 
@@ -51,15 +52,16 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Возвращает последнюю версию базы
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <returns>Версия базы</returns>
-		public int GetLastVersion()
+		public int GetLastVersion(Assembly assembly)
 		{
 			try
 			{
 				connection.Open();
 				using (var cmd = connection.CreateCommand())
 				{
-					cmd.CommandText = "select max(Version) from dbullet";
+					cmd.CommandText = string.Format("select max(Version) from dbullet where assembly = '{0}'", assembly.GetName().Name);
 					var res = cmd.ExecuteScalar();
 					if (res == System.DBNull.Value)
 					{
