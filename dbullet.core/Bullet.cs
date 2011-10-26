@@ -94,6 +94,15 @@ namespace dbullet.core
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().DropTable(tableName);
 		}
+
+		/// <summary>
+		/// Удаляет таблицы
+		/// </summary>
+		/// <typeparam name="T">ДТО</typeparam>
+		public void DropTable<T>()
+		{
+			DropTable(typeof(T).Name);
+		}
 		
 		/// <summary>
 		/// Удаляет индекс
