@@ -1,5 +1,5 @@
 @{dbullet.core.dbo.Table table = Model[0] as dbullet.core.dbo.Table; dbullet.core.dbo.Column column = Model[1] as dbullet.core.dbo.Column;}
-alter table @table.Name add @dbullet.core.engine.MsSql.MsSqlTemplateManager.BuildColumnCreateCommand(column)
+alter table [@table.Name] add @dbullet.core.engine.MsSql.MsSqlTemplateManager.BuildColumnCreateCommand(column)
 @if (column.Constraint is dbullet.core.dbo.Default)
 {
 @: constraint @column.Constraint.Name default '@(dbullet.core.engine.MsSql.MsSqlTemplateManager.GetDefaultValue((dbullet.core.dbo.Default)column.Constraint))'

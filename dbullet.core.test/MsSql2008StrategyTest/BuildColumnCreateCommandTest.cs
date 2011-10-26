@@ -35,7 +35,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void StringDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
-			Assert.AreEqual("TestColumn nvarchar(50) null", t);
+			Assert.AreEqual("[TestColumn] nvarchar(50) null", t);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void NumericDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
-			Assert.AreEqual("TestColumn decimal(10, 5) null", t);
+			Assert.AreEqual("[TestColumn] decimal(10, 5) null", t);
 		}
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void IntDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
-			Assert.AreEqual("TestColumn int null", t);
+			Assert.AreEqual("[TestColumn] int null", t);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void BooleanDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
-			Assert.AreEqual("TestColumn bit null", t);
+			Assert.AreEqual("[TestColumn] bit null", t);
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void DateDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
-			Assert.AreEqual("TestColumn date null", t);
+			Assert.AreEqual("[TestColumn] date null", t);
 		}
 
 		/// <summary>
@@ -85,7 +85,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void DateTimeDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
-			Assert.AreEqual("TestColumn datetime null", t);
+			Assert.AreEqual("[TestColumn] datetime null", t);
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void GuidDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
-			Assert.AreEqual("TestColumn uniqueidentifier null", t);
+			Assert.AreEqual("[TestColumn] uniqueidentifier null", t);
 		}
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		public void XmlDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
-			Assert.AreEqual("TestColumn xml null", t);
+			Assert.AreEqual("[TestColumn] xml null", t);
 		}
 	}
 }

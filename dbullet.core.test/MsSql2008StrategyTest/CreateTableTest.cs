@@ -42,7 +42,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			table.AddColumn(new Column("test", DbType.Int32));
 			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [PRIMARY]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			table.AddColumn(new Column("test", DbType.Int32, false, true));
 			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int not null identity(1, 1), test2 nvarchar(50) null) on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int not null identity(1, 1), [test2] nvarchar(50) null) on [PRIMARY]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				.AddColumn(new Column("test", DbType.Int32))
 				.AddColumn(new Column("test2", DbType.String.Size(50)));
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int null, test2 nvarchar(50) null) on [TESTPARTIOTION]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [TESTPARTIOTION]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				.AddColumn(new Column("test2", DbType.String.Size(50)))
 				.AddPrimaryKey("testid");
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -106,7 +106,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 				.AddColumn(new Column("test2", DbType.String.Size(50)))
 				.AddPrimaryKey("testid", "TESTPARTIOTION");
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (testid int null, test2 nvarchar(50) null, constraint PK_TESTTABLE primary key clustered(testid asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -121,7 +121,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			table.AddColumn(new Column("test", DbType.Int32)).Default("100500");
 			table.AddColumn(new Column("test2", DbType.String.Size(50))).Default("this is the test");
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default '100500', test2 nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default '100500', [test2] nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -135,7 +135,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var table = new Table("TestTable");
 			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.date);
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]", connection.LastCommandText);
 		}
 
 		/// <summary>
@@ -149,7 +149,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var table = new Table("TestTable");
 			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.guid);
 			target.CreateTable(table);
-			Assert.AreEqual("create table TestTable (test int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]", connection.LastCommandText);
+			Assert.AreEqual("create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]", connection.LastCommandText);
 		}
 	}
 }

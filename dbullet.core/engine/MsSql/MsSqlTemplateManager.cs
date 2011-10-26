@@ -30,7 +30,7 @@ namespace dbullet.core.engine.MsSql
 				throw new ArgumentException("String must have length");
 			}
 
-			var sb = new StringBuilder(column.Name);
+			var sb = new StringBuilder(string.Format("[{0}]", column.Name));
 			switch (column.ColumnType.DbType)
 			{
 				case DbType.Decimal:

@@ -25,7 +25,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var connection = new TestConnection();
 			var strategy = new MsSql2008Strategy(connection);
 			strategy.DropIndex(new Index("INDEX_NAME", "TABLE_NAME"));
-			Assert.AreEqual("drop index INDEX_NAME on TABLE_NAME", connection.LastCommandText);
+			Assert.AreEqual("drop index INDEX_NAME on [TABLE_NAME]", connection.LastCommandText);
 		}		
 	}
 }

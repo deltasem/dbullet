@@ -14,10 +14,10 @@
 			break;
 	}
 }
-alter table @fk.SrcTableName 
+alter table [@fk.SrcTableName] 
 add constraint 
-@fk.Name foreign key (@fk.SrcColumnName) 
+@fk.Name foreign key ([@fk.SrcColumnName]) 
 references 
-@fk.RefTableName (@fk.RefColumnName) 
+[@fk.RefTableName] ([@fk.RefColumnName]) 
 on update no action 
 on delete @ForeignActionName(fk.DeleteAction)

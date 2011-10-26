@@ -46,7 +46,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var connection = new TestConnection();
 			var strategy = new MsSql2008Strategy(connection);
 			strategy.DropColumn("testtable", "testcolumn");
-			Assert.AreEqual("alter table testtable drop column testcolumn", connection.LastCommandText);
+			Assert.AreEqual("alter table [testtable] drop column [testcolumn]", connection.LastCommandText);
 		}
 	}
 }
