@@ -101,7 +101,12 @@ namespace dbullet.core.engine
 		/// <returns>true - если существует, иначе false</returns>
 		public bool IsColumnExists(string tableName, string columnName)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(columnName))
+			{
+				throw new ArgumentException();
+			}
+
+			return ExecuteScalar(Razor.Parse(manager.GetIsColumnExistTemplate(), new object[] { tableName, columnName }, "column exists")).ToString() == "1";
 		}
 
 		/// <summary>

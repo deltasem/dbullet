@@ -66,6 +66,7 @@
     <Compile Include="IndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\AddColumnTest.cs" />
     <Compile Include="MsSql2008StrategyTest\BuildColumnCreateCommandTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\IsColumnExistsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\CreateForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\CreateIndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\CreateTableTest.cs" />

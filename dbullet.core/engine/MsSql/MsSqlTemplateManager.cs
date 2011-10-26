@@ -154,6 +154,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Возвращает шаблон для проверки существования столбца
+		/// </summary>
+		/// <returns>Шаблон</returns>
+		public string GetIsColumnExistTemplate()
+		{
+			return GetTemplateFromResource("IsColumnExist.cshtml");
+		}
+
+		/// <summary>
 		/// Возвращает шаблон для создания индекса
 		/// </summary>
 		/// <returns>Шаблон</returns>

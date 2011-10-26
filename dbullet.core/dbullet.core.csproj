@@ -106,6 +106,7 @@
     <EmbeddedResource Include="engine\MsSql\InsertRowsStream.cshtml" />
     <EmbeddedResource Include="engine\MsSql\AddColumn.cshtml" />
     <EmbeddedResource Include="engine\MsSql\DropColumn.cshtml" />
+    <EmbeddedResource Include="engine\MsSql\IsColumnExist.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
