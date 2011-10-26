@@ -108,15 +108,16 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Удаление информации об указанной версии
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		public void RemoveVersionInfo(int version)
+		public void RemoveVersionInfo(Assembly assembly, int version)
 		{
 			try
 			{
 				connection.Open();
 				using (var cmd = connection.CreateCommand())
 				{
-					cmd.CommandText = string.Format("delete from dbullet where version = {0}", version);
+					cmd.CommandText = string.Format("delete from dbullet where version = {0} and Assembly = '{1}'", version, assembly.GetName().Name);
 					cmd.ExecuteScalar();
 				}
 			}

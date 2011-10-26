@@ -105,7 +105,7 @@ namespace dbullet.core.engine
 				{
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					bullet.Downgrade();
-					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(bulletVersion);
+					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(assembly, bulletVersion);
 				}
 			}
 		}

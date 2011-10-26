@@ -125,8 +125,8 @@ namespace dbullet.core.test
 			string cmd = string.Empty;
 			createCommand.ExecuteScalar = () => 1;
 			createCommand.CommandTextSetString = (p) => cmd = p;
-			target.RemoveVersionInfo(18);
-			Assert.AreEqual("delete from dbullet where version = 18", cmd);
+			target.RemoveVersionInfo(GetType().Assembly, 18);
+			Assert.AreEqual(string.Format("delete from dbullet where version = 18 and Assembly = '{0}'", GetType().Assembly.GetName().Name), cmd);
 		}
 	}
 }

@@ -196,7 +196,7 @@ namespace dbullet.core.test
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
 				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
-				RemoveVersionInfoInt32 = (j) => currentVersion[0] = j - 1
+				RemoveVersionInfoAssemblyInt32 = (x, y) => currentVersion[0] = y - 1
 			};
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
 

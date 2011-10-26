@@ -37,7 +37,8 @@ namespace dbullet.core.dbs
 		/// <summary>
 		/// Удаление информации об указанной версии
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		void RemoveVersionInfo(int version);
+		void RemoveVersionInfo(Assembly assembly, int version);
 	}
 }
