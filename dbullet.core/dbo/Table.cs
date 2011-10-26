@@ -34,7 +34,7 @@ namespace dbullet.core.dbo
 		public Table(string name) : this(name, "PRIMARY")
 		{
 		}
-
+		
 		/// <summary>
 		/// Конструктор
 		/// </summary>

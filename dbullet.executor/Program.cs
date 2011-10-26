@@ -28,6 +28,7 @@ namespace dbullet.executor
 		{
 			NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging();
 			Assembly asm = Assembly.LoadFile(args[0]);
+			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
 			Console.WriteLine("Press 1 to upgrade or press 2 to downgrade");
 			var input = Console.ReadKey();
 
@@ -44,6 +45,18 @@ namespace dbullet.executor
 
 			Console.WriteLine("Press any key to exit");
 			Console.ReadKey();
+		}
+
+		/// <summary>
+		/// Резёлв сборки
+		/// </summary>
+		/// <param name="sender">Сендер</param>
+		/// <param name="args">Аргументы</param>
+		/// <returns>Сборка</returns>
+		private static Assembly CurrentDomainAssemblyResolve(object sender, ResolveEventArgs args)
+		{
+			var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(args.RequestingAssembly.Location), args.Name.Split(',')[0] + ".dll");
+			return Assembly.LoadFile(path);			
 		}
 	}
 }

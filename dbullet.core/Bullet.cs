@@ -55,7 +55,7 @@ namespace dbullet.core
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().CreateTable(table);
 		}
-
+		
 		/// <summary>
 		/// Существует ли таблица
 		/// </summary>
