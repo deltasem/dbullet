@@ -30,8 +30,9 @@ namespace dbullet.core.dbs
 		/// <summary>
 		/// Установка текущей версии
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		void SetCurrentVersion(int version);
+		void SetCurrentVersion(Assembly assembly, int version);
 
 		/// <summary>
 		/// Удаление информации об указанной версии

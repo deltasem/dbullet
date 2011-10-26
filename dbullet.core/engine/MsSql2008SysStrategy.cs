@@ -83,15 +83,16 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Установка текущей версии
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		public void SetCurrentVersion(int version)
+		public void SetCurrentVersion(Assembly assembly, int version)
 		{
 			try
 			{
 				connection.Open();
 				using (var cmd = connection.CreateCommand())
 				{
-					cmd.CommandText = string.Format("insert into dbullet(Version) values({0})", version);
+					cmd.CommandText = string.Format("insert into dbullet(Version, Assembly) values({0}, '{1}')", version, assembly.GetName().Name);
 					cmd.ExecuteScalar();
 				}
 			}

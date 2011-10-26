@@ -111,9 +111,9 @@ namespace dbullet.core.test
 		{
 			string cmd = string.Empty;
 			createCommand.ExecuteScalar = () => 1;
-			createCommand.CommandTextSetString = (p) => cmd = p;
-			target.SetCurrentVersion(18);
-			Assert.AreEqual("insert into dbullet(Version) values(18)", cmd);
+			createCommand.CommandTextSetString = p => cmd = p;
+			target.SetCurrentVersion(GetType().Assembly, 18);
+			Assert.AreEqual(string.Format("insert into dbullet(Version, Assembly) values(18, '{0}')", GetType().Assembly.GetName().Name), cmd);
 		}
 
 		/// <summary>

@@ -166,7 +166,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
 			};
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
 			Executor.Execute(assembly);
@@ -195,7 +195,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
 				RemoveVersionInfoInt32 = (j) => currentVersion[0] = j - 1
 			};
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
@@ -225,7 +225,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
 			};
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
 			Executor.Execute(assembly, 2);
@@ -253,7 +253,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y
 			};
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy));
 			Executor.Execute(assembly);
@@ -277,7 +277,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
 			};
 			ObjectFactory.Initialize(x =>
 			{
@@ -307,7 +307,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j,
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y,
 			};
 			ObjectFactory.Initialize(x =>
 			{
@@ -336,7 +336,7 @@ namespace dbullet.core.test
 			var strategy = new SISysDatabaseStrategy 
 			{
 				GetLastVersionAssembly = x => currentVersion[0],
-				SetCurrentVersionInt32 = (j) => currentVersion[0] = j
+				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y
 			};
 			var results = new bool[11];
 			var mssqlStrategy = new SIDatabaseStrategy 

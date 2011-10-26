@@ -58,7 +58,7 @@ namespace dbullet.core.engine
 					try
 					{
 						bullet.Update();
-						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(bulletVersion);
+						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(assembly, bulletVersion);
 					}
 					catch (Exception)
 					{
