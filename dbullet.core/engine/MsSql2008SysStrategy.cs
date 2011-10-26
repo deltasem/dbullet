@@ -41,11 +41,21 @@ namespace dbullet.core.engine
 		/// Инициализация базы данных
 		/// Добавление, если нет системной таблицы
 		/// </summary>
-		public void InitDatabase()
+		/// <param name="assembly">Сборка с булетами</param>
+		public void InitDatabase(Assembly assembly)
 		{
 			if (!strategy.IsTableExist("dbullet"))
 			{
 				strategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
+			}
+
+			if (!strategy.IsColumnExists("dbullet", "Assembly"))
+			{
+				var column = new Column("Assembly", DbType.String.Size(1024))
+				             	{
+				             		Constraint = new ValueDefault("dbullet_assembly_default", assembly.GetName().Name)
+				             	};
+				strategy.AddColumn(new Table("dbullet"), column);
 			}
 		}
 

@@ -18,7 +18,8 @@ namespace dbullet.core.dbs
 		/// Инициализация базы данных
 		/// Добавление, если нет системной таблицы
 		/// </summary>
-		void InitDatabase();
+		/// <param name="assembly">Сборка с булетами</param>
+		void InitDatabase(Assembly assembly);
 
 		/// <summary>
 		/// Возвращает последнюю версию базы

@@ -99,7 +99,7 @@ namespace dbullet.core.test
 			bool tableWasCreated = false;
 			databaseStrategy.IsTableExistString = table => !table.Equals("dbullet");
 			databaseStrategy.CreateTableTable = table => { tableWasCreated = Equals(table.Name, "dbullet"); };
-			target.InitDatabase();
+			target.InitDatabase(GetType().Assembly);
 			Assert.IsTrue(tableWasCreated);
 		}
 

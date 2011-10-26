@@ -188,6 +188,26 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
+		/// Существует ли заданная колонка в таблице
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <param name="columnName">Название колонки</param>
+		/// <returns>true - если существует, иначе false</returns>
+		public bool IsColumnExists(string tableName, string columnName)
+		{
+			try
+			{
+				return strategy.IsColumnExists(tableName, columnName);
+			}
+			catch (Exception e)
+			{
+				logger.WarnException("Ошибка выполнения отката IsColumnExists", e);
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Загружает поток в базу. Данные в формате CSV
 		/// </summary>
 		/// <param name="tableName">Таблица для загрузки</param>

@@ -75,6 +75,14 @@ namespace dbullet.core.dbs
 		bool IsTableExist(string tableName);
 
 		/// <summary>
+		/// Существует ли заданная колонка в таблице
+		/// </summary>
+		/// <param name="tableName">Название таблицы</param>
+		/// <param name="columnName">Название колонки</param>
+		/// <returns>true - если существует, иначе false</returns>
+		bool IsColumnExists(string tableName, string columnName);
+
+		/// <summary>
 		/// Загружает поток в базу. Данные в формате CSV
 		/// </summary>
 		/// <param name="tableName">Таблица для загрузки</param>

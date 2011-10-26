@@ -338,7 +338,7 @@ namespace dbullet.core.test
 				GetLastVersionAssembly = x => currentVersion[0],
 				SetCurrentVersionAssemblyInt32 = (x, y) => currentVersion[0] = y
 			};
-			var results = new bool[11];
+			var results = new bool[12];
 			var mssqlStrategy = new SIDatabaseStrategy 
 			{
 				DropTableString = x => { results[0] = true; throw new Exception(); },
@@ -351,7 +351,8 @@ namespace dbullet.core.test
 				CreateIndexIndex = x => { results[7] = true; throw new Exception(); },
 				CreateTableTable = x => { results[8] = true; throw new Exception(); },
 				InsertRowsStringObjectArray = (x, y) => { results[9] = true; throw new Exception(); },
-				IsTableExistString = x => { results[10] = true; throw new Exception(); }
+				IsTableExistString = x => { results[10] = true; throw new Exception(); },
+				IsColumnExistsStringString = (x, y) => { results[11] = true; throw new Exception(); }
 			};
 			ObjectFactory.Initialize(x =>
 			{
@@ -396,6 +397,7 @@ namespace dbullet.core.test
 				CreateTable(new Table("test"));
 				InsertRows("test");
 				IsTableExist("test");
+				IsColumnExists("test", "test");
 			}
 		}
 

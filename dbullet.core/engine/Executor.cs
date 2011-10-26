@@ -25,9 +25,21 @@ namespace dbullet.core.engine
 		/// </summary>
 		/// <param name="connectionString">Строка подключения</param>
 		/// <param name="strategy">Стратегия работы с БД</param>
+		[Obsolete("Используйте перегруженый метод")]
 		public static void Initialize(string connectionString, SupportedStrategy strategy)
 		{
-			InitConnections(strategy, connectionString);
+			Initialize(connectionString, strategy, typeof(Executor).Assembly);
+		}
+
+		/// <summary>
+		/// Инициализация
+		/// </summary>
+		/// <param name="connectionString">Строка подключения</param>
+		/// <param name="strategy">Стратегия работы с БД</param>
+		/// <param name="assembly">Сборка, содержащая булеты</param>
+		public static void Initialize(string connectionString, SupportedStrategy strategy, Assembly assembly)
+		{
+			InitConnections(assembly, strategy, connectionString);
 		}
 
 		/// <summary>
@@ -126,9 +138,10 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Инициализация соединений с БД
 		/// </summary>
+		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="strategy">Стратегия работы с БД</param>
 		/// <param name="connectionString">Строка подключения</param>
-		private static void InitConnections(SupportedStrategy strategy, string connectionString)
+		private static void InitConnections(Assembly assembly, SupportedStrategy strategy, string connectionString)
 		{
 			if (strategy != SupportedStrategy.Mssql2008)
 			{
@@ -136,7 +149,7 @@ namespace dbullet.core.engine
 			}
 
 			ObjectFactory.Initialize(x => InitializeStructureMap(x, connectionString));
-			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase();
+			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase(assembly);
 		}
 
 		/// <summary>

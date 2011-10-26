@@ -31,7 +31,7 @@ namespace dbullet.executor
 			Console.WriteLine("Press 1 to upgrade or press 2 to downgrade");
 			var input = Console.ReadKey();
 
-			Executor.Initialize(args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]));
+			Executor.Initialize(args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]), asm);
 
 			if (input.KeyChar == '2')
 			{
