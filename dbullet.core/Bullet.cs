@@ -94,7 +94,7 @@ namespace dbullet.core
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().DropTable(tableName);
 		}
-
+		
 		/// <summary>
 		/// Удаляет индекс
 		/// </summary>
