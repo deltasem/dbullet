@@ -16,24 +16,24 @@ namespace dbullet.core.dbo
 		private readonly string srcTableName;
 
 		/// <summary>
-		/// Колонка исходной таблицы для ключа
-		/// </summary>
-		private readonly string srcColumnName;
-
-		/// <summary>
 		/// Ссылочная таблица
 		/// </summary>
 		private readonly string refTableName;
 
 		/// <summary>
-		/// Колонка ссылочной таблицы для ключа
-		/// </summary>
-		private readonly string refColumnName;
-
-		/// <summary>
 		/// Действие при удалении
 		/// </summary>
 		private readonly ForeignAction deleteAction;
+
+		/// <summary>
+		/// Колонка исходной таблицы для ключа
+		/// </summary>
+		private string srcColumnName;
+
+		/// <summary>
+		/// Колонка ссылочной таблицы для ключа
+		/// </summary>
+		private string refColumnName;
 
 		/// <summary>
 		/// Конструктор
@@ -81,6 +81,7 @@ namespace dbullet.core.dbo
 		public string SrcColumnName
 		{
 			get { return srcColumnName; }
+			protected set { srcColumnName = value; }
 		}
 
 		/// <summary>
@@ -97,6 +98,7 @@ namespace dbullet.core.dbo
 		public string RefColumnName
 		{
 			get { return refColumnName; }
+			protected set { refColumnName = value; }
 		}
 
 		/// <summary>
