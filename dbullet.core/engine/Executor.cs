@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using dbullet.core.attribute;
 using dbullet.core.dbs;
+using NLog;
 using StructureMap;
 
 namespace dbullet.core.engine
@@ -20,6 +22,11 @@ namespace dbullet.core.engine
 	/// </summary>
 	public class Executor
 	{
+		/// <summary>
+		/// Логгер
+		/// </summary>
+		private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
 		/// <summary>
 		/// Инициализация
 		/// </summary>
@@ -72,8 +79,9 @@ namespace dbullet.core.engine
 						bullet.Update();
 						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(assembly, bulletVersion);
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
+						logger.Error(ex.Message);
 						var strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 						try
 						{

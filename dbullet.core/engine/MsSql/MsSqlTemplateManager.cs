@@ -77,7 +77,7 @@ namespace dbullet.core.engine.MsSql
 				case DbType.DateTime2:
 				case DbType.DateTimeOffset:
 				default:
-					throw new UnsuportedDbTypeException();
+					throw new UnsuportedDbTypeException(column.ColumnType.DbType);
 			}
 
 			if (column.ColumnType.Length != 0 && column.ColumnType.Scale == 0)

@@ -265,11 +265,6 @@ namespace dbullet.core.engine
 
 				log.Info("Импорт завершен за {0}", DateTime.Now - begin);
 			}
-			catch (Exception ex)
-			{
-				log.Error(ex);
-				throw;
-			}
 			finally
 			{
 				if (connection != null)
@@ -317,11 +312,6 @@ namespace dbullet.core.engine
 					return cmd.ExecuteScalar();
 				}
 			}
-			catch (Exception ex)
-			{
-				log.Error(ex);
-				throw;
-			}
 			finally
 			{
 				if (connection != null)
@@ -346,11 +336,6 @@ namespace dbullet.core.engine
 					cmd.CommandText = commandText;
 					cmd.ExecuteNonQuery();
 				}
-			}
-			catch (Exception ex)
-			{
-				log.Error(ex);
-				throw;
 			}
 			finally
 			{

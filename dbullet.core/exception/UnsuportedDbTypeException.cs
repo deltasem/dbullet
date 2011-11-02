@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.Data;
 
 namespace dbullet.core.exception
 {
@@ -12,5 +13,13 @@ namespace dbullet.core.exception
 	/// </summary>
 	public class UnsuportedDbTypeException : ApplicationException
 	{
+		/// <summary>
+		/// Не поддерживаемый тип
+		/// </summary>
+		/// <param name="type">Тип</param>
+		public UnsuportedDbTypeException(DbType type)
+			: base(string.Format("Тип столбца [{0}] на данный момент не поддерживается\nЕсли он Вам нужен - сообщите об этом: https://github.com/deltasem/dbullet/issues", type.ToString()))
+		{
+		}
 	}
 }

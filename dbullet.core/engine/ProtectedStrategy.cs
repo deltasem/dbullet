@@ -23,12 +23,7 @@ namespace dbullet.core.engine
 		/// Стратегия
 		/// </summary>
 		private readonly IDatabaseStrategy strategy;
-
-		/// <summary>
-		/// Логгер
-		/// </summary>
-		private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
+		
 		/// <summary>
 		///  Конструктор
 		/// </summary>
@@ -49,9 +44,8 @@ namespace dbullet.core.engine
 			{
 				strategy.AddColumn(table, column);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката AddColumn", e);
 			}
 		}
 
@@ -65,9 +59,8 @@ namespace dbullet.core.engine
 			{
 				strategy.CreateForeignKey(foreignKey);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката CreateForeignKey", e);
 			}
 		}
 
@@ -81,9 +74,8 @@ namespace dbullet.core.engine
 			{
 				strategy.CreateIndex(index);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката CreateIndex", e);
 			}
 		}
 
@@ -97,9 +89,8 @@ namespace dbullet.core.engine
 			{
 				strategy.CreateTable(table);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката CreateTable", e);
 			}
 		}
 
@@ -113,9 +104,8 @@ namespace dbullet.core.engine
 			{
 				strategy.DropForeignKey(foreignKey);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката DropForeignKey", e);
 			}
 		}
 
@@ -129,9 +119,8 @@ namespace dbullet.core.engine
 			{
 				strategy.DropIndex(index);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката DropIndex", e);
 			}
 		}
 
@@ -145,9 +134,8 @@ namespace dbullet.core.engine
 			{
 				strategy.DropTable(tableName);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката DropTable", e);
 			}
 		}
 
@@ -162,9 +150,8 @@ namespace dbullet.core.engine
 			{
 				strategy.InsertRows(table, rows);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката InsertRows", e);
 			}
 		}
 
@@ -179,9 +166,8 @@ namespace dbullet.core.engine
 			{
 				return strategy.IsTableExist(tableName);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката IsTableExist", e);
 			}
 
 			return false;
@@ -199,9 +185,8 @@ namespace dbullet.core.engine
 			{
 				return strategy.IsColumnExists(tableName, columnName);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката IsColumnExists", e);
 			}
 
 			return false;
@@ -220,9 +205,8 @@ namespace dbullet.core.engine
 			{
 				strategy.LoadCsv(tableName, stream, modulator, csvQuotesType);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката LoadCsv", e);
 			}
 		}
 
@@ -237,9 +221,8 @@ namespace dbullet.core.engine
 			{
 				strategy.DropColumn(table, column);
 			}
-			catch (Exception e)
+			catch
 			{
-				logger.WarnException("Ошибка выполнения отката DropColumn", e);
 			}
 		}
 	}
