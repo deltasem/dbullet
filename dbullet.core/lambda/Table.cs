@@ -40,15 +40,57 @@ namespace dbullet.core.lambda
 		{
 			var m = name.Body as MemberExpression;
 			ColumnType ct = null;
-			if (m.Type == typeof(int))
-			{
-				ct = new ColumnType(DbType.Int32);
-			}
-			else if (m.Type == typeof(string))
+
+			if (m.Type == typeof(string))
 			{
 				ct = new ColumnType(DbType.String, size);
 			}
-			
+			else if (m.Type == typeof(int))
+			{
+				ct = new ColumnType(DbType.Int32);
+			}
+			else if (m.Type == typeof(int?))
+			{
+				ct = new ColumnType(DbType.Int32);
+				nullable = true;
+			}
+			else if (m.Type == typeof(decimal))
+			{
+				ct = new ColumnType(DbType.Decimal, size);
+			}
+			else if (m.Type == typeof(decimal?))
+			{
+				ct = new ColumnType(DbType.Decimal, size);
+				nullable = true;
+			}
+			else if (m.Type == typeof(bool))
+			{
+				ct = new ColumnType(DbType.Boolean);
+			}
+			else if (m.Type == typeof(bool?))
+			{
+				ct = new ColumnType(DbType.Boolean);
+				nullable = true;
+			}
+			else if (m.Type == typeof(DateTime))
+			{
+				ct = new ColumnType(size == 0 ? DbType.DateTime : DbType.Date);
+			}
+			else if (m.Type == typeof(DateTime?))
+			{
+				ct = new ColumnType(size == 0 ? DbType.DateTime : DbType.Date);
+				nullable = true;
+			}
+			else if (m.Type == typeof(Guid))
+			{
+				ct = new ColumnType(DbType.Guid);
+			}
+			else if (m.Type == typeof(Guid?))
+			{
+				ct = new ColumnType(DbType.Guid);
+				nullable = true;
+			}
+	
 			if (ct == null)
 			{
 				throw new InvalidExpressionException();
