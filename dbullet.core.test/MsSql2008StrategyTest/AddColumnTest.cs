@@ -49,7 +49,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var con = new TestConnection();
 			var strategy = new MsSql2008Strategy(con);
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new ValueDefault("df_test", "100500") });
-			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default '100500'", con.LastCommandText);
+			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default 100500", con.LastCommandText);
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var con = new TestConnection();
 			var strategy = new MsSql2008Strategy(con);
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new StandartDefault("df_test", StandartDefaultType.date) });
-			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default 'getdate()'", con.LastCommandText);
+			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default getdate()", con.LastCommandText);
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var con = new TestConnection();
 			var strategy = new MsSql2008Strategy(con);
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new StandartDefault("df_test", StandartDefaultType.guid) });
-			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default 'newid()'", con.LastCommandText);
+			Assert.AreEqual("alter table [TestTable] add [TestColumn] int not null constraint df_test default newid()", con.LastCommandText);
 		}	
 	}
 }
