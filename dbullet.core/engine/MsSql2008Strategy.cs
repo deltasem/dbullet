@@ -227,6 +227,12 @@ namespace dbullet.core.engine
 				connection.Open();
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
+					if (identity)
+					{
+						cmd.CommandText = string.Format("set identity_insert [{0}] on;", tableName);
+						cmd.ExecuteNonQuery();
+					}
+
 					var headers = CsvParser.Parse(firstLine, csvQuotesType);
 					cmd.CommandText = Razor.Parse(
 						manager.GetInsertRowsStreamTemplate(), 
@@ -261,6 +267,12 @@ namespace dbullet.core.engine
 							}
 						}
 
+						cmd.ExecuteNonQuery();
+					}
+
+					if (identity)
+					{
+						cmd.CommandText = string.Format("set identity_insert [{0}] off;", tableName);
 						cmd.ExecuteNonQuery();
 					}
 				}

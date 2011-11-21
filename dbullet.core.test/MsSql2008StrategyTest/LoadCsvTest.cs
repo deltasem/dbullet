@@ -13,6 +13,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
+	using dbullet.core.tools;
+
 	/// <summary>
 	/// Тесты загрузки CSV
 	/// </summary>
@@ -25,8 +27,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void LoadCsvEmptyStream()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
@@ -40,8 +42,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void InvalidHeader()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
@@ -55,8 +57,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void LoadCsvEmptyData()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID"))),
@@ -70,8 +72,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void LoadCsvOneRow()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
@@ -85,8 +87,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void ParametrMustBeCreatedCount()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID,PASS\r\n100500,hello"))),
@@ -100,8 +102,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void ParametrMustBeCreatedName()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
@@ -115,8 +117,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void ParametrMustBeCreatedValue()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
@@ -130,8 +132,8 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void DataDoesntMatchHeader()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE",
@@ -145,13 +147,32 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[TestMethod]
 		public void ModulatorInvoked()
 		{
-			TestConnection connection = new TestConnection();
-			MsSql2008Strategy strategy = new MsSql2008Strategy(connection);
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500"))),
 				new Dictionary<string, Func<string, object>> { { "COLUMN_NAME", p => "500100" } });
 			Assert.AreEqual("500100", connection.DbDataParametrs[0].Value);
+		}
+
+		/// <summary>
+		/// Должен учитываться флаг identity
+		/// </summary>
+		[TestMethod]
+		public void LoadCsvShouldUseIdenityInsert()
+		{
+			var connection = new TestConnection();
+			var strategy = new MsSql2008Strategy(connection);
+			strategy.LoadCsv(
+				"TESTTABLE",
+				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
+				new Dictionary<string, Func<string, object>>(), 
+				CsvQuotesType.DoubleQuotes, 
+				true);
+			Assert.AreEqual("set identity_insert [TESTTABLE] on;", connection.AllCommands[0]);
+			Assert.AreEqual("insert into TESTTABLE (ID) values(@ID);", connection.AllCommands[1]);
+			Assert.AreEqual("set identity_insert [TESTTABLE] off;", connection.AllCommands[2]);
 		}
 	}
 }
