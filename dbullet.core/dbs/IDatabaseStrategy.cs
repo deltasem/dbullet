@@ -63,9 +63,10 @@ namespace dbullet.core.dbs
 		/// <summary>
 		/// Добавляет записи в таблицу
 		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
-		void InsertRows(string table, params object[] rows);
+		/// <param name="table">Таблица</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		/// <param name="rows">Список записей</param>
+		void InsertRows(string table, bool identity = false, params object[] rows);
 
 		/// <summary>
 		/// Существует ли таблица
@@ -89,7 +90,8 @@ namespace dbullet.core.dbs
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes);
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false);
 
 		/// <summary>
 		/// Удаляет колонку из таблицы

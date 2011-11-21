@@ -172,13 +172,14 @@ namespace dbullet.core.engine
 			ExecuteNonQuery(Razor.Parse(manager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
 			log.Info("Внешний ключ {0} удален", foreignKey.Name);
 		}
-
+		
 		/// <summary>
 		/// Добавляет записи в таблицу
 		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
-		public void InsertRows(string table, params object[] rows)
+		/// <param name="table">Таблица</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		/// <param name="rows">Список записей</param>
+		public void InsertRows(string table, bool identity = false, params object[] rows)
 		{
 			if (string.IsNullOrEmpty(table))
 			{
@@ -199,7 +200,7 @@ namespace dbullet.core.engine
 					values[i] = props[i].GetValue(row, null).ToString();
 				}
 
-				ExecuteScalar(Razor.Parse(manager.GetInsertRowsTemplate(), new object[] { table, props, values }, "insert rows"));
+				ExecuteScalar(Razor.Parse(manager.GetInsertRowsTemplate(), new object[] { table, props, values, identity }, "insert rows"));
 			}
 		}
 
@@ -210,7 +211,8 @@ namespace dbullet.core.engine
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false)
 		{
 			DateTime begin = DateTime.Now;
 			try

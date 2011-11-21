@@ -1,4 +1,8 @@
-@{System.Reflection.PropertyInfo[] props = (System.Reflection.PropertyInfo[])Model[1]; string[] values = (string[])Model[2];}
+@{System.Reflection.PropertyInfo[] props = (System.Reflection.PropertyInfo[])Model[1]; string[] values = (string[])Model[2]; bool identity = (bool)Model[3];}
+@if (identity)
+{
+@:set identity_insert [@Model[0]] on; 
+}
 insert into [@Model[0]] (
 @for(int i = 0; i < props.Length; i++){
 @("["+props[i].Name+"]")@(i != props.Length-1?", ":"")
@@ -6,3 +10,7 @@ insert into [@Model[0]] (
 @for(int i = 0; i < values.Length; i++){
 @:'@values[i]'@(i != values.Length-1?", ":"")
 });
+@if (identity)
+{
+ @:set identity_insert [@Model[0]] off;
+}

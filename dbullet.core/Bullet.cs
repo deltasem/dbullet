@@ -55,7 +55,18 @@ namespace dbullet.core
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().CreateTable(table);
 		}
-		
+
+		/// <summary>
+		/// Добавляет записи в таблицу
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		/// <param name="rows">Список записей</param>
+		public void InsertRows(string table, bool identity = false, params object[] rows)
+		{
+			ObjectFactory.GetInstance<IDatabaseStrategy>().InsertRows(table, identity, rows);
+		}
+
 		/// <summary>
 		/// Существует ли таблица
 		/// </summary>
@@ -222,23 +233,14 @@ namespace dbullet.core
 		}
 
 		/// <summary>
-		/// Добавляет записи в таблицу
-		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
-		public void InsertRows(string table, params object[] rows)
-		{
-			ObjectFactory.GetInstance<IDatabaseStrategy>().InsertRows(table, rows);
-		}
-
-		/// <summary>
 		/// Загружает поток в базу. Данные в формате CSV
 		/// </summary>
 		/// <param name="tableName">Таблица для загрузки</param>
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false)
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().LoadCsv(tableName, stream, modulator, csvQuotesType);
 		}

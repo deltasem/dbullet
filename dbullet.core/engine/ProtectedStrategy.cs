@@ -139,16 +139,18 @@ namespace dbullet.core.engine
 			}
 		}
 
+
 		/// <summary>
 		/// Добавляет записи в таблицу
 		/// </summary>
-		/// <param name="table">Таблицы</param>
-		/// <param name="rows">Записи</param>
-		public void InsertRows(string table, params object[] rows)
+		/// <param name="table">Таблица</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		/// <param name="rows">Список записей</param>
+		public void InsertRows(string table, bool identity = false, params object[] rows)
 		{
 			try
 			{
-				strategy.InsertRows(table, rows);
+				strategy.InsertRows(table, identity, rows);
 			}
 			catch
 			{
@@ -199,7 +201,8 @@ namespace dbullet.core.engine
 		/// <param name="stream">Входной поток</param>
 		/// <param name="modulator">Преобразования</param>
 		/// <param name="csvQuotesType">Тип кавычек CSV</param>
-		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false)
 		{
 			try
 			{

@@ -345,14 +345,14 @@ namespace dbullet.core.test
 				DropColumnStringString = (x, y) => { results[1] = true; throw new Exception(); },
 				DropForeignKeyForeignKey = x => { results[2] = true; throw new Exception(); },
 				DropIndexIndex = x => { results[3] = true; throw new Exception(); },
-				LoadCsvStringStreamReaderDictionaryOfStringFuncOfStringObjectCsvQuotesType = (x, y, z, t) => { results[4] = true; throw new Exception(); },
+				LoadCsvStringStreamReaderDictionaryOfStringFuncOfStringObjectCsvQuotesTypeBoolean = (x, y, z, t, k) => { results[4] = true; throw new Exception(); },
 				AddColumnTableColumn = (x, y) => { results[5] = true; throw new Exception(); },
 				CreateForeignKeyForeignKey = x => { results[6] = true; throw new Exception(); },
 				CreateIndexIndex = x => { results[7] = true; throw new Exception(); },
 				CreateTableTable = x => { results[8] = true; throw new Exception(); },
-				InsertRowsStringObjectArray = (x, y) => { results[9] = true; throw new Exception(); },
+				InsertRowsStringBooleanObjectArray = (x, y, z) => { results[9] = true; throw new Exception(); },
 				IsTableExistString = x => { results[10] = true; throw new Exception(); },
-				IsColumnExistsStringString = (x, y) => { results[11] = true; throw new Exception(); }
+				IsColumnExistsStringString = (x, y) => { results[11] = true; throw new Exception(); },
 			};
 			ObjectFactory.Initialize(x =>
 			{
@@ -395,9 +395,9 @@ namespace dbullet.core.test
 				CreateForeignKey(new ForeignKey("test", "test", "test", "test"));
 				CreateIndex(new Index("test", "test"));
 				CreateTable(new Table("test"));
-				InsertRows("test");
 				IsTableExist("test");
 				IsColumnExists("test", "test");
+				InsertRows("test", true);
 			}
 		}
 
