@@ -228,5 +228,30 @@ namespace dbullet.core.engine
 			{
 			}
 		}
+
+		/// <summary>
+		/// Remove rows from table
+		/// </summary>
+		/// <param name="table">Table</param>
+		/// <param name="eq">Equality conditions</param>
+		/// <example>DeleteRows("sometable", new { ID = 1 }, new { ID = 2 })</example>
+		public void DeleteRows(string table, params object[] eq)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Remove from the table each row, using the equality condition
+		/// </summary>
+		/// <param name="table">Table name</param>
+		/// <param name="stream">Stream with CSV data</param>
+		/// <param name="keyColumn">Equality column in CSV file</param>
+		/// <param name="modulator">Converting keyColumn value to some types</param>
+		/// <param name="csvQuotesType">Quotes type</param>
+		/// <example>UnloadCsv("someTable", stream, "ID", x => (int)x)</example>
+		public void UnloadCsv(string table, StreamReader stream, string keyColumn, Func<string, object> modulator = null, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
