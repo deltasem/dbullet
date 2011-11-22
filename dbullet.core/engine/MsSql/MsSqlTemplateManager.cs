@@ -244,6 +244,15 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Returns template for delete row script
+		/// </summary>
+		/// <returns>Delete row template</returns>
+		public string GetDeleteRowsTemplate()
+		{
+			return GetTemplateFromResource("DeleteRows.cshtml");
+		}
+
+		/// <summary>
 		/// Получить шаблон из ресурса
 		/// </summary>
 		/// <param name="resourceName">Название ресурса</param>

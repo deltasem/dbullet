@@ -317,7 +317,22 @@ namespace dbullet.core.engine
 		/// <example>DeleteRows("sometable", new { ID = 1 }, new { ID = 2 })</example>
 		public void DeleteRows(string table, params object[] eq)
 		{
-			throw new NotImplementedException();
+			if (eq == null || eq.Length == 0)
+			{
+				ExecuteScalar(Razor.Parse(manager.GetDeleteRowsTemplate(), new object[] { table, null, null }, "delete rows"));
+			}
+
+			foreach (var row in eq)
+			{
+				var props = row.GetType().GetProperties();
+				var values = new string[props.Length];
+				for (int i = 0; i < props.Length; i++)
+				{
+					values[i] = props[i].GetValue(row, null).ToString();
+				}
+
+				ExecuteScalar(Razor.Parse(manager.GetDeleteRowsTemplate(), new object[] { table, props, values }, "delete rows"));
+			}
 		}
 
 		/// <summary>
