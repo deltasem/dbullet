@@ -3,11 +3,16 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-using System.Data.Moles;
-using dbullet.core.dbs.Moles;
+
+using System;
+using System.Data;
+using dbullet.core.dbo;
+using dbullet.core.dbs;
 using dbullet.core.engine;
-using Microsoft.Moles.Framework;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Moq;
 
 namespace dbullet.core.test
 {
@@ -20,17 +25,17 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Заглушка для соединения
 		/// </summary>
-		private SIDbConnection dbConnection;
+		private Mock<IDbConnection> dbConnection;
 
 		/// <summary>
 		/// Заглушка для системной стратегии
 		/// </summary>
-		private SIDatabaseStrategy databaseStrategy;
+		private Mock<IDatabaseStrategy> databaseStrategy;
 
 		/// <summary>
 		/// Комманда к базе
 		/// </summary>
-		private SIDbCommand createCommand;
+		private Mock<IDbCommand> createCommand;
 
 		/// <summary>
 		/// Тестиреумая стратегия
@@ -43,14 +48,11 @@ namespace dbullet.core.test
 		[TestInitialize]
 		public void TestInitialize()
 		{
-			createCommand = new SIDbCommand { InstanceBehavior = BehavedBehaviors.DefaultValue };
-			dbConnection = new SIDbConnection
-			               	{
-												CreateCommand = () => createCommand,
-			               		InstanceBehavior = BehavedBehaviors.DefaultValue
-			               	};
-			databaseStrategy = new SIDatabaseStrategy { InstanceBehavior = BehavedBehaviors.DefaultValue };
-			target = new MsSql2008SysStrategy(dbConnection, databaseStrategy);
+			createCommand = new Mock<IDbCommand>();
+			dbConnection = new Mock<IDbConnection>();
+			dbConnection.Setup(x => x.CreateCommand()).Returns(createCommand.Object);
+			databaseStrategy = new Mock<IDatabaseStrategy>();
+			target = new MsSql2008SysStrategy(dbConnection.Object, databaseStrategy.Object);
 		}
 
 		/// <summary>
@@ -59,7 +61,7 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void GetLastVersionTest()
 		{
-			createCommand.ExecuteScalar = () => 100500;
+			createCommand.Setup(x => x.ExecuteScalar()).Returns(100500);
 			var actual = target.GetLastVersion(GetType().Assembly);
 			Assert.AreEqual(100500, actual);
 		}
@@ -70,13 +72,14 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void GetLastVersionShouldUseAssembly()
 		{
-			int currentVersion = -1;
-			createCommand.CommandTextSetString = x => { currentVersion = x.Contains(string.Format("'{0}'", GetType().Assembly.GetName().Name)) ? 10 : 0; };
-			createCommand.ExecuteScalar = () => currentVersion;
-			var actual = target.GetLastVersion(GetType().Assembly);
-			Assert.AreEqual(10, actual);
-			actual = target.GetLastVersion(typeof(int).Assembly);
-			Assert.AreEqual(0, actual);
+		  int currentVersion = -1;
+			createCommand.SetupSet(x => x.CommandText = It.IsAny<string>())
+				.Callback<string>(x => currentVersion = x.Contains(string.Format("'{0}'", GetType().Assembly.GetName().Name)) ? 10 : 0);
+			createCommand.Setup(x => x.ExecuteScalar()).Returns(() => currentVersion);
+		  var actual = target.GetLastVersion(GetType().Assembly);
+		  Assert.AreEqual(10, actual);
+		  actual = target.GetLastVersion(typeof(int).Assembly);
+		  Assert.AreEqual(0, actual);
 		}
 
 		/// <summary>
@@ -85,9 +88,9 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void GetLastVersionNull()
 		{
-			createCommand.ExecuteScalar = () => System.DBNull.Value;
-			var actual = target.GetLastVersion(GetType().Assembly);
-			Assert.AreEqual(0, actual);
+		  createCommand.Setup(x => x.ExecuteScalar()).Returns(DBNull.Value);
+		  var actual = target.GetLastVersion(GetType().Assembly);
+		  Assert.AreEqual(0, actual);
 		}
 
 		/// <summary>
@@ -96,11 +99,9 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void InitDatabaseNewDatabaseTest()
 		{
-			bool tableWasCreated = false;
-			databaseStrategy.IsTableExistString = table => !table.Equals("dbullet");
-			databaseStrategy.CreateTableTable = table => { tableWasCreated = Equals(table.Name, "dbullet"); };
-			target.InitDatabase(GetType().Assembly);
-			Assert.IsTrue(tableWasCreated);
+			databaseStrategy.Setup(x => x.IsTableExist("dbullet")).Returns(false);
+		  target.InitDatabase(GetType().Assembly);
+			databaseStrategy.Verify(x => x.CreateTable(It.Is<Table>(y => y.Name == "dbullet")), Times.Once());
 		}
 
 		/// <summary>
@@ -109,11 +110,10 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void SetCurrentVersionTest()
 		{
-			string cmd = string.Empty;
-			createCommand.ExecuteScalar = () => 1;
-			createCommand.CommandTextSetString = p => cmd = p;
-			target.SetCurrentVersion(GetType().Assembly, 18);
-			Assert.AreEqual(string.Format("insert into dbullet(Version, Assembly) values(18, '{0}')", GetType().Assembly.GetName().Name), cmd);
+			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);
+		  target.SetCurrentVersion(GetType().Assembly, 18);
+			createCommand.VerifySet(x => x.CommandText = string.Format("insert into dbullet(Version, Assembly) values(18, '{0}')", GetType().Assembly.GetName().Name), Times.Once());
+			createCommand.Verify(x => x.ExecuteScalar(), Times.Once());
 		}
 
 		/// <summary>
@@ -122,11 +122,12 @@ namespace dbullet.core.test
 		[TestMethod]
 		public void RemoveVersionInfo()
 		{
-			string cmd = string.Empty;
-			createCommand.ExecuteScalar = () => 1;
-			createCommand.CommandTextSetString = (p) => cmd = p;
-			target.RemoveVersionInfo(GetType().Assembly, 18);
-			Assert.AreEqual(string.Format("delete from dbullet where version = 18 and Assembly = '{0}'", GetType().Assembly.GetName().Name), cmd);
+			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);
+		  
+		  target.RemoveVersionInfo(GetType().Assembly, 18);
+
+			createCommand.VerifySet(x => x.CommandText = string.Format("delete from dbullet where version = 18 and Assembly = '{0}'", GetType().Assembly.GetName().Name), Times.Once());
+			createCommand.Verify(x => x.ExecuteScalar(), Times.Once());
 		}
 	}
 }
