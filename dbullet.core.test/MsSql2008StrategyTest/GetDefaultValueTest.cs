@@ -5,20 +5,20 @@
 //-----------------------------------------------------------------------
 using dbullet.core.dbo;
 using dbullet.core.engine.MsSql;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты получения значения дефалта
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class GetDefaultValueTest
 	{
 		/// <summary>
 		/// Дефалт-значение
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ValueDefault()
 		{
 			var result = MsSqlTemplateManager.GetDefaultValue(new ValueDefault(string.Empty, "Value default"));
@@ -28,7 +28,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Дефалт-текущее время
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void StandartDefaultDate()
 		{
 			var result = MsSqlTemplateManager.GetDefaultValue(new StandartDefault(string.Empty, StandartDefaultType.date));
@@ -38,7 +38,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Дефалт-новый GUID
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void StandartDefaultGuid()
 		{
 			var result = MsSqlTemplateManager.GetDefaultValue(new StandartDefault(string.Empty, StandartDefaultType.guid));

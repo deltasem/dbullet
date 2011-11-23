@@ -6,20 +6,20 @@
 using dbullet.core.engine;
 using dbullet.core.exception;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты удаления таблиц
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class DropTableTest
 	{
 		/// <summary>
 		/// Удаление таблицы без названия
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void EmptyTable()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection());
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Удаление таблицы
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularDropTable()
 		{
 			var connection = new TestConnection();

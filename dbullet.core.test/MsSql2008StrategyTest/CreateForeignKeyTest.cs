@@ -6,20 +6,20 @@
 using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты создания внешних ключей
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class CreateForeignKeyTest
 	{
 		/// <summary>
 		/// Создание внешнего ключа
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularCreateFK()
 		{
 			var connection = new TestConnection();
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание внешнего ключа имя автогенерируемое
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void DefaultName()
 		{
 			var connection = new TestConnection();
@@ -43,7 +43,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание внешнего ключа имя автогенерируемое
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Cascade()
 		{
 			var connection = new TestConnection();
@@ -55,7 +55,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание внешнего ключа имя автогенерируемое
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void NoAction()
 		{
 			var connection = new TestConnection();

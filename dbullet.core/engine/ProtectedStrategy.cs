@@ -139,7 +139,6 @@ namespace dbullet.core.engine
 			}
 		}
 
-
 		/// <summary>
 		/// Добавляет записи в таблицу
 		/// </summary>

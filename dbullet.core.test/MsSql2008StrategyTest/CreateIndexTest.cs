@@ -6,20 +6,20 @@
 using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты создания индексов
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class CreateIndexTest
 	{
 		/// <summary>
 		/// Создание индекса
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularCreateIndex()
 		{
 			var connection = new TestConnection();
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание индекса оп убыванию
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Desc()
 		{
 			var connection = new TestConnection();
@@ -43,7 +43,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание индекса в нестандартной партиции
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Partitional()
 		{
 			var connection = new TestConnection();
@@ -55,7 +55,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание индекса в нестандартной партиции
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Clustered()
 		{
 			var connection = new TestConnection();
@@ -67,7 +67,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание уникального индекса
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void Unique()
 		{
 			var connection = new TestConnection();

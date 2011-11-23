@@ -9,7 +9,7 @@ using System.IO;
 using System.Text;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
@@ -18,13 +18,13 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 	/// <summary>
 	/// Тесты загрузки CSV
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class LoadCsvTest
 	{
 		/// <summary>
 		/// Пустой файл
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void LoadCsvEmptyStream()
 		{
 			var connection = new TestConnection();
@@ -39,7 +39,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен быть создан параметр
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void InvalidHeader()
 		{
 			var connection = new TestConnection();
@@ -54,7 +54,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Отсутствуют данные
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void LoadCsvEmptyData()
 		{
 			var connection = new TestConnection();
@@ -69,7 +69,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Загрузка одной записи
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void LoadCsvOneRow()
 		{
 			var connection = new TestConnection();
@@ -84,7 +84,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен быть создан параметр
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ParametrMustBeCreatedCount()
 		{
 			var connection = new TestConnection();
@@ -99,7 +99,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен быть создан параметр с указаным именем
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ParametrMustBeCreatedName()
 		{
 			var connection = new TestConnection();
@@ -114,7 +114,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен быть создан параметр с указаным значением
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ParametrMustBeCreatedValue()
 		{
 			var connection = new TestConnection();
@@ -129,7 +129,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен быть создан параметр с указаным значением
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void DataDoesntMatchHeader()
 		{
 			var connection = new TestConnection();
@@ -144,7 +144,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен происходить вызов модулятора
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ModulatorInvoked()
 		{
 			var connection = new TestConnection();
@@ -159,7 +159,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Должен учитываться флаг identity
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void LoadCsvShouldUseIdenityInsert()
 		{
 			var connection = new TestConnection();

@@ -3,25 +3,26 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System;
 using System.Data;
 using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты добавления колонки
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class AddColumnTest
 	{
 		/// <summary>
 		/// Нельзя добавить колонку без дефалта, и не нулл
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void NotNullNotDefaul()
 		{
 			var strategy = new MsSql2008Strategy(null);
@@ -31,7 +32,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Добавление столбца с allow null
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddWithNull()
 		{
 			var con = new TestConnection();
@@ -43,7 +44,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Добавление столбца с дефалтом
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddWithValueDefault()
 		{
 			var con = new TestConnection();
@@ -55,7 +56,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Добавление столбца с дефалтом - время
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddWithDateDefault()
 		{
 			var con = new TestConnection();
@@ -67,7 +68,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Добавление столбца с дефалтом - GUID
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddWithGuidDefault()
 		{
 			var con = new TestConnection();

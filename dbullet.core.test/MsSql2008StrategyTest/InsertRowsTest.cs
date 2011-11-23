@@ -7,20 +7,20 @@ using System;
 using dbullet.core.engine;
 using dbullet.core.exception;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты InsertRows
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class InsertRowsTest
 	{
 		/// <summary>
 		/// Добавление в неуказанную таблицу
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void EmptyTable()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Добавление, без указания данных
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void EmptyData()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };
@@ -42,7 +42,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная вставк записи
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularInsert()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };
@@ -54,7 +54,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная вставк записи
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void InsertTwoRow()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };
@@ -71,7 +71,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Если указано identity, то должно использоваться
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void InsertShoudUseIdentity()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };

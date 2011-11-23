@@ -6,14 +6,14 @@
 
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Tests for DeleteRows method
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class DeleteRowsTest
 	{
 		/// <summary>
@@ -29,7 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Initialize test environment
 		/// </summary>
-		[TestInitialize]
+		[SetUp]
 		public void TestInitialize()
 		{
 			this.connection = new TestConnection();
@@ -39,7 +39,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Should delete all rows if equality conditions is null
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ShouldDeleteAllRowsIfEqualityConditionsIsNull()
 		{
 			strategy.DeleteRows("testTable");
@@ -49,7 +49,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Should apply condition
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ShouldApplyCondition()
 		{
 			strategy.DeleteRows("testTable", new { ID = 100 });
@@ -59,7 +59,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Should apply few conditions
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ShouldApplyFewConditions()
 		{
 			strategy.DeleteRows("testTable", new { ID1 = 101, ID2 = 102, ID3 = 103 });
@@ -69,7 +69,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Should delete few rows
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ShouldDeleteFewRows()
 		{
 			strategy.DeleteRows("testTable", new { ID = 100 }, new { ID = 101 });

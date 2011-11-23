@@ -5,20 +5,20 @@
 //-----------------------------------------------------------------------
 using dbullet.core.dbo;
 using dbullet.core.exception;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test
 {
 	/// <summary>
 	/// Тесты для индексов
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class IndexTest
 	{
 		/// <summary>
 		/// Добавление колонки возвращает тот же индекс
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddColumnSameObjectTest()
 		{
 			var idx = new Index("IDX_TEST", "testTable");
@@ -29,7 +29,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление колонки
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddColumnTest()
 		{
 			var idx = new Index("IDX_TEST", "testTable");
@@ -40,7 +40,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление два раза одной и той же колонки должно вызвать исключение
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddColumnDublicateTest()
 		{
 			var idx = new Index("IDX_TEST", "testTable");

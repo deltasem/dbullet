@@ -8,20 +8,20 @@ using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.exception;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты создания таблиц
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class CreateTableTest
 	{
 		/// <summary>
 		/// Создание таблицы без столбцов
 		/// </summary>
-		[TestMethod]
+		[Test]
 		[ExpectedException(typeof(ColumnExpectedException))]
 		public void WithoutCollumns()
 		{
@@ -33,7 +33,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Нормальное создание
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularCreateTable()
 		{
 			var connection = new TestConnection();
@@ -48,7 +48,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Нормальное создание
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularCreateTableWithIdentity()
 		{
 			var connection = new TestConnection();
@@ -63,7 +63,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Нормальное создание в другой партиции
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void CustomPartition()
 		{
 			var connection = new TestConnection();
@@ -78,7 +78,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Нормальное создание в другой партиции c первичным ключем
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void CustomPartitionWithPrimaryKey()
 		{
 			var connection = new TestConnection();
@@ -95,7 +95,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Создание таблицы с первичным ключем в не стандартной партиции
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void WithPrimaryKeyCustomPartition()
 		{
 			var connection = new TestConnection();
@@ -112,7 +112,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Нормальное создание
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void WithDefault()
 		{
 			var connection = new TestConnection();
@@ -127,7 +127,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Со стандартным дефалтом - системное время
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void WithStandartDefaultDate()
 		{
 			var connection = new TestConnection();
@@ -141,7 +141,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Со стандартным дефалтом - новый GUID
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void WithStandartDefaultGuid()
 		{
 			var connection = new TestConnection();

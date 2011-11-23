@@ -6,14 +6,14 @@
 using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.exception;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test
 {
 	/// <summary>
 	/// Тесты таблицы
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class TableTest
 	{
 		/// <summary>
@@ -24,7 +24,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление первичного ключа в таблицу без колонки
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddPrimaryKeyWithoutColumn()
 		{
 			Table tbl = new Table("test");
@@ -34,7 +34,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление первичного ключа должно формировать констраинт в столбце
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddPrimaryCollumnConstraint()
 		{
 			var tbl = new Table("test")
@@ -46,7 +46,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление первичного ключа должно формировать адекватное имя
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddPrimaryKeyPrimaryKeyName()
 		{
 			var tbl = new Table("test")
@@ -58,7 +58,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление дефалта без колонки
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddDefaultWithoutColumn()
 		{
 			var tbl = new Table("test");
@@ -68,7 +68,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление дефалта для колонки с первичным ключем
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddDefaultAtPrimaryKeyColumn()
 		{
 			var tbl = new Table("test")
@@ -80,7 +80,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление дефалта в последнюю колонку
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddOneDefaultAtLastColumn()
 		{
 			var tbl = new Table("test")
@@ -97,7 +97,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Добавление дефалта должно генерировать его имя
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void AddDefaultAutoName()
 		{
 			var tbl = new Table("test")

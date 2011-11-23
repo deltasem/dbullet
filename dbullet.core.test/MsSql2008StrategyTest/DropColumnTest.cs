@@ -7,20 +7,20 @@
 using dbullet.core.engine;
 using dbullet.core.exception;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты удаления столбцов
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class DropColumnTest
 	{
 		/// <summary>
 		/// При пустой колонке должно быть исключение
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void EmptyColumn()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection());
@@ -30,7 +30,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// При пустой таблице должно быть исключение
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void EmptyTable()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection());
@@ -40,7 +40,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Удаление столбца
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularDropColumn()
 		{
 			var connection = new TestConnection();

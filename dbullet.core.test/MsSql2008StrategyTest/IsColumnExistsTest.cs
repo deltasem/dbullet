@@ -6,20 +6,20 @@
 using System;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты IsColumnExistsTest
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class IsColumnExistsTest
 	{
 		/// <summary>
 		/// Проверяет, существует ли таблица
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void ByName()
 		{
 			var connection = new TestConnection { ExecuteScalarValue = 1 };
@@ -34,7 +34,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Проверяет, существует ли таблица
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularIsColumnExists()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection { ExecuteScalarValue = 1 });
@@ -45,7 +45,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Проверяет, существует ли таблица
 		/// </summary>
-		[TestMethod]
+		[Test]
 		[ExpectedException(typeof(ArgumentException))]
 		public void EmptyTable()
 		{
@@ -56,7 +56,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Таблица не существует
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void NotExists()
 		{
 			var strategy = new MsSql2008Strategy(new TestConnection { ExecuteScalarValue = 0 });

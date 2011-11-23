@@ -9,17 +9,15 @@ using System.Data;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Moq;
+using NUnit.Framework;
 
 namespace dbullet.core.test
 {
 	/// <summary>
 	/// Тесты для системной стратегии MS SQL 2008
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class MsSql2008SysStrategyTest
 	{
 		/// <summary>
@@ -45,7 +43,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Инициализация тестов
 		/// </summary>
-		[TestInitialize]
+		[SetUp]
 		public void TestInitialize()
 		{
 			createCommand = new Mock<IDbCommand>();
@@ -58,7 +56,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Проверка возврата последней версии
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void GetLastVersionTest()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(100500);
@@ -69,7 +67,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Последняя версия должна учитывать сборку
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void GetLastVersionShouldUseAssembly()
 		{
 		  int currentVersion = -1;
@@ -85,7 +83,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Когда еще нет ниодной версии
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void GetLastVersionNull()
 		{
 		  createCommand.Setup(x => x.ExecuteScalar()).Returns(DBNull.Value);
@@ -96,7 +94,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Проверка инициализации БД
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void InitDatabaseNewDatabaseTest()
 		{
 			databaseStrategy.Setup(x => x.IsTableExist("dbullet")).Returns(false);
@@ -107,7 +105,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Тест установки текущей версии
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void SetCurrentVersionTest()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);
@@ -119,7 +117,7 @@ namespace dbullet.core.test
 		/// <summary>
 		/// Тест установки текущей версии
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RemoveVersionInfo()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);

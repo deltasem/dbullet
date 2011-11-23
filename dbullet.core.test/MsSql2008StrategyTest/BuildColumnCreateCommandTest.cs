@@ -7,20 +7,20 @@ using System;
 using System.Data;
 using dbullet.core.dbo;
 using dbullet.core.engine.MsSql;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты процедуры создания колонки
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class BuildColumnCreateCommandTest
 	{
 		/// <summary>
 		/// Если строка без размера - сгенерить ошибкуx
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void StringWithoutSize()
 		{
 			AssertHelpers.Throws<ArgumentException>(
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка-строка
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void StringDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
@@ -41,7 +41,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка-число
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void NumericDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
@@ -51,7 +51,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка целое число
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void IntDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
@@ -61,7 +61,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка булевый тип
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void BooleanDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
@@ -71,7 +71,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка дата
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void DateDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
@@ -81,7 +81,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка дата
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void DateTimeDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
@@ -91,7 +91,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка GUID
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void GuidDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
@@ -101,7 +101,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// <summary>
 		/// Обычная колонка GUID
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void XmlDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));

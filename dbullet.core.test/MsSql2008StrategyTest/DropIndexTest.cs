@@ -6,20 +6,20 @@
 using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тест удаления индексов
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class DropIndexTest
 	{
 		/// <summary>
 		/// Удаление индекса
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularDropIndex()
 		{
 			var connection = new TestConnection();

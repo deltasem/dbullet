@@ -7,7 +7,7 @@ namespace dbullet.core.test
 {
 	using System;
 
-	using Microsoft.VisualStudio.TestTools.UnitTesting;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Клас для ассертов

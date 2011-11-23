@@ -6,20 +6,20 @@
 using dbullet.core.dbo;
 using dbullet.core.engine;
 using dbullet.core.test.tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
 {
 	/// <summary>
 	/// Тесты удаления внешних ключей
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class DropForeignKeyTest
 	{
 		/// <summary>
 		/// Удаление внешнего ключа
 		/// </summary>
-		[TestMethod]
+		[Test]
 		public void RegularDropForeignKey()
 		{
 			var connection = new TestConnection();

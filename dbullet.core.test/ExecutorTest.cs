@@ -13,24 +13,23 @@ using dbullet.core.attribute;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using StructureMap;
-
 using dbullet.core.tools;
+using Moq;
+using NUnit.Framework;
+using StructureMap;
 
 namespace dbullet.core.test
 {
   /// <summary>
   /// Тесты выполнителя
   /// </summary>
-  [TestClass]
+  [TestFixture]
   public class ExecutorTest
   {
     /// <summary>
     /// Инициализация тестов
     /// </summary>
-    [TestInitialize]
+		[SetUp]
     public void TestInitialize()
     {
       TestBullet1.IsUpdateInvoked = false;
@@ -46,7 +45,7 @@ namespace dbullet.core.test
     /// <summary>
     /// A test for GetBulletsInAssembly
     /// </summary>
-    [TestMethod]
+    [Test]
     public void GetBulletsInAssemblyTest()
     {
     	var types = new[] { typeof(NotBullet), typeof(TestBullet1), typeof(TestBullet2WithouAttrs), typeof(NotBulletWithAttrs) };
@@ -60,7 +59,7 @@ namespace dbullet.core.test
     /// <summary>
     /// Булеты должны быть упорядоченными
     /// </summary>
-    [TestMethod]
+    [Test]
     public void GetBulletsInAssemblyOrdered()
     {
     	var types = new[]
@@ -86,7 +85,7 @@ namespace dbullet.core.test
     /// <summary>
     /// Булеты должны быть упорядоченными
     /// </summary>
-    [TestMethod]
+    [Test]
     public void GetBulletsInAssemblyOrderedRevert()
     {
     	var types = new[]
@@ -112,7 +111,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// A test for Execute
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteSimple()
     {
     	var types = new[] { typeof(TestBullet1) };
@@ -135,7 +134,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// Тесты должны вызываться в последовательности
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteBulletSequence()
   	{
 			var types = new[] { typeof(TestBullet1), typeof(TestBullet2), typeof(TestBullet3) };
@@ -152,7 +151,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// Тесты должны вызываться в последовательности
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteBackBulletSequence()
   	{
   		var types = new[] { typeof(TestBullet1), typeof(TestBullet2), typeof(TestBullet3) };
@@ -178,7 +177,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// Выполнение до определенной версии
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteBulletToVersion()
   	{
   		var types = new[] { typeof(TestBullet1), typeof(TestBullet2), typeof(TestBullet3) };
@@ -200,7 +199,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// Версия должна записываться в базу
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecteVersionWriting()
   	{
   		var types = new[] { typeof(TestBullet1), typeof(TestBullet1) };
@@ -218,7 +217,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// При не прохождении любого скрипта из булета, должен быть выполнен откат
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteWithErrors()
   	{
   		var types = new[] { typeof(ErrorBullet) };
@@ -241,7 +240,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// При возникновении ошибки, не должно проходит обновление дальше
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteWithErrorsNotContinue()
   	{
   		var types = new[] { typeof(ErrorBullet), typeof(TestBullet3) };
@@ -264,7 +263,7 @@ namespace dbullet.core.test
   	/// <summary>
     /// При возникновении ошибки в ходе downgrade должны проходить остальные шаги
     /// </summary>
-    [TestMethod]
+    [Test]
     public void ExecuteWithErrorsDowngradeWithErrors()
   	{
   		var types = new[] { typeof(ErrorStepBullet) };
