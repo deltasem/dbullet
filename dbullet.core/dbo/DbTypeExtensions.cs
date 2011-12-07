@@ -34,5 +34,28 @@ namespace dbullet.core.dbo
 		{
 			return new ColumnType(dbType, size, scale);
 		}
+
+		/// <summary>
+		/// Размерность столбца
+		/// </summary>
+		/// <param name="dbType">Тип столбца ДБ</param>
+		/// <param name="size">Размерность</param>
+		/// <returns>Тип столбца</returns>
+		public static ColumnType Size(this SqlDbType dbType, int size)
+		{
+			return new ColumnType(dbType, size);
+		}
+
+		/// <summary>
+		/// Размерность столбца
+		/// </summary>
+		/// <param name="dbType">Тип столбца ДБ</param>
+		/// <param name="size">Размерность</param>
+		/// <param name="scale">Разрядность</param>
+		/// <returns>Тип столбца</returns>
+		public static ColumnType Size(this SqlDbType dbType, int size, int scale)
+		{
+			return new ColumnType(dbType, size, scale);
+		}
 	}
 }

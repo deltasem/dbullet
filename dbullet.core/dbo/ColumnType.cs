@@ -15,7 +15,12 @@ namespace dbullet.core.dbo
 		/// <summary>
 		/// Тип базы данных
 		/// </summary>
-		private readonly DbType dbType;
+		private readonly DbType? dbType;
+
+		/// <summary>
+		/// Тип поля
+		/// </summary>
+		private readonly SqlDbType? sqlDbType;
 
 		/// <summary>
 		/// Размерность
@@ -60,13 +65,56 @@ namespace dbullet.core.dbo
 		}
 
 		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="dbType">Тип БД</param>
+		public ColumnType(SqlDbType dbType)
+			: this(dbType, 0, 0)
+		{
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="dbType">Тип БД</param>
+		/// <param name="length">Размерность</param>
+		public ColumnType(SqlDbType dbType, int length)
+			: this(dbType, length, 0)
+		{
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="dbType">Тип БД</param>
+		/// <param name="length">Размерность</param>
+		/// <param name="scale">Разрядность</param>
+		public ColumnType(SqlDbType dbType, int length, int scale)
+		{
+			this.sqlDbType = dbType;
+			this.length = length;
+			this.scale = scale;
+		}
+
+		/// <summary>
 		/// Тип БД
 		/// </summary>
-		public DbType DbType
+		public DbType? DbType
 		{
 			get
 			{
 				return this.dbType;
+			}
+		}
+
+		/// <summary>
+		/// Тип БД
+		/// </summary>
+		public SqlDbType? SqlDbType
+		{
+			get
+			{
+				return this.sqlDbType;
 			}
 		}
 

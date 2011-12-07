@@ -21,5 +21,14 @@ namespace dbullet.core.exception
 			: base(string.Format("Тип столбца [{0}] на данный момент не поддерживается\nЕсли он Вам нужен - сообщите об этом: https://github.com/deltasem/dbullet/issues", type.ToString()))
 		{
 		}
+
+		/// <summary>
+		/// Не поддерживаемый тип
+		/// </summary>
+		/// <param name="type">Тип</param>
+		public UnsuportedDbTypeException(SqlDbType type)
+			: base(string.Format("Тип столбца [{0}] на данный момент не поддерживается\nЕсли он Вам нужен - сообщите об этом: https://github.com/deltasem/dbullet/issues", type.ToString()))
+		{
+		}
 	}
 }

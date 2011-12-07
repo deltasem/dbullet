@@ -150,6 +150,17 @@ namespace dbullet.core
 		/// </summary>
 		/// <param name="table">Таблица</param>
 		/// <param name="column">Колонка</param>
+		/// <param name="dbType">Тип колонки</param>
+		public void AddColumn(string table, string column, SqlDbType dbType)
+		{
+			AddColumn(new Table(table), new Column(column, dbType));
+		}
+
+		/// <summary>
+		/// Добавляет колонку
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
 		/// <param name="columnType">Тип колонки</param>
 		public void AddColumn(string table, string column, ColumnType columnType)
 		{
@@ -164,6 +175,18 @@ namespace dbullet.core
 		/// <param name="dbType">Тип колонки</param>
 		/// <param name="defaultValue">Дефалт</param>
 		public void AddColumn(string table, string column, DbType dbType, string defaultValue)
+		{
+			AddColumn(new Table(table), new Column(column, dbType) { Constraint = new ValueDefault(string.Format("DF_{0}_{1}", table, column).ToUpper(), defaultValue) });
+		}
+
+		/// <summary>
+		/// Добавляет колонку
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		/// <param name="dbType">Тип колонки</param>
+		/// <param name="defaultValue">Дефалт</param>
+		public void AddColumn(string table, string column, SqlDbType dbType, string defaultValue)
 		{
 			AddColumn(new Table(table), new Column(column, dbType) { Constraint = new ValueDefault(string.Format("DF_{0}_{1}", table, column).ToUpper(), defaultValue) });
 		}
@@ -188,6 +211,18 @@ namespace dbullet.core
 		/// <param name="dbType">Тип колонки</param>
 		/// <param name="standartDefaultType">Дефалт</param>
 		public void AddColumn(string table, string column, DbType dbType, StandartDefaultType standartDefaultType)
+		{
+			AddColumn(new Table(table), new Column(column, dbType) { Constraint = new StandartDefault(string.Format("DF_{0}_{1}", table, column).ToUpper(), standartDefaultType) });
+		}
+
+		/// <summary>
+		/// Добавляет колонку
+		/// </summary>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
+		/// <param name="dbType">Тип колонки</param>
+		/// <param name="standartDefaultType">Дефалт</param>
+		public void AddColumn(string table, string column, SqlDbType dbType, StandartDefaultType standartDefaultType)
 		{
 			AddColumn(new Table(table), new Column(column, dbType) { Constraint = new StandartDefault(string.Format("DF_{0}_{1}", table, column).ToUpper(), standartDefaultType) });
 		}

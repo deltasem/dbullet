@@ -25,66 +25,14 @@ namespace dbullet.core.engine.MsSql
 		/// <returns>Текст создания столбца</returns>
 		public static string BuildColumnCreateCommand(Column column)
 		{
-			if (column.ColumnType.DbType == DbType.String && column.ColumnType.Length == 0)
+			StringBuilder sb = null;
+			if (column.ColumnType.DbType.HasValue)
 			{
-				throw new ArgumentException("String must have length");
+				sb = GetDbTypeString(column);
 			}
-
-			if (column.ColumnType.DbType == DbType.Binary && column.ColumnType.Length == 0)
+			else
 			{
-				throw new ArgumentException("Binary must have length");
-			}
-
-			var sb = new StringBuilder(string.Format("[{0}]", column.Name));
-			switch (column.ColumnType.DbType)
-			{
-				case DbType.Decimal:
-					sb.Append(" decimal");
-					break;
-				case DbType.String:
-					sb.Append(" nvarchar");
-					break;
-				case DbType.Int32:
-					sb.Append(" int ");
-					break;
-				case DbType.Boolean:
-					sb.Append(" bit ");
-					break;
-				case DbType.Date:
-					sb.Append(" date ");
-					break;
-				case DbType.DateTime:
-					sb.Append(" datetime ");
-					break;
-				case DbType.Guid:
-					sb.Append(" uniqueidentifier ");
-					break;
-				case DbType.Xml:
-					sb.Append(" xml ");
-					break;
-				case DbType.Binary:
-					sb.Append(" binary");
-					break;
-				case DbType.AnsiString:
-				case DbType.Byte:
-				case DbType.Currency:
-				case DbType.Double:
-				case DbType.Int16:
-				case DbType.Int64:
-				case DbType.Object:
-				case DbType.SByte:
-				case DbType.Single:
-				case DbType.Time:
-				case DbType.UInt16:
-				case DbType.UInt32:
-				case DbType.UInt64:
-				case DbType.VarNumeric:
-				case DbType.AnsiStringFixedLength:
-				case DbType.StringFixedLength:
-				case DbType.DateTime2:
-				case DbType.DateTimeOffset:
-				default:
-					throw new UnsuportedDbTypeException(column.ColumnType.DbType);
+				sb = GetSqlDbTypeString(column);
 			}
 
 			if (column.ColumnType.Length != 0 && column.ColumnType.Scale == 0)
@@ -103,7 +51,8 @@ namespace dbullet.core.engine.MsSql
 			}
 
 			return sb.ToString();
-		} 
+		}
+
 		#endregion
 
 		/// <summary>
@@ -257,6 +206,80 @@ namespace dbullet.core.engine.MsSql
 		public string GetDeleteRowsTemplate()
 		{
 			return GetTemplateFromResource("DeleteRows.cshtml");
+		}
+
+		/// <summary>
+		/// Получает строку из перечисления DbType
+		/// </summary>
+		/// <param name="column">Колонка</param>
+		/// <returns>Строка</returns>
+		private static StringBuilder GetDbTypeString(Column column)
+		{
+			if (column.ColumnType.DbType == DbType.String && column.ColumnType.Length == 0)
+			{
+				throw new ArgumentException("String must have length");
+			}
+
+			if (column.ColumnType.DbType == DbType.Binary && column.ColumnType.Length == 0)
+			{
+				throw new ArgumentException("Binary must have length");
+			}
+
+			var sb = new StringBuilder(string.Format("[{0}]", column.Name));
+			switch (column.ColumnType.DbType)
+			{
+				case DbType.Decimal:
+					sb.Append(" decimal");
+					break;
+				case DbType.String:
+					sb.Append(" nvarchar");
+					break;
+				case DbType.Int32:
+					sb.Append(" int ");
+					break;
+				case DbType.Boolean:
+					sb.Append(" bit ");
+					break;
+				case DbType.Date:
+					sb.Append(" date ");
+					break;
+				case DbType.DateTime:
+					sb.Append(" datetime ");
+					break;
+				case DbType.Guid:
+					sb.Append(" uniqueidentifier ");
+					break;
+				case DbType.Xml:
+					sb.Append(" xml ");
+					break;
+				case DbType.Binary:
+					sb.Append(" binary");
+					break;
+				default:
+					throw new UnsuportedDbTypeException(column.ColumnType.DbType.GetValueOrDefault());
+			}
+
+			return sb;
+		}
+
+		/// <summary>
+		/// Получает строку из перечисления DbType
+		/// </summary>
+		/// <param name="column">Колонка</param>
+		/// <returns>Строка</returns>
+		private static StringBuilder GetSqlDbTypeString(Column column)
+		{
+			var sb = new StringBuilder(string.Format("[{0}]", column.Name));
+			switch (column.ColumnType.SqlDbType)
+			{
+				case SqlDbType.VarBinary:
+					sb.Append(" varbinary(MAX) ");
+					break;
+				default:
+					throw new UnsuportedDbTypeException(column.ColumnType.DbType.GetValueOrDefault());
+			}
+
+			return sb;
 		}
 
 		/// <summary>

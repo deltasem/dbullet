@@ -43,6 +43,18 @@ namespace dbullet.core.dbo
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Имя столбца</param>
+		/// <param name="dbType">Тип столбца</param>
+		/// <param name="nullable">Может содержать null</param>
+		/// <param name="identity">Идентити</param>
+		public Column(string name, SqlDbType dbType, bool nullable = true, bool identity = false)
+			: this(name, new ColumnType(dbType), nullable, identity)
+		{
+		}
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="name">Имя столбца</param>
 		/// <param name="columnType">Тип столбца</param>
 		/// <param name="nullable">Может содержать null</param>
 		/// <param name="identity">Идентити</param>

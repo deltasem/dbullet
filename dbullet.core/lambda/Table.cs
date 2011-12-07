@@ -90,9 +90,13 @@ namespace dbullet.core.lambda
 				ct = new ColumnType(DbType.Guid);
 				nullable = true;
 			}
-			else if (m.Type == typeof(byte[]))
+			else if (m.Type == typeof(byte[]) && size != 0)
 			{
 				ct = new ColumnType(DbType.Binary, size);
+			}
+			else if (m.Type == typeof(byte[]) && size == 0)
+			{
+				ct = new ColumnType(SqlDbType.VarBinary);
 			}
 	
 			if (ct == null)

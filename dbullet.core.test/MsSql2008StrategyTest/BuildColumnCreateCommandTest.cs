@@ -128,5 +128,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
 			Assert.AreEqual("[TestColumn] binary(50) null", t);
 		}
+
+		/// <summary>
+		/// Обычная колонка-строка
+		/// </summary>
+		[Test]
+		public void VarBinaryDatatype()
+		{
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", SqlDbType.VarBinary));
+			Assert.AreEqual("[TestColumn] varbinary(MAX) null", t);
+		}
 	}
 }
