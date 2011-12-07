@@ -23,7 +23,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void StringWithoutSize()
 		{
-			AssertHelpers.Throws<ArgumentException>(
+			Assert.Throws<ArgumentException>(
 				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
 				"String must have length");
 		}
@@ -106,6 +106,27 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
 			Assert.AreEqual("[TestColumn] xml null", t);
+		}
+
+		/// <summary>
+		/// Binary
+		/// </summary>
+		[Test]
+		public void BinaryDataTypeWithoutSize()
+		{
+			Assert.Throws<ArgumentException>(
+				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary)), 
+				"Binary must have length");
+		}
+
+		/// <summary>
+		/// Обычная колонка-строка
+		/// </summary>
+		[Test]
+		public void BinaryDatatype()
+		{
+			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
+			Assert.AreEqual("[TestColumn] binary(50) null", t);
 		}
 	}
 }

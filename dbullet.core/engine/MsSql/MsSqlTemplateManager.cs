@@ -30,6 +30,11 @@ namespace dbullet.core.engine.MsSql
 				throw new ArgumentException("String must have length");
 			}
 
+			if (column.ColumnType.DbType == DbType.Binary && column.ColumnType.Length == 0)
+			{
+				throw new ArgumentException("Binary must have length");
+			}
+
 			var sb = new StringBuilder(string.Format("[{0}]", column.Name));
 			switch (column.ColumnType.DbType)
 			{
@@ -57,8 +62,10 @@ namespace dbullet.core.engine.MsSql
 				case DbType.Xml:
 					sb.Append(" xml ");
 					break;
-				case DbType.AnsiString:
 				case DbType.Binary:
+					sb.Append(" binary");
+					break;
+				case DbType.AnsiString:
 				case DbType.Byte:
 				case DbType.Currency:
 				case DbType.Double:
