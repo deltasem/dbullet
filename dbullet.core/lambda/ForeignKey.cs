@@ -53,6 +53,11 @@ namespace dbullet.core.lambda
 		{
 			var srcMember = srcColumn.Body as MemberExpression;
 			var refMember = refColumn.Body as MemberExpression;
+			if (refMember == null)
+			{
+				refMember = (refColumn.Body as UnaryExpression).Operand as MemberExpression;
+			}
+
 			SrcColumnName = srcMember.Member.Name;
 			RefColumnName = refMember.Member.Name;
 
