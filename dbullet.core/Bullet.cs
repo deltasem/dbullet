@@ -277,7 +277,7 @@ namespace dbullet.core
 		/// <param name="identity">true - отключать идентити спецификацию</param>
 		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false)
 		{
-			ObjectFactory.GetInstance<IDatabaseStrategy>().LoadCsv(tableName, stream, modulator, csvQuotesType);
+			ObjectFactory.GetInstance<IDatabaseStrategy>().LoadCsv(tableName, stream, modulator, csvQuotesType, identity);
 		}
 
 		/// <summary>
