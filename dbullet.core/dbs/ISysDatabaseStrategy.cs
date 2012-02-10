@@ -18,28 +18,28 @@ namespace dbullet.core.dbs
 		/// Инициализация базы данных
 		/// Добавление, если нет системной таблицы
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
-		void InitDatabase(Assembly assembly);
+		/// <param name="name">Имя</param>
+		void InitDatabase(string name);
 
 		/// <summary>
 		/// Возвращает последнюю версию базы
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
+		/// <param name="name">Имя</param>
 		/// <returns>Версия базы</returns>
-		int GetLastVersion(Assembly assembly);
+		int GetLastVersion(string name);
 
 		/// <summary>
 		/// Установка текущей версии
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		void SetCurrentVersion(Assembly assembly, int version);
+		/// <param name="name">Имя</param>
+		void SetCurrentVersion(int version, string name);
 
 		/// <summary>
 		/// Удаление информации об указанной версии
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		void RemoveVersionInfo(Assembly assembly, int version);
+		/// <param name="name">Имя</param>
+		void RemoveVersionInfo(int version, string name);
 	}
 }

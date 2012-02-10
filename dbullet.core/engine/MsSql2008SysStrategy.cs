@@ -41,37 +41,37 @@ namespace dbullet.core.engine
 		/// Инициализация базы данных
 		/// Добавление, если нет системной таблицы
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
-		public void InitDatabase(Assembly assembly)
+		/// <param name="name">Имя</param>
+		public void InitDatabase(string name)
 		{
-			if (!strategy.IsTableExist("dbullet"))
+			if (!this.strategy.IsTableExist("dbullet"))
 			{
-				strategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
+				this.strategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
 			}
 
-			if (!strategy.IsColumnExists("dbullet", "Assembly"))
+			if (!this.strategy.IsColumnExists("dbullet", "Assembly"))
 			{
 				var column = new Column("Assembly", DbType.String.Size(1024), false)
 				             	{
-				             		Constraint = new ValueDefault("dbullet_assembly_default", assembly.GetName().Name)
+				             		Constraint = new ValueDefault("dbullet_assembly_default", name)
 				             	};
-				strategy.AddColumn(new Table("dbullet"), column);
+				this.strategy.AddColumn(new Table("dbullet"), column);
 			}
 		}
 
 		/// <summary>
 		/// Возвращает последнюю версию базы
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
+		/// <param name="name">Имя</param>
 		/// <returns>Версия базы</returns>
-		public int GetLastVersion(Assembly assembly)
+		public int GetLastVersion(string name)
 		{
 			try
 			{
-				connection.Open();
-				using (var cmd = connection.CreateCommand())
+				this.connection.Open();
+				using (var cmd = this.connection.CreateCommand())
 				{
-					cmd.CommandText = string.Format("select max(Version) from dbullet where assembly = '{0}'", assembly.GetName().Name);
+					cmd.CommandText = string.Format("select max(Version) from dbullet where assembly = '{0}'", name);
 					var res = cmd.ExecuteScalar();
 					if (res == System.DBNull.Value)
 					{
@@ -83,9 +83,9 @@ namespace dbullet.core.engine
 			}
 			finally
 			{
-				if (connection != null)
+				if (this.connection != null)
 				{
-					connection.Close();
+					this.connection.Close();
 				}
 			}
 		}
@@ -93,24 +93,24 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Установка текущей версии
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		public void SetCurrentVersion(Assembly assembly, int version)
+		/// <param name="name">Имя</param>
+		public void SetCurrentVersion(int version, string name)
 		{
 			try
 			{
-				connection.Open();
-				using (var cmd = connection.CreateCommand())
+				this.connection.Open();
+				using (var cmd = this.connection.CreateCommand())
 				{
-					cmd.CommandText = string.Format("insert into dbullet(Version, Assembly) values({0}, '{1}')", version, assembly.GetName().Name);
+					cmd.CommandText = string.Format("insert into dbullet(Version, Assembly) values({0}, '{1}')", version, name);
 					cmd.ExecuteScalar();
 				}
 			}
 			finally
 			{
-				if (connection != null)
+				if (this.connection != null)
 				{
-					connection.Close();
+					this.connection.Close();
 				}
 			}
 		}
@@ -118,24 +118,24 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Удаление информации об указанной версии
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
 		/// <param name="version">Версия</param>
-		public void RemoveVersionInfo(Assembly assembly, int version)
+		/// <param name="name">Имя</param>
+		public void RemoveVersionInfo(int version, string name)
 		{
 			try
 			{
-				connection.Open();
-				using (var cmd = connection.CreateCommand())
+				this.connection.Open();
+				using (var cmd = this.connection.CreateCommand())
 				{
-					cmd.CommandText = string.Format("delete from dbullet where version = {0} and Assembly = '{1}'", version, assembly.GetName().Name);
+					cmd.CommandText = string.Format("delete from dbullet where version = {0} and Assembly = '{1}'", version, name);
 					cmd.ExecuteScalar();
 				}
 			}
 			finally
 			{
-				if (connection != null)
+				if (this.connection != null)
 				{
-					connection.Close();
+					this.connection.Close();
 				}
 			}
 		}

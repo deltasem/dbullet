@@ -6,6 +6,8 @@
 
 using System;
 using System.Data;
+using System.Reflection;
+
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
@@ -60,7 +62,8 @@ namespace dbullet.core.test
 		public void GetLastVersionTest()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(100500);
-			var actual = target.GetLastVersion(GetType().Assembly);
+			Assembly assembly = this.GetType().Assembly;
+			var actual = target.GetLastVersion(assembly.GetName().Name);
 			Assert.AreEqual(100500, actual);
 		}
 
@@ -74,9 +77,11 @@ namespace dbullet.core.test
 			createCommand.SetupSet(x => x.CommandText = It.IsAny<string>())
 				.Callback<string>(x => currentVersion = x.Contains(string.Format("'{0}'", GetType().Assembly.GetName().Name)) ? 10 : 0);
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(() => currentVersion);
-		  var actual = target.GetLastVersion(GetType().Assembly);
+			Assembly assembly = this.GetType().Assembly;
+			var actual = target.GetLastVersion(assembly.GetName().Name);
 		  Assert.AreEqual(10, actual);
-		  actual = target.GetLastVersion(typeof(int).Assembly);
+			Assembly assembly1 = typeof(int).Assembly;
+			actual = target.GetLastVersion(assembly1.GetName().Name);
 		  Assert.AreEqual(0, actual);
 		}
 
@@ -87,7 +92,8 @@ namespace dbullet.core.test
 		public void GetLastVersionNull()
 		{
 		  createCommand.Setup(x => x.ExecuteScalar()).Returns(DBNull.Value);
-		  var actual = target.GetLastVersion(GetType().Assembly);
+			Assembly assembly = this.GetType().Assembly;
+			var actual = target.GetLastVersion(assembly.GetName().Name);
 		  Assert.AreEqual(0, actual);
 		}
 
@@ -98,7 +104,8 @@ namespace dbullet.core.test
 		public void InitDatabaseNewDatabaseTest()
 		{
 			databaseStrategy.Setup(x => x.IsTableExist("dbullet")).Returns(false);
-		  target.InitDatabase(GetType().Assembly);
+			Assembly assembly = this.GetType().Assembly;
+			target.InitDatabase(assembly.GetName().Name);
 			databaseStrategy.Verify(x => x.CreateTable(It.Is<Table>(y => y.Name == "dbullet")), Times.Once());
 		}
 
@@ -109,7 +116,8 @@ namespace dbullet.core.test
 		public void SetCurrentVersionTest()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);
-		  target.SetCurrentVersion(GetType().Assembly, 18);
+			Assembly assembly = this.GetType().Assembly;
+			target.SetCurrentVersion(18, assembly.GetName().Name);
 			createCommand.VerifySet(x => x.CommandText = string.Format("insert into dbullet(Version, Assembly) values(18, '{0}')", GetType().Assembly.GetName().Name), Times.Once());
 			createCommand.Verify(x => x.ExecuteScalar(), Times.Once());
 		}
@@ -121,8 +129,9 @@ namespace dbullet.core.test
 		public void RemoveVersionInfo()
 		{
 			createCommand.Setup(x => x.ExecuteScalar()).Returns(1);
-		  
-		  target.RemoveVersionInfo(GetType().Assembly, 18);
+
+			Assembly assembly = this.GetType().Assembly;
+			target.RemoveVersionInfo(18, assembly.GetName().Name);
 
 			createCommand.VerifySet(x => x.CommandText = string.Format("delete from dbullet where version = 18 and Assembly = '{0}'", GetType().Assembly.GetName().Name), Times.Once());
 			createCommand.Verify(x => x.ExecuteScalar(), Times.Once());

@@ -20,6 +20,7 @@ namespace dbullet.core.test.mssql.executor
 		[TestFixtureSetUp]
 		public void Init()
 		{
+			// Executor.Execute();
 		}
 	}
 }

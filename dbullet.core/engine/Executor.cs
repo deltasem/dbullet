@@ -67,9 +67,11 @@ namespace dbullet.core.engine
 		/// <param name="stopVersion">Последняя версия</param>
 		public static void Execute(Assembly assembly, int stopVersion = int.MaxValue)
 		{
-			foreach (var bulletType in GetBulletsInAssembly(assembly))
+			Type[] types = assembly.GetTypes();
+
+			foreach (var bulletType in GetSortedBullets(types))
 			{
-				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly);
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly.GetName().Name);
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion && bulletVersion <= stopVersion)
 				{
@@ -77,7 +79,7 @@ namespace dbullet.core.engine
 					try
 					{
 						bullet.Update();
-						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(assembly, bulletVersion);
+						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(bulletVersion, assembly.GetName().Name);
 					}
 					catch (Exception ex)
 					{
@@ -117,15 +119,17 @@ namespace dbullet.core.engine
 		/// <param name="stopVersion">Последняя версия</param>
 		public static void ExecuteBack(Assembly assembly, int stopVersion)
 		{
-			foreach (var bulletType in GetBulletsInAssembly(assembly, true))
+			Type[] types = assembly.GetTypes();
+
+			foreach (var bulletType in GetSortedBullets(types, true))
 			{
-				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly);
+				var currentVersion = ObjectFactory.GetInstance<ISysDatabaseStrategy>().GetLastVersion(assembly.GetName().Name);
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (currentVersion == bulletVersion && bulletVersion > stopVersion)
 				{
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					bullet.Downgrade();
-					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(assembly, bulletVersion);
+					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(bulletVersion, assembly.GetName().Name);
 				}
 			}
 		}
@@ -133,12 +137,12 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Возвращает список булетов из сборки
 		/// </summary>
-		/// <param name="assembly">Сборка с булетами</param>
+		/// <param name="types">Тип объекта</param>
 		/// <param name="revert">В обратном порядке</param>
 		/// <returns>Упорядоченный список булетов</returns>
-		internal static IEnumerable<Type> GetBulletsInAssembly(Assembly assembly, bool revert = false)
+		internal static IEnumerable<Type> GetSortedBullets(Type[] types, bool revert = false)
 		{
-			return assembly.GetTypes()
+			return types
 				.Where(p => typeof(Bullet).IsAssignableFrom(p) && p.IsDefined(typeof(BulletNumberAttribute), true))
 				.OrderBy(p => ((BulletNumberAttribute)p.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision * (revert ? -1 : 1));
 		}
@@ -157,7 +161,7 @@ namespace dbullet.core.engine
 			}
 
 			ObjectFactory.Initialize(x => InitializeStructureMap(x, connectionString));
-			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase(assembly);
+			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase(assembly.GetName().Name);
 		}
 
 		/// <summary>

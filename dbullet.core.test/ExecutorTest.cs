@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="ExecutorTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -43,13 +43,14 @@ namespace dbullet.core.test
     }
 
     /// <summary>
-    /// A test for GetBulletsInAssembly
+    /// A test for GetSortedBullets
     /// </summary>
     [Test]
     public void GetBulletsInAssemblyTest()
     {
     	var types = new[] { typeof(NotBullet), typeof(TestBullet1), typeof(TestBullet2WithouAttrs), typeof(NotBulletWithAttrs) };
-    	var actual = Executor.GetBulletsInAssembly(new TestAssembly(types));
+    	Assembly assembly = new TestAssembly(types);
+    	var actual = Executor.GetSortedBullets(assembly.GetTypes());
     	var enumerator = actual.GetEnumerator();
     	Assert.IsTrue(enumerator.MoveNext());
     	Assert.AreEqual(typeof(TestBullet1), enumerator.Current);
@@ -71,7 +72,8 @@ namespace dbullet.core.test
     			typeof(TestBullet2), 
 					typeof(NotBullet)
     		};
-			var actual = Executor.GetBulletsInAssembly(new TestAssembly(types));
+    	Assembly assembly = new TestAssembly(types);
+    	var actual = Executor.GetSortedBullets(assembly.GetTypes());
 			var enumerator = actual.GetEnumerator();
 			Assert.IsTrue(enumerator.MoveNext());
 			Assert.AreEqual(typeof(TestBullet1), enumerator.Current);
@@ -97,7 +99,8 @@ namespace dbullet.core.test
     			typeof(TestBullet2), 
 					typeof(NotBullet)
     		};
-			var actual = Executor.GetBulletsInAssembly(new TestAssembly(types), true);
+    	Assembly assembly = new TestAssembly(types);
+    	var actual = Executor.GetSortedBullets(assembly.GetTypes(), true);
 			var enumerator = actual.GetEnumerator();
 			Assert.IsTrue(enumerator.MoveNext());
 			Assert.AreEqual(typeof(TestBullet3), enumerator.Current);
@@ -117,7 +120,7 @@ namespace dbullet.core.test
     	var types = new[] { typeof(TestBullet1) };
 
 			var strategy = new Mock<ISysDatabaseStrategy>();
-    	strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(0);
+    	strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(0);
 
 			ObjectFactory.Initialize(x =>
 			{
@@ -140,7 +143,7 @@ namespace dbullet.core.test
 			var types = new[] { typeof(TestBullet1), typeof(TestBullet2), typeof(TestBullet3) };
 			int currentVersion = 1;
   		var strategy = new Mock<ISysDatabaseStrategy>();
-  		strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(currentVersion);
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object));
 			Executor.Execute(new TestAssembly(types));
 			Assert.IsFalse(TestBullet1.IsUpdateInvoked);
@@ -158,13 +161,13 @@ namespace dbullet.core.test
 			int currentVersion = 3;
 
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
   		strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			strategy
-				.Setup(x => x.RemoveVersionInfo(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y - 1);
+				.Setup(x => x.RemoveVersionInfo(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y - 1);
 
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object));
 
@@ -184,10 +187,10 @@ namespace dbullet.core.test
 
 			int currentVersion = 0;
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
 			strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object));
 			Executor.Execute(new TestAssembly(types), 2);
 			Assert.AreEqual(2, currentVersion);
@@ -205,10 +208,10 @@ namespace dbullet.core.test
   		var types = new[] { typeof(TestBullet1), typeof(TestBullet1) };
   		int currentVersion = 0;
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
 			strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			ObjectFactory.Initialize(x => x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object));
 			Executor.Execute(new TestAssembly(types));
 			Assert.AreEqual(1, currentVersion);
@@ -223,10 +226,10 @@ namespace dbullet.core.test
   		var types = new[] { typeof(ErrorBullet) };
 			int currentVersion = 1;
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
 			strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			ObjectFactory.Initialize(x =>
 			{
 			  x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object);
@@ -246,10 +249,10 @@ namespace dbullet.core.test
   		var types = new[] { typeof(ErrorBullet), typeof(TestBullet3) };
 			int currentVersion = 1;
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
 			strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			ObjectFactory.Initialize(x =>
 			{
 				x.ForSingletonOf<ISysDatabaseStrategy>().Use(strategy.Object);
@@ -269,10 +272,10 @@ namespace dbullet.core.test
   		var types = new[] { typeof(ErrorStepBullet) };
 			int currentVersion = 0;
 			var strategy = new Mock<ISysDatabaseStrategy>();
-			strategy.Setup(x => x.GetLastVersion(It.IsAny<Assembly>())).Returns(() => currentVersion);
+			strategy.Setup(x => x.GetLastVersion(It.IsAny<string>())).Returns(() => currentVersion);
 			strategy
-				.Setup(x => x.SetCurrentVersion(It.IsAny<Assembly>(), It.IsAny<int>()))
-				.Callback((Assembly x, int y) => currentVersion = y);
+				.Setup(x => x.SetCurrentVersion(It.IsAny<int>(), It.IsAny<string>()))
+				.Callback((int y, string x) => currentVersion = y);
 			
   		var mssqlStrategy = new Mock<IDatabaseStrategy>();
   		mssqlStrategy.Setup(x => x.AddColumn(It.IsAny<Table>(), It.IsAny<Column>())).Throws(new Exception()).Verifiable();
@@ -402,6 +405,15 @@ namespace dbullet.core.test
   		public override Type[] GetTypes()
   		{
   			return this.types;
+  		}
+
+			/// <summary>
+			/// Get name
+			/// </summary>
+			/// <returns>AssemblyName</returns>
+  		public override AssemblyName GetName()
+  		{
+  			return new AssemblyName("test.assembly");
   		}
   	}
 
