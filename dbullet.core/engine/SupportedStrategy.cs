@@ -13,6 +13,11 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Microsoft SQL Server 2008
 		/// </summary>
-		Mssql2008
+		Mssql2008, 
+
+		/// <summary>
+		/// Oracle
+		/// </summary>
+		Oracle
 	}
 }

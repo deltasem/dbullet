@@ -15,6 +15,7 @@ using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
 using NLog;
 using StructureMap;
+using dbullet.core.engine.Oracle;
 
 namespace dbullet.core.engine
 {
@@ -156,12 +157,16 @@ namespace dbullet.core.engine
 		/// <param name="connectionString">Строка подключения</param>
 		private static void InitConnections(Assembly assembly, SupportedStrategy strategy, string connectionString)
 		{
-			if (strategy != SupportedStrategy.Mssql2008)
+			if (strategy == SupportedStrategy.Mssql2008)
 			{
-				throw new NotSupportedException("Only MS SQL supported");
+				ObjectFactory.Initialize(x => InitializeStructureMapForMssql(x, connectionString));
 			}
 
-			ObjectFactory.Initialize(x => InitializeStructureMap(x, connectionString));
+			if (strategy == SupportedStrategy.Oracle)
+			{
+				ObjectFactory.Initialize(x => InitializeStructureMapForOracle(x, connectionString));
+			}
+			
 			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase(assembly.GetName().Name);
 		}
 
@@ -170,11 +175,23 @@ namespace dbullet.core.engine
 		/// </summary>
 		/// <param name="x">Инициализатор</param>
 		/// <param name="connectionString">Строка подключения</param>
-		private static void InitializeStructureMap(IInitializationExpression x, string connectionString)
+		private static void InitializeStructureMapForMssql(IInitializationExpression x, string connectionString)
 		{
 			x.ForSingletonOf<IDbConnection>().Use(new SqlConnection(connectionString));
 			x.ForSingletonOf<IDatabaseStrategy>().Use<MsSql2008Strategy>();
 			x.ForSingletonOf<ISysDatabaseStrategy>().Use<MsSql2008SysStrategy>();
+		}
+
+		/// <summary>
+		/// Инициализация IoC контейнера для оракла
+		/// </summary>
+		/// <param name="x">Инициализатор</param>
+		/// <param name="connectionString">Строка подключения</param>
+		private static void InitializeStructureMapForOracle(IInitializationExpression x, string connectionString)
+		{
+			x.ForSingletonOf<IDbConnection>().Use(new SqlConnection(connectionString));
+			x.ForSingletonOf<IDatabaseStrategy>().Use<OracleStrategy>();
+			x.ForSingletonOf<ISysDatabaseStrategy>().Use<OracleSysStrategy>();
 		}
 	}
 }
