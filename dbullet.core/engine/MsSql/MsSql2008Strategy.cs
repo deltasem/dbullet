@@ -3,55 +3,55 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using dbullet.core.dbo;
-using dbullet.core.dbs;
-using dbullet.core.engine.MsSql;
-using dbullet.core.exception;
-using dbullet.core.tools;
 using NLog;
 using RazorEngine;
 using RazorEngine.Templating;
+using dbullet.core.dbo;
+using dbullet.core.dbs;
+using dbullet.core.exception;
+using dbullet.core.tools;
 
-namespace dbullet.core.engine
+namespace dbullet.core.engine.MsSql
 {
 	/// <summary>
-	/// РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№ MS SQL 2008
+	/// Стратегия работы с базой MS SQL 2008
 	/// </summary>
 	public class MsSql2008Strategy : IDatabaseStrategy
 	{
 		/// <summary>
-		/// Р›РѕРіРіРµСЂ
+		/// Логгер
 		/// </summary>
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
 		/// <summary>
-		/// РњРµРЅРµРґР¶РµСЂ С‚РµРјРїР»РµР№С‚РѕРІ
+		/// Менеджер темплейтов
 		/// </summary>
 		private readonly MsSqlTemplateManager manager = new MsSqlTemplateManager();
 
 		/// <summary>
-		/// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ
+		/// Подключение к базе
 		/// </summary>
 		private readonly IDbConnection connection;
 
 		/// <summary>
-		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+		/// Конструктор
 		/// </summary>
-		/// <param name="connection">РЎРѕРµРґРёРЅРµРЅРёРµ СЃ Р‘Р”</param>
+		/// <param name="connection">Соединение с БД</param>
 		public MsSql2008Strategy(IDbConnection connection)
 		{
 			this.connection = connection;
 		}
 
 		/// <summary>
-		/// РЎРѕР·РґР°С‘С‚ С‚Р°Р±Р»РёС†Сѓ
+		/// Создаёт таблицу
 		/// </summary>
-		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
+		/// <param name="table">Таблица</param>
 		public void CreateTable(Table table)
 		{
 			if (table.Columns == null || table.Columns.Count == 0)
@@ -60,13 +60,13 @@ namespace dbullet.core.engine
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateTableTemplate(), table, "create table"));
-			log.Info("РўР°Р±Р»РёС†Р° {0} СЃРѕР·РґР°РЅР° РІ СЂР°Р·РґРµР»Рµ {1}", table.Name, table.PartitionName);
+			log.Info("Таблица {0} создана в разделе {1}", table.Name, table.PartitionName);
 		}
 
 		/// <summary>
-		/// РЈРґР°Р»СЏРµС‚ С‚Р°Р±Р»РёС†Сѓ
+		/// Удаляет таблицу
 		/// </summary>
-		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
+		/// <param name="tableName">Название таблицы</param>
 		public void DropTable(string tableName)
 		{
 			if (string.IsNullOrEmpty(tableName))
@@ -75,14 +75,14 @@ namespace dbullet.core.engine
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetDropTableTemplate(), new Table(tableName), "drop table"));
-			log.Info("РўР°Р±Р»РёС†Р° {0} СѓРґР°Р»РµРЅР°", tableName);
+			log.Info("Таблица {0} удалена", tableName);
 		}
 
 		/// <summary>
-		/// РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё С‚Р°Р±Р»РёС†Р°
+		/// Существует ли таблица
 		/// </summary>
-		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
-		/// <returns>true - РµСЃР»Рё СЃСѓС‰РµСЃС‚РІСѓРµС‚, РёРЅР°С‡Рµ false</returns>
+		/// <param name="tableName">Название таблицы</param>
+		/// <returns>true - если существует, иначе false</returns>
 		public bool IsTableExist(string tableName)
 		{
 			if (string.IsNullOrEmpty(tableName))
@@ -94,11 +94,11 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РЎСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё Р·Р°РґР°РЅРЅР°СЏ РєРѕР»РѕРЅРєР° РІ С‚Р°Р±Р»РёС†Рµ
+		/// Существует ли заданная колонка в таблице
 		/// </summary>
-		/// <param name="tableName">РќР°Р·РІР°РЅРёРµ С‚Р°Р±Р»РёС†С‹</param>
-		/// <param name="columnName">РќР°Р·РІР°РЅРёРµ РєРѕР»РѕРЅРєРё</param>
-		/// <returns>true - РµСЃР»Рё СЃСѓС‰РµСЃС‚РІСѓРµС‚, РёРЅР°С‡Рµ false</returns>
+		/// <param name="tableName">Название таблицы</param>
+		/// <param name="columnName">Название колонки</param>
+		/// <returns>true - если существует, иначе false</returns>
 		public bool IsColumnExists(string tableName, string columnName)
 		{
 			if (string.IsNullOrEmpty(tableName) || string.IsNullOrEmpty(columnName))
@@ -110,30 +110,30 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РЎРѕР·РґР°С‘С‚ РёРЅРґРµРєСЃ
+		/// Создаёт индекс
 		/// </summary>
-		/// <param name="index">РРЅРґРµРµСЃ</param>
+		/// <param name="index">Индеес</param>
 		public void CreateIndex(Index index)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateIndexTemplate(), index, "create index"));
-			log.Info("РРЅРґРµРєСЃ {0} СЃРѕР·РґР°РЅ РІ СЂР°Р·РґРµР»Рµ {1}", index.Name, index.PartitionName);
+			log.Info("Индекс {0} создан в разделе {1}", index.Name, index.PartitionName);
 		}
 
 		/// <summary>
-		/// РЈРґР°Р»РёС‚СЊ РёРЅРґРµРєСЃ
+		/// Удалить индекс
 		/// </summary>
-		/// <param name="index">РРЅРґРµРєСЃ</param>
+		/// <param name="index">Индекс</param>
 		public void DropIndex(Index index)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropIndexTemplate(), index, "drop index"));
-			log.Info("РРЅРґРµРєСЃ {0} СѓРґР°Р»РµРЅ", index.Name);
+			log.Info("Индекс {0} удален", index.Name);
 		}
 
 		/// <summary>
-		/// Р”РѕР±Р°РІР»СЏРµС‚ РєРѕР»РѕРЅРєСѓ
+		/// Добавляет колонку
 		/// </summary>
-		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
-		/// <param name="column">РљРѕР»РѕРЅРєР°</param>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
 		public void AddColumn(Table table, Column column)
 		{
 			if (!column.Nullable && (column.Constraint == null || !(column.Constraint is Default)))
@@ -150,35 +150,35 @@ namespace dbullet.core.engine
 				ex.Errors.ToList().ForEach(p => Console.WriteLine(p.ErrorText));
 			}
 			
-			log.Info("Р”РѕР±Р°РІР»РµРЅ СЃС‚РѕР»Р±РµС† {0} РІ С‚Р°Р±Р»РёС†Сѓ {1}", column.Name, table.Name);
+			log.Info("Добавлен столбец {0} в таблицу {1}", column.Name, table.Name);
 		}
 
 		/// <summary>
-		/// РЎРѕР·РґР°С‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
+		/// Создать внешний ключ
 		/// </summary>
-		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
+		/// <param name="foreignKey">Внешний ключ</param>
 		public void CreateForeignKey(ForeignKey foreignKey)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetCreateForeignKeyTemplate(), foreignKey, "create foreignkey"));
-			log.Info("Р’РЅРµС€РЅРёР№ РєР»СЋС‡ СЃРѕР·РґР°РЅ {0}", foreignKey);
+			log.Info("Внешний ключ создан {0}", foreignKey);
 		}
 
 		/// <summary>
-		/// РЈРґР°Р»РёС‚СЊ РІРЅРµС€РЅРёР№ РєР»СЋС‡
+		/// Удалить внешний ключ
 		/// </summary>
-		/// <param name="foreignKey">Р’РЅРµС€РЅРёР№ РєР»СЋС‡</param>
+		/// <param name="foreignKey">Внешний ключ</param>
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
 			ExecuteNonQuery(Razor.Parse(manager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
-			log.Info("Р’РЅРµС€РЅРёР№ РєР»СЋС‡ {0} СѓРґР°Р»РµРЅ", foreignKey.Name);
+			log.Info("Внешний ключ {0} удален", foreignKey.Name);
 		}
 		
 		/// <summary>
-		/// Р”РѕР±Р°РІР»СЏРµС‚ Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†Сѓ
+		/// Добавляет записи в таблицу
 		/// </summary>
-		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
-		/// <param name="identity">true - РѕС‚РєР»СЋС‡Р°С‚СЊ РёРґРµРЅС‚РёС‚Рё СЃРїРµС†РёС„РёРєР°С†РёСЋ</param>
-		/// <param name="rows">РЎРїРёСЃРѕРє Р·Р°РїРёСЃРµР№</param>
+		/// <param name="table">Таблица</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
+		/// <param name="rows">Список записей</param>
 		public void InsertRows(string table, bool identity = false, params object[] rows)
 		{
 			if (string.IsNullOrEmpty(table))
@@ -205,19 +205,19 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Р—Р°РіСЂСѓР¶Р°РµС‚ РїРѕС‚РѕРє РІ Р±Р°Р·Сѓ. Р”Р°РЅРЅС‹Рµ РІ С„РѕСЂРјР°С‚Рµ CSV
+		/// Загружает поток в базу. Данные в формате CSV
 		/// </summary>
-		/// <param name="tableName">РўР°Р±Р»РёС†Р° РґР»СЏ Р·Р°РіСЂСѓР·РєРё</param>
-		/// <param name="stream">Р’С…РѕРґРЅРѕР№ РїРѕС‚РѕРє</param>
-		/// <param name="modulator">РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ</param>
-		/// <param name="csvQuotesType">РўРёРї РєР°РІС‹С‡РµРє CSV</param>
-		/// <param name="identity">true - РѕС‚РєР»СЋС‡Р°С‚СЊ РёРґРµРЅС‚РёС‚Рё СЃРїРµС†РёС„РёРєР°С†РёСЋ</param>
+		/// <param name="tableName">Таблица для загрузки</param>
+		/// <param name="stream">Входной поток</param>
+		/// <param name="modulator">Преобразования</param>
+		/// <param name="csvQuotesType">Тип кавычек CSV</param>
+		/// <param name="identity">true - отключать идентити спецификацию</param>
 		public void LoadCsv(string tableName, StreamReader stream, Dictionary<string, Func<string, object>> modulator, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes, bool identity = false)
 		{
 			DateTime begin = DateTime.Now;
 			try
 			{
-				log.Info("РЎС‚СЂР°С‚ РёРјРїРѕСЂС‚Р° РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ {0}", tableName);
+				log.Info("Страт импорта данных в таблицу {0}", tableName);
 				var firstLine = stream.ReadLine();
 				if (string.IsNullOrEmpty(firstLine))
 				{
@@ -277,7 +277,7 @@ namespace dbullet.core.engine
 					}
 				}
 
-				log.Info("РРјРїРѕСЂС‚ Р·Р°РІРµСЂС€РµРЅ Р·Р° {0}", DateTime.Now - begin);
+				log.Info("Импорт завершен за {0}", DateTime.Now - begin);
 			}
 			finally
 			{
@@ -289,10 +289,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РЈРґР°Р»СЏРµС‚ РєРѕР»РѕРЅРєСѓ РёР· С‚Р°Р±Р»РёС†С‹
+		/// Удаляет колонку из таблицы
 		/// </summary>
-		/// <param name="table">РўР°Р±Р»РёС†Р°</param>
-		/// <param name="column">РљРѕР»РѕРЅРєР°</param>
+		/// <param name="table">Таблица</param>
+		/// <param name="column">Колонка</param>
 		public void DropColumn(string table, string column)
 		{
 			if (string.IsNullOrWhiteSpace(table))
@@ -306,7 +306,7 @@ namespace dbullet.core.engine
 			}
 
 			ExecuteNonQuery(Razor.Parse(manager.GetDropColumnTemplate(), new object[] { table, column }, "drop column"));
-			log.Info("РљРѕР»РѕРЅРєР° {0} СѓРґР°Р»РµРЅР° РёР· С‚Р°Р±Р»РёС†С‹ {1}", column, table);
+			log.Info("Колонка {0} удалена из таблицы {1}", column, table);
 		}
 
 		/// <summary>
@@ -350,10 +350,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Р’С‹РїРѕР»РЅРёС‚СЊ Р·Р°РїСЂРѕСЃ
+		/// Выполнить запрос
 		/// </summary>
-		/// <param name="commandText">Р·Р°РїСЂРѕСЃ</param>
-		/// <returns>Р РµР·СѓР»СЊС‚Р°С‚</returns>
+		/// <param name="commandText">запрос</param>
+		/// <returns>Результат</returns>
 		private object ExecuteScalar(string commandText)
 		{
 			try
@@ -376,9 +376,9 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Р’С‹РїРѕР»РЅРёС‚СЊ Р·Р°РїСЂРѕСЃ
+		/// Выполнить запрос
 		/// </summary>
-		/// <param name="commandText">Р—Р°РїСЂРѕСЃ</param>
+		/// <param name="commandText">Запрос</param>
 		private void ExecuteNonQuery(string commandText)
 		{
 			try

@@ -5,32 +5,31 @@
 //-----------------------------------------------------------------------
 
 using System.Data;
-using System.Reflection;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 
-namespace dbullet.core.engine
+namespace dbullet.core.engine.MsSql
 {
 	/// <summary>
-	/// Р РµР°Р»РёР·Р°С†РёСЏ РґР»С‹ MS SQL 2008 СЃС‚СЂР°С‚РµРіРёРё
+	/// Реализация длы MS SQL 2008 стратегии
 	/// </summary>
 	public class MsSql2008SysStrategy : ISysDatabaseStrategy
 	{
 		/// <summary>
-		/// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ
+		/// Подключение к базе
 		/// </summary>
 		private readonly IDbConnection connection;
 
 		/// <summary>
-		/// РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”
+		/// Стратегия работы с БД
 		/// </summary>
 		private readonly IDatabaseStrategy strategy;
 
 		/// <summary>
-		/// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+		/// Конструктор
 		/// </summary>
-		/// <param name="connection">РЎРѕРµРґРёРЅРµРЅРёРµ СЃ Р‘Р”</param>
-		/// <param name="strategy">РЎС‚СЂР°С‚РµРіРёСЏ СЂР°Р±РѕС‚С‹ СЃ Р‘Р”</param>
+		/// <param name="connection">Соединение с БД</param>
+		/// <param name="strategy">Стратегия работы с БД</param>
 		public MsSql2008SysStrategy(IDbConnection connection, IDatabaseStrategy strategy)
 		{
 			this.connection = connection;
@@ -38,10 +37,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
-		/// Р”РѕР±Р°РІР»РµРЅРёРµ, РµСЃР»Рё РЅРµС‚ СЃРёСЃС‚РµРјРЅРѕР№ С‚Р°Р±Р»РёС†С‹
+		/// Инициализация базы данных
+		/// Добавление, если нет системной таблицы
 		/// </summary>
-		/// <param name="name">РРјСЏ</param>
+		/// <param name="name">Имя</param>
 		public void InitDatabase(string name)
 		{
 			if (!this.strategy.IsTableExist("dbullet"))
@@ -60,10 +59,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЃР»РµРґРЅСЋСЋ РІРµСЂСЃРёСЋ Р±Р°Р·С‹
+		/// Возвращает последнюю версию базы
 		/// </summary>
-		/// <param name="name">РРјСЏ</param>
-		/// <returns>Р’РµСЂСЃРёСЏ Р±Р°Р·С‹</returns>
+		/// <param name="name">Имя</param>
+		/// <returns>Версия базы</returns>
 		public int GetLastVersion(string name)
 		{
 			try
@@ -91,10 +90,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РЈСЃС‚Р°РЅРѕРІРєР° С‚РµРєСѓС‰РµР№ РІРµСЂСЃРёРё
+		/// Установка текущей версии
 		/// </summary>
-		/// <param name="version">Р’РµСЂСЃРёСЏ</param>
-		/// <param name="name">РРјСЏ</param>
+		/// <param name="version">Версия</param>
+		/// <param name="name">Имя</param>
 		public void SetCurrentVersion(int version, string name)
 		{
 			try
@@ -116,10 +115,10 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
-		/// РЈРґР°Р»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РѕР± СѓРєР°Р·Р°РЅРЅРѕР№ РІРµСЂСЃРёРё
+		/// Удаление информации об указанной версии
 		/// </summary>
-		/// <param name="version">Р’РµСЂСЃРёСЏ</param>
-		/// <param name="name">РРјСЏ</param>
+		/// <param name="version">Версия</param>
+		/// <param name="name">Имя</param>
 		public void RemoveVersionInfo(int version, string name)
 		{
 			try

@@ -13,3 +13,5 @@ _ReSharper.*
 Ankh.NoLoad
 *.dotCover
 dbullet.core.test/MolesAssemblies/*
+libs/dbullet*
+

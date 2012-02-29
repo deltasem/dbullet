@@ -14,6 +14,7 @@ using dbullet.core.attribute;
 using dbullet.core.dbs;
 using NLog;
 using StructureMap;
+using dbullet.core.engine.MsSql;
 
 namespace dbullet.core.engine
 {

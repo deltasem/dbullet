@@ -13,6 +13,7 @@ using dbullet.core.dbs;
 using dbullet.core.engine;
 using Moq;
 using NUnit.Framework;
+using dbullet.core.engine.MsSql;
 
 namespace dbullet.core.test
 {

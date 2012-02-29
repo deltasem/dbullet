@@ -81,8 +81,8 @@
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
     <Compile Include="engine\ITemplateManager.cs" />
-    <Compile Include="engine\MsSql2008Strategy.cs" />
-    <Compile Include="engine\MsSql2008SysStrategy.cs" />
+    <Compile Include="engine\MsSql\MsSql2008Strategy.cs" />
+    <Compile Include="engine\MsSql\MsSql2008SysStrategy.cs" />
     <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />
     <Compile Include="engine\ProtectedStrategy.cs" />
     <Compile Include="engine\SupportedStrategy.cs" />
@@ -115,8 +115,10 @@
     <EmbeddedResource Include="engine\MsSql\DeleteRows.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="engine\Oracle\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  
   <PropertyGroup>
     <PostBuildEvent>xcopy $(ProjectDir)$(OutDir)*  $(SolutionDir)libs\ /Y</PostBuildEvent>
   </PropertyGroup>

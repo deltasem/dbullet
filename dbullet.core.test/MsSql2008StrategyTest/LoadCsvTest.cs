@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using dbullet.core.engine;
+using dbullet.core.engine.MsSql;
 using dbullet.core.test.tools;
 using NUnit.Framework;
 

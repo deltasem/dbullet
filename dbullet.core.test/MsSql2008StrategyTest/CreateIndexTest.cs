@@ -1,10 +1,11 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="CreateIndexTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 using dbullet.core.dbo;
 using dbullet.core.engine;
+using dbullet.core.engine.MsSql;
 using dbullet.core.test.tools;
 using NUnit.Framework;
 
