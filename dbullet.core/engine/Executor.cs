@@ -13,9 +13,9 @@ using System.Reflection;
 using dbullet.core.attribute;
 using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
+using dbullet.core.engine.Oracle;
 using NLog;
 using StructureMap;
-using dbullet.core.engine.Oracle;
 
 namespace dbullet.core.engine
 {
@@ -189,7 +189,10 @@ namespace dbullet.core.engine
 		/// <param name="connectionString">Строка подключения</param>
 		private static void InitializeStructureMapForOracle(IInitializationExpression x, string connectionString)
 		{
-			x.ForSingletonOf<IDbConnection>().Use(new SqlConnection(connectionString));
+			var assembly = Assembly.Load("Oracle.DataAccess");
+			var connectionType = assembly.GetType("Oracle.DataAccess.Client.OracleConnection");
+			var connection = Activator.CreateInstance(connectionType, connectionString) as IDbConnection;
+			x.ForSingletonOf<IDbConnection>().Use(connection);
 			x.ForSingletonOf<IDatabaseStrategy>().Use<OracleStrategy>();
 			x.ForSingletonOf<ISysDatabaseStrategy>().Use<OracleSysStrategy>();
 		}

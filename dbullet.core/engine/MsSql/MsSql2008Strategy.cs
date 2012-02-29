@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
+using dbullet.core.engine.common;
 using dbullet.core.exception;
 using dbullet.core.tools;
 using NLog;
@@ -22,7 +23,7 @@ namespace dbullet.core.engine.MsSql
 	/// <summary>
 	/// Стратегия работы с базой MS SQL 2008
 	/// </summary>
-	public class MsSql2008Strategy : IDatabaseStrategy
+	public class MsSql2008Strategy : StrategyBase, IDatabaseStrategy
 	{
 		/// <summary>
 		/// Логгер
@@ -35,17 +36,11 @@ namespace dbullet.core.engine.MsSql
 		private readonly MsSqlTemplateManager manager = new MsSqlTemplateManager();
 
 		/// <summary>
-		/// Подключение к базе
-		/// </summary>
-		private readonly IDbConnection connection;
-
-		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="connection">Соединение с БД</param>
-		public MsSql2008Strategy(IDbConnection connection)
+		public MsSql2008Strategy(IDbConnection connection) : base(connection)
 		{
-			this.connection = connection;
 		}
 
 		/// <summary>
@@ -347,57 +342,6 @@ namespace dbullet.core.engine.MsSql
 		public void UnloadCsv(string table, StreamReader stream, string keyColumn, Func<string, object> modulator = null, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Выполнить запрос
-		/// </summary>
-		/// <param name="commandText">запрос</param>
-		/// <returns>Результат</returns>
-		private object ExecuteScalar(string commandText)
-		{
-			try
-			{
-				connection.Open();
-				using (IDbCommand cmd = connection.CreateCommand())
-				{
-					cmd.CommandTimeout = 0;
-					cmd.CommandText = commandText;
-					return cmd.ExecuteScalar();
-				}
-			}
-			finally
-			{
-				if (connection != null)
-				{
-					connection.Close();
-				}
-			}
-		}
-
-		/// <summary>
-		/// Выполнить запрос
-		/// </summary>
-		/// <param name="commandText">Запрос</param>
-		private void ExecuteNonQuery(string commandText)
-		{
-			try
-			{
-				connection.Open();
-				using (IDbCommand cmd = connection.CreateCommand())
-				{
-					cmd.CommandTimeout = 0;
-					cmd.CommandText = commandText;
-					cmd.ExecuteNonQuery();
-				}
-			}
-			finally
-			{
-				if (connection != null)
-				{
-					connection.Close();
-				}
-			}
 		}
 	}
 }

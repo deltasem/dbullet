@@ -1,0 +1,2 @@
+@{var table = Model[0] as string; var column = Model[1] as string;}
+select count(*) from syscolumns where id = object_id(N'@table') and name = '@column'

@@ -6,18 +6,40 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
+using dbullet.core.engine.common;
 using dbullet.core.tools;
+using NLog;
+using RazorEngine;
 
 namespace dbullet.core.engine.Oracle
 {
 	/// <summary>
 	/// Оракловая стратегия
 	/// </summary>
-	public class OracleStrategy : IDatabaseStrategy
+	public class OracleStrategy : StrategyBase, IDatabaseStrategy
 	{
+		/// <summary>
+		/// Логгер
+		/// </summary>
+		private static readonly Logger log = LogManager.GetCurrentClassLogger();
+
+		/// <summary>
+		/// Менеджер темплейтов
+		/// </summary>
+		private readonly OracleTemplateManager manager = new OracleTemplateManager();
+
+		/// <summary>
+		/// Конструктор
+		/// </summary>
+		/// <param name="connection">Соединение с БД</param>
+		public OracleStrategy(IDbConnection connection) : base(connection)
+		{
+		}
+
 		/// <summary>
 		/// Добавляет колонку
 		/// </summary>
@@ -100,7 +122,12 @@ namespace dbullet.core.engine.Oracle
 		/// <returns>true - если существует, иначе false</returns>
 		public bool IsTableExist(string tableName)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(tableName))
+			{
+				throw new ArgumentException();
+			}
+
+			return ExecuteScalar(Razor.Parse(manager.GetIsTableExistTemplate(), new Table(tableName), "table exists")).ToString() == "1";
 		}
 
 		/// <summary>
