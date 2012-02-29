@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="MsSqlTemplateManager.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -8,6 +8,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using dbullet.core.dbo;
+using dbullet.core.engine.common;
 using dbullet.core.exception;
 
 namespace dbullet.core.engine.MsSql
@@ -15,7 +16,7 @@ namespace dbullet.core.engine.MsSql
 	/// <summary>
 	/// Темплейты для MsSql
 	/// </summary>
-	public class MsSqlTemplateManager : ITemplateManager
+	public class MsSqlTemplateManager : TemplateManagerBase
 	{
 		#region BuildColumnCreateCommand
 		/// <summary>
@@ -92,120 +93,24 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
-		/// Возвращает шаблон для создания таблицы
+		/// Получить шаблон из ресурса
 		/// </summary>
+		/// <param name="resourceName">Название ресурса</param>
 		/// <returns>Шаблон</returns>
-		public string GetCreateTableTemplate()
+		protected override string GetTemplateFromResource(string resourceName)
 		{
-			return GetTemplateFromResource("CreateTable.cshtml");
-		}
+			using (var resource = GetType().Assembly.GetManifestResourceStream("dbullet.core.engine.MsSql." + resourceName))
+			{
+				if (resource == null)
+				{
+					throw new TemplateNotFoundException();
+				}
 
-		/// <summary>
-		/// Возвращает шаблон для проверки существования таблицы
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetIsTableExistTemplate()
-		{
-			return GetTemplateFromResource("IsTableExist.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для проверки существования столбца
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetIsColumnExistTemplate()
-		{
-			return GetTemplateFromResource("IsColumnExist.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для создания индекса
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetCreateIndexTemplate()
-		{
-			return GetTemplateFromResource("CreateIndex.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для удаления таблицы
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetDropTableTemplate()
-		{
-			return GetTemplateFromResource("DropTable.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для удаления индекса
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetDropIndexTemplate()
-		{
-			return GetTemplateFromResource("DropIndex.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для создения внешнего ключа
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetCreateForeignKeyTemplate()
-		{
-			return GetTemplateFromResource("CreateForeignKey.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для удаления внешнего ключа
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetDropForeignKeyTemplate()
-		{
-			return GetTemplateFromResource("DropForeignKey.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для вставки записей
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetInsertRowsTemplate()
-		{
-			return GetTemplateFromResource("InsertRows.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для вставки записей потоком
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetInsertRowsStreamTemplate()
-		{
-			return GetTemplateFromResource("InsertRowsStream.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон для добавления колонки
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetAddColumnTemplate()
-		{
-			return GetTemplateFromResource("AddColumn.cshtml");
-		}
-
-		/// <summary>
-		/// Возвращает шаблон удаления колонки
-		/// </summary>
-		/// <returns>Шаблон</returns>
-		public string GetDropColumnTemplate()
-		{
-			return GetTemplateFromResource("DropColumn.cshtml");
-		}
-
-		/// <summary>
-		/// Returns template for delete row script
-		/// </summary>
-		/// <returns>Delete row template</returns>
-		public string GetDeleteRowsTemplate()
-		{
-			return GetTemplateFromResource("DeleteRows.cshtml");
+				using (StreamReader sr = new StreamReader(resource))
+				{
+					return sr.ReadToEnd();
+				}
+			}
 		}
 
 		/// <summary>
@@ -280,27 +185,6 @@ namespace dbullet.core.engine.MsSql
 			}
 
 			return sb;
-		}
-
-		/// <summary>
-		/// Получить шаблон из ресурса
-		/// </summary>
-		/// <param name="resourceName">Название ресурса</param>
-		/// <returns>Шаблон</returns>
-		private string GetTemplateFromResource(string resourceName)
-		{
-			using (var resource = GetType().Assembly.GetManifestResourceStream("dbullet.core.engine.MsSql." + resourceName))
-			{
-				if (resource == null)
-				{
-					throw new TemplateNotFoundException();
-				}
-
-				using (StreamReader sr = new StreamReader(resource))
-				{
-					return sr.ReadToEnd();
-				}
-			}
 		}
 	}
 }

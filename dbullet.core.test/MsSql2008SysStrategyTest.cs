@@ -7,13 +7,12 @@
 using System;
 using System.Data;
 using System.Reflection;
-
 using dbullet.core.dbo;
 using dbullet.core.dbs;
 using dbullet.core.engine;
+using dbullet.core.engine.MsSql;
 using Moq;
 using NUnit.Framework;
-using dbullet.core.engine.MsSql;
 
 namespace dbullet.core.test
 {

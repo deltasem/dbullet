@@ -77,10 +77,11 @@
     <Compile Include="dbo\Table.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="dbo\ValueDefault.cs" />
+    <Compile Include="engine\common\ITemplateManager.cs" />
+    <Compile Include="engine\common\TemplateManagerBase.cs" />
     <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
-    <Compile Include="engine\ITemplateManager.cs" />
     <Compile Include="engine\MsSql\MsSql2008Strategy.cs" />
     <Compile Include="engine\MsSql\MsSql2008SysStrategy.cs" />
     <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />

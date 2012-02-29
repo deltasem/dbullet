@@ -12,9 +12,9 @@ using System.Linq;
 using System.Reflection;
 using dbullet.core.attribute;
 using dbullet.core.dbs;
+using dbullet.core.engine.MsSql;
 using NLog;
 using StructureMap;
-using dbullet.core.engine.MsSql;
 
 namespace dbullet.core.engine
 {
