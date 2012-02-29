@@ -40,7 +40,7 @@ namespace dbullet.core.engine.common
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
 					cmd.CommandTimeout = 0;
-					cmd.CommandText = commandText;
+					cmd.CommandText = commandText.Replace("\r", string.Empty).Replace("\n", string.Empty);
 					return cmd.ExecuteScalar();
 				}
 			}
@@ -65,7 +65,7 @@ namespace dbullet.core.engine.common
 				using (IDbCommand cmd = connection.CreateCommand())
 				{
 					cmd.CommandTimeout = 0;
-					cmd.CommandText = commandText;
+					cmd.CommandText = commandText.Replace("\r", string.Empty).Replace("\n", string.Empty);
 					cmd.ExecuteNonQuery();
 				}
 			}

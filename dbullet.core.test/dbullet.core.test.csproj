@@ -66,15 +66,17 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllStrategy\AddColumnTest.cs" />
     <Compile Include="AllStrategy\IsTableExistsTest.cs" />
     <Compile Include="AllStrategy\TestBase.cs" />
     <Compile Include="AssertHelpers.cs" />
+    <Compile Include="OracleStrategyTest\OracleAddColumnTest.cs" />
     <Compile Include="OracleStrategyTest\OracleIsTableExistsTest.cs" />
     <Compile Include="OracleSysStrategyTest.cs" />
     <Compile Include="CsvParser\CsvParserTest.cs" />
     <Compile Include="ExecutorTest.cs" />
     <Compile Include="IndexTest.cs" />
-    <Compile Include="MsSql2008StrategyTest\AddColumnTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\MsSql2008AddColumnTest.cs" />
     <Compile Include="MsSql2008StrategyTest\BuildColumnCreateCommandTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DeleteRowsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\IsColumnExistsTest.cs" />
