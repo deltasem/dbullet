@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllStrategy\IsTableExistsTest.cs" />
+    <Compile Include="AllStrategy\TestBase.cs" />
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="OracleStrategyTest\OracleIsTableExistsTest.cs" />
     <Compile Include="OracleSysStrategyTest.cs" />

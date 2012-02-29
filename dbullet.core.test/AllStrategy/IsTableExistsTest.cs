@@ -5,10 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Data;
 using dbullet.core.dbs;
-using dbullet.core.engine.MsSql;
-using dbullet.core.test.tools;
 using Moq;
 using NUnit.Framework;
 using StructureMap;
@@ -19,38 +16,12 @@ namespace dbullet.core.test.AllStrategy
 	/// Тесты IsTableExists
 	/// </summary>
 	[TestFixture]
-	public abstract class IsTableExistsTest
+	public abstract class IsTableExistsTest : TestBase
 	{
-		/// <summary>
-		/// Стратегия
-		/// </summary>
-		protected IDatabaseStrategy strategy { get; private set; }
-
-		/// <summary>
-		/// Комманда
-		/// </summary>
-		protected Mock<IDbCommand> command { get; private set; }
-
-		/// <summary>
-		/// Соединения
-		/// </summary>
-		protected Mock<IDbConnection> connection { get; private set; }
-
 		/// <summary>
 		/// Проверяет, существует ли таблица
 		/// </summary>
 		protected abstract string ByNameCommandText { get; }
-
-		/// <summary>
-		/// Инициализация
-		/// </summary>
-		[SetUp]
-		public void TestInitialize()
-		{
-			connection = new Mock<IDbConnection>();
-			command = new Mock<IDbCommand>();
-			connection.Setup(x => x.CreateCommand()).Returns(command.Object);
-		}
 
 		/// <summary>
 		/// Проверяет, существует ли таблица
@@ -71,7 +42,8 @@ namespace dbullet.core.test.AllStrategy
 		[Test]
 		public void RegularIsTableExists()
 		{
-			var strategy = new MsSql2008Strategy(new TestConnection { ExecuteScalarValue = 1 });
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			command.Setup(x => x.ExecuteScalar()).Returns(1);
 			var actual = strategy.IsTableExist("ExistingTable");
 			Assert.AreEqual(true, actual);
 		}
@@ -83,7 +55,8 @@ namespace dbullet.core.test.AllStrategy
 		[ExpectedException(typeof(ArgumentException))]
 		public void EmptyTable()
 		{
-			var strategy = new MsSql2008Strategy(new TestConnection { ExecuteScalarValue = 1 });
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			command.Setup(x => x.ExecuteScalar()).Returns(1);
 			strategy.IsTableExist(string.Empty);
 		}
 
@@ -93,7 +66,8 @@ namespace dbullet.core.test.AllStrategy
 		[Test]
 		public void NotExists()
 		{
-			var strategy = new MsSql2008Strategy(new TestConnection { ExecuteScalarValue = 0 });
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			command.Setup(x => x.ExecuteScalar()).Returns(0);
 			var actual = strategy.IsTableExist("ExistingTable");
 			Assert.AreEqual(false, actual);
 		}
