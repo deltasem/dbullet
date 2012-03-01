@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllStrategy\AddColumnTest.cs" />
+    <Compile Include="AllStrategy\BuildColumnCreateCommandTest.cs" />
     <Compile Include="AllStrategy\CreateForeignKeyTest.cs" />
     <Compile Include="AllStrategy\CreateIndexTest.cs" />
     <Compile Include="AllStrategy\CreateTableTest.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="ExecutorTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008AddColumnTest.cs" />
-    <Compile Include="MsSql2008StrategyTest\BuildColumnCreateCommandTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\MsSql2008BuildColumnCreateCommandTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008DeleteRowsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008IsColumnExistsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008CreateForeignKeyTest.cs" />
@@ -112,10 +113,6 @@
     <Compile Include="MsSql2008SysStrategyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableTest.cs" />
-    <Compile Include="tools\TestCommand.cs" />
-    <Compile Include="tools\TestConnection.cs" />
-    <Compile Include="tools\TestDataParametrCollection.cs" />
-    <Compile Include="tools\TestParametr.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dbullet.core\dbullet.core.csproj">
