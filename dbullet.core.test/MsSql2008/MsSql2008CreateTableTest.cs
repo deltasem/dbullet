@@ -43,6 +43,14 @@ namespace dbullet.core.test.MsSql2008
 		}
 
 		/// <summary>
+		/// Нормальное создание в другой партиции c первичным ключем
+		/// </summary>
+		protected override string CustomPartitionWithPrimaryKeyCommand
+		{
+			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

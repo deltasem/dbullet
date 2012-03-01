@@ -43,6 +43,18 @@ namespace dbullet.core.test.Oracle
 		}
 
 		/// <summary>
+		/// Нормальное создание в другой партиции c первичным ключем
+		/// </summary>
+		protected override string CustomPartitionWithPrimaryKeyCommand
+		{
+			get 
+			{ 
+				return "create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null) tablespace \"TESTPARTIOTION\";" +
+					" alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index tablespace \"PRIMARY\";";
+			}
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

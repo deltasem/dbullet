@@ -36,6 +36,11 @@ namespace dbullet.core.test.AllStrategy
 		protected abstract string CustomPartitionCommand { get; }
 
 		/// <summary>
+		/// Нормальное создание в другой партиции c первичным ключем
+		/// </summary>
+		protected abstract string CustomPartitionWithPrimaryKeyCommand { get; }
+
+		/// <summary>
 		/// Создание таблицы без столбцов
 		/// </summary>
 		[Test]
@@ -105,7 +110,7 @@ namespace dbullet.core.test.AllStrategy
 				.AddColumn(new Column("test2", DbType.String.Size(50)))
 				.AddPrimaryKey("testid");
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]");
+			command.VerifySet(x => x.CommandText = CustomPartitionWithPrimaryKeyCommand);
 		}
 
 		/// <summary>

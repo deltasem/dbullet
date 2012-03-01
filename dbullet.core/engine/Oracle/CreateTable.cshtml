@@ -2,7 +2,7 @@ create table "@Model.Name" (
 @for (int i = 0; i < Model.Columns.Count; i++){
 @dbullet.core.engine.Oracle.OracleTemplateManager.BuildColumnCreateCommand(Model.Columns[i])
 if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
-@: constraint @Model.Columns[i].Constraint.Name default '@(dbullet.core.engine.MsSql.MsSqlTemplateManager.GetDefaultValue((dbullet.core.dbo.Default)Model.Columns[i].Constraint))'
+@: constraint @Model.Columns[i].Constraint.Name default '@(dbullet.core.engine.Oracle.OracleTemplateManager.GetDefaultValue((dbullet.core.dbo.Default)Model.Columns[i].Constraint))'
 }
 @(i != Model.Columns.Count - 1 ? ", " : "")
 }
@@ -14,9 +14,6 @@ if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
 		pk = pkColumn.Constraint as dbullet.core.dbo.PrimaryKey;
 	}
 }
-@if (pk != null){
-@:, constraint @pk.Name primary key clustered([@pkColumn.Name] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [@pk.PartitionName]
-}
 ) tablespace "@Model.PartitionName";
 @*Идентити в оракле будут через sequence*@
 @if(Model.Columns.Any(x => x.Identity))
@@ -26,4 +23,8 @@ if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
  @:minvalue 1
  @:start with 1
  @:increment by 1;
+}
+@if (pk != null)
+{
+ @:alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index tablespace "@pk.PartitionName";
 }
