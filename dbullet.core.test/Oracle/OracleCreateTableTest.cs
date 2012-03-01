@@ -35,6 +35,14 @@ namespace dbullet.core.test.Oracle
 		}
 
 		/// <summary>
+		/// Нормальное создание в другой партиции
+		/// </summary>
+		protected override string CustomPartitionCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null) tablespace \"TESTPARTIOTION\";"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

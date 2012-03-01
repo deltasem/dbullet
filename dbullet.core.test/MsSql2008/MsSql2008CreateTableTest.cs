@@ -35,6 +35,14 @@ namespace dbullet.core.test.MsSql2008
 		}
 
 		/// <summary>
+		/// Нормальное создание в другой партиции
+		/// </summary>
+		protected override string CustomPartitionCommand
+		{
+			get { return "create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [TESTPARTIOTION]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

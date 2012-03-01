@@ -31,6 +31,11 @@ namespace dbullet.core.test.AllStrategy
 		protected abstract string RegularCreateTableWithIdentityCommand { get; }
 
 		/// <summary>
+		/// Нормальное создание в другой партиции
+		/// </summary>
+		protected abstract string CustomPartitionCommand { get; }
+
+		/// <summary>
 		/// Создание таблицы без столбцов
 		/// </summary>
 		[Test]
@@ -83,7 +88,7 @@ namespace dbullet.core.test.AllStrategy
 				.AddColumn(new Column("test", DbType.Int32))
 				.AddColumn(new Column("test2", DbType.String.Size(50)));
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [TESTPARTIOTION]");
+			command.VerifySet(x => x.CommandText = CustomPartitionCommand);
 		}
 
 		/// <summary>
