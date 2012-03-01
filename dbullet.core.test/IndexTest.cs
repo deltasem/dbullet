@@ -1,8 +1,10 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="IndexTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
+using System;
 using dbullet.core.dbo;
 using dbullet.core.exception;
 using NUnit.Framework;
@@ -45,7 +47,7 @@ namespace dbullet.core.test
 		{
 			var idx = new Index("IDX_TEST", "testTable");
 			idx.AddColumn(new IndexColumn("Test"));
-			AssertHelpers.Throws<DublicateColumnException>(() => idx.AddColumn(new IndexColumn("Test")));
+			Assert.Throws<DublicateColumnException>(() => idx.AddColumn(new IndexColumn("Test")));
 		}
 	}
 }

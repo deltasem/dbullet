@@ -26,7 +26,7 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.Setup(x => x.ExecuteScalar()).Returns(1);
-			AssertHelpers.Throws<TableExpectedException>(() => strategy.InsertRows(string.Empty, false, new { Test = string.Empty }));
+			Assert.Throws<TableExpectedException>(() => strategy.InsertRows(string.Empty, false, new { Test = string.Empty }));
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.Setup(x => x.ExecuteScalar()).Returns(1);
-			AssertHelpers.Throws<ArgumentNullException>(() => strategy.InsertRows("table"));
+			Assert.Throws<ArgumentNullException>(() => strategy.InsertRows("table"));
 		}
 
 		/// <summary>

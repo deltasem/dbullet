@@ -3,6 +3,7 @@
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System.Linq;
 using dbullet.core.dbo;
 using dbullet.core.exception;
@@ -28,7 +29,7 @@ namespace dbullet.core.test
 		public void AddPrimaryKeyWithoutColumn()
 		{
 			Table tbl = new Table("test");
-			AssertHelpers.Throws<ColumnExpectedException>(() => tbl.AddPrimaryKey("testid"));
+			Assert.Throws<ColumnExpectedException>(() => tbl.AddPrimaryKey("testid"));
 		}
 
 		/// <summary>
@@ -62,7 +63,7 @@ namespace dbullet.core.test
 		public void AddDefaultWithoutColumn()
 		{
 			var tbl = new Table("test");
-			AssertHelpers.Throws<ColumnExpectedException>(() => tbl.Default("test"));
+			Assert.Throws<ColumnExpectedException>(() => tbl.Default("test"));
 		}
 
 		/// <summary>
@@ -74,7 +75,7 @@ namespace dbullet.core.test
 			var tbl = new Table("test")
 				.AddColumn(new Column("testid", System.Data.DbType.Int32))
 				.AddPrimaryKey("testid");
-			AssertHelpers.Throws<ConflictingDataException>(() => tbl.Default("test"));
+			Assert.Throws<ConflictingDataException>(() => tbl.Default("test"));
 		}
 
 		/// <summary>

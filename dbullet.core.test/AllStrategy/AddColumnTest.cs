@@ -27,7 +27,7 @@ namespace dbullet.core.test.AllStrategy
 		public void NotNullNotDefaul()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
-			AssertHelpers.Throws<ArgumentException>(() => strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false)));
+			Assert.Throws<ArgumentException>(() => strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false)));
 		}
 
 		/// <summary>

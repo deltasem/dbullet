@@ -83,7 +83,6 @@
     <Compile Include="AllStrategy\LoadCsvTest.cs" />
     <Compile Include="AllStrategy\TestBase.cs" />
     <Compile Include="AllStrategy\UnloadCsvTest.cs" />
-    <Compile Include="AssertHelpers.cs" />
     <Compile Include="OracleStrategyTest\OracleDeleteRowsTest.cs" />
     <Compile Include="OracleStrategyTest\OracleCreateTableTest.cs" />
     <Compile Include="OracleStrategyTest\OracleCreateIndexTest.cs" />

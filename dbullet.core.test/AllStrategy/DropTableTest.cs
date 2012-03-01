@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
 using dbullet.core.dbs;
 using dbullet.core.exception;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace dbullet.core.test.AllStrategy
 		public void EmptyTable()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
-			AssertHelpers.Throws<TableExpectedException>(() => strategy.DropTable(string.Empty));
+			Assert.Throws<TableExpectedException>(() => strategy.DropTable(string.Empty));
 		}
 
 		/// <summary>

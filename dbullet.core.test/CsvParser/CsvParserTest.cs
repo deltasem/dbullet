@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
 // <copyright file="CsvParserTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
@@ -20,7 +20,7 @@ namespace dbullet.core.test.CsvParser
 		[Test]
 		public void EmptyStringCsv()
 		{
-			AssertHelpers.Throws<ArgumentNullException>(() => core.tools.CsvParser.Parse(string.Empty));
+			Assert.Throws<ArgumentNullException>(() => core.tools.CsvParser.Parse(string.Empty));
 		}
 
 		/// <summary>

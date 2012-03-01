@@ -30,11 +30,10 @@ namespace dbullet.core.test.AllStrategy
 		public void LoadCsvEmptyStream()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
-			AssertHelpers.Throws<InvalidDataException>(
-				() => strategy.LoadCsv(
-					"TESTTABLE", 
-					new StreamReader(new MemoryStream()),
-					new Dictionary<string, Func<string, object>>()));
+			Assert.Throws<InvalidDataException>(() => strategy.LoadCsv(
+				"TESTTABLE", 
+				new StreamReader(new MemoryStream()),
+				new Dictionary<string, Func<string, object>>()));
 		}
 
 		/// <summary>
@@ -44,11 +43,10 @@ namespace dbullet.core.test.AllStrategy
 		public void InvalidHeader()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
-			AssertHelpers.Throws<InvalidDataException>(
-				() => strategy.LoadCsv(
-					"TESTTABLE", 
-					new StreamReader(new MemoryStream(Encoding.Default.GetBytes("\r\n100500,hello"))), 
-					new Dictionary<string, Func<string, object>>()));
+			Assert.Throws<InvalidDataException>(() => strategy.LoadCsv(
+				"TESTTABLE", 
+				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("\r\n100500,hello"))), 
+				new Dictionary<string, Func<string, object>>()));
 		}
 
 		/// <summary>
@@ -151,12 +149,11 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			var dbParams = new Mock<IDbDataParameter>();
 			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
-			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
-			AssertHelpers.Throws<InvalidDataException>(
-				() => strategy.LoadCsv(
-					"TESTTABLE",
-					new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500,hello"))),
-					new Dictionary<string, Func<string, object>>()));
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>()));
+			Assert.Throws<InvalidDataException>(() => strategy.LoadCsv(
+				"TESTTABLE",
+				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500,hello"))),
+				new Dictionary<string, Func<string, object>>()));
 		}
 
 		/// <summary>
