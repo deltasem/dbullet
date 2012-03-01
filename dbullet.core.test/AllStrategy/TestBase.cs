@@ -18,6 +18,11 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class TestBase
 	{
 		/// <summary>
+		/// Системная стратегия
+		/// </summary>
+		protected ISysDatabaseStrategy sysStrategy { get; set; }
+
+		/// <summary>
 		/// Стратегия
 		/// </summary>
 		protected IDatabaseStrategy strategy { get; set; }
