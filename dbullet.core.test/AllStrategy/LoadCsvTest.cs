@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="LoadCsvTest.cs" company="SofTrust" author="SKiryshin">
+// <copyright file="LoadCsvTest.cs" company="delta" author="delta">
 //     Copyright (c) 2012. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------

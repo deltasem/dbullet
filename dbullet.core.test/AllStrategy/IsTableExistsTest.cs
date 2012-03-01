@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IsTableExistsTest.cs" company="SofTrust" author="SKiryshin">
+// <copyright file="IsTableExistsTest.cs" company="delta" author="delta">
 //     Copyright (c) 2012. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
