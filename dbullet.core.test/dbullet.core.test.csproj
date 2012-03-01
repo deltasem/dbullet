@@ -69,9 +69,11 @@
     <Compile Include="AllStrategy\AddColumnTest.cs" />
     <Compile Include="AllStrategy\CreateForeignKeyTest.cs" />
     <Compile Include="AllStrategy\CreateIndexTest.cs" />
+    <Compile Include="AllStrategy\CreateTableTest.cs" />
     <Compile Include="AllStrategy\IsTableExistsTest.cs" />
     <Compile Include="AllStrategy\TestBase.cs" />
     <Compile Include="AssertHelpers.cs" />
+    <Compile Include="OracleStrategyTest\OracleCreateTableTest.cs" />
     <Compile Include="OracleStrategyTest\OracleCreateIndexTest.cs" />
     <Compile Include="OracleStrategyTest\OracleCreateForeignKeyTest.cs" />
     <Compile Include="OracleStrategyTest\OracleAddColumnTest.cs" />
@@ -86,7 +88,7 @@
     <Compile Include="MsSql2008StrategyTest\IsColumnExistsTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008CreateForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\MsSql2008CreateIndexTest.cs" />
-    <Compile Include="MsSql2008StrategyTest\CreateTableTest.cs" />
+    <Compile Include="MsSql2008StrategyTest\MsSql2008CreateTableTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropColumnTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropForeignKeyTest.cs" />
     <Compile Include="MsSql2008StrategyTest\DropIndexTest.cs" />

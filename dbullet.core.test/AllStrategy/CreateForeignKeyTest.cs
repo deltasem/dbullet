@@ -16,7 +16,7 @@ namespace dbullet.core.test.AllStrategy
 	/// Тесты создания внешних ключей
 	/// </summary>
 	[TestFixture]
-	public class CreateForeignKeyTest : TestBase
+	public abstract class CreateForeignKeyTest : TestBase
 	{
 		/// <summary>
 		/// Создание внешнего ключа

@@ -16,7 +16,7 @@ namespace dbullet.core.test.AllStrategy
 	/// Тесты CreateIndex
 	/// </summary>
 	[TestFixture]
-	public class CreateIndexTest : TestBase
+	public abstract class CreateIndexTest : TestBase
 	{
 		/// <summary>
 		/// Создание индекса

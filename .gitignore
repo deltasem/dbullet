@@ -14,3 +14,4 @@ Ankh.NoLoad
 *.dotCover
 dbullet.core.test/MolesAssemblies/*
 libs/*
+*ncrunch*
