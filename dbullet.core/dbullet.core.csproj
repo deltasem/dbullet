@@ -79,6 +79,7 @@
     <Compile Include="dbo\ValueDefault.cs" />
     <Compile Include="engine\common\ITemplateManager.cs" />
     <Compile Include="engine\common\StrategyBase.cs" />
+    <Compile Include="engine\common\SysStrategyBase.cs" />
     <Compile Include="engine\common\TemplateManagerBase.cs" />
     <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
