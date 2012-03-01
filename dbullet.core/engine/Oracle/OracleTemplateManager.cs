@@ -64,7 +64,7 @@ namespace dbullet.core.engine.Oracle
 			ValueDefault vd = def as ValueDefault;
 			if (vd != null)
 			{
-				result = vd.Value;
+				result = string.Format("'{0}'", vd.Value);
 			}
 			else
 			{
@@ -74,10 +74,10 @@ namespace dbullet.core.engine.Oracle
 					switch (sd.DefaultType)
 					{
 						case StandartDefaultType.date:
-							result = "getdate()";
+							result = "sysdate";
 							break;
 						case StandartDefaultType.guid:
-							result = "newid()";
+							result = "sys_guid()";
 							break;
 						default:
 							result = string.Empty;

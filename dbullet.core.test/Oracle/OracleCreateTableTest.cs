@@ -55,6 +55,42 @@ namespace dbullet.core.test.Oracle
 		}
 
 		/// <summary>
+		/// Создание таблицы с первичным ключем в не стандартной партиции
+		/// </summary>
+		protected override string WithPrimaryKeyCustomPartitionCommand
+		{
+			get
+			{
+				return "create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\";" +
+					" alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index tablespace \"TESTPARTIOTION\";";
+			}
+		}
+
+		/// <summary>
+		/// Создание с дефалтом
+		/// </summary>
+		protected override string WithDefaultCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int null default '100500', \"test2\" varchar2(50) null default 'this is the test') tablespace \"PRIMARY\";"; }
+		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - системное время
+		/// </summary>
+		protected override string WithStandartDefaultDateCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int null default sysdate) tablespace \"PRIMARY\";"; }
+		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - новый GUID
+		/// </summary>
+		protected override string WithStandartDefaultGuidCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int null default sys_guid()) tablespace \"PRIMARY\";"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

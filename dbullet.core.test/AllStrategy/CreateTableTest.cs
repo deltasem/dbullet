@@ -41,6 +41,26 @@ namespace dbullet.core.test.AllStrategy
 		protected abstract string CustomPartitionWithPrimaryKeyCommand { get; }
 
 		/// <summary>
+		/// Создание таблицы с первичным ключем в не стандартной партиции
+		/// </summary>
+		protected abstract string WithPrimaryKeyCustomPartitionCommand { get; }
+
+		/// <summary>
+		/// Создание с дефалтом
+		/// </summary>
+		protected abstract string WithDefaultCommand { get; }
+
+		/// <summary>
+		/// Со стандартным дефалтом - системное время
+		/// </summary>
+		protected abstract string WithStandartDefaultDateCommand { get; }
+
+		/// <summary>
+		/// Со стандартным дефалтом - новый GUID
+		/// </summary>
+		protected abstract string WithStandartDefaultGuidCommand { get; }
+
+		/// <summary>
 		/// Создание таблицы без столбцов
 		/// </summary>
 		[Test]
@@ -127,7 +147,7 @@ namespace dbullet.core.test.AllStrategy
 				.AddColumn(new Column("test2", DbType.String.Size(50)))
 				.AddPrimaryKey("testid", "TESTPARTIOTION");
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = WithPrimaryKeyCustomPartitionCommand);
 		}
 
 		/// <summary>
@@ -142,7 +162,7 @@ namespace dbullet.core.test.AllStrategy
 			table.AddColumn(new Column("test", DbType.Int32)).Default("100500");
 			table.AddColumn(new Column("test2", DbType.String.Size(50))).Default("this is the test");
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default '100500', [test2] nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = WithDefaultCommand);
 		}
 
 		/// <summary>
@@ -156,7 +176,7 @@ namespace dbullet.core.test.AllStrategy
 			var table = new Table("TestTable");
 			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.date);
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = WithStandartDefaultDateCommand);
 		}
 
 		/// <summary>
@@ -170,7 +190,7 @@ namespace dbullet.core.test.AllStrategy
 			var table = new Table("TestTable");
 			table.AddColumn(new Column("test", DbType.Int32)).Default(StandartDefaultType.guid);
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = WithStandartDefaultGuidCommand);
 		}
 	}
 }

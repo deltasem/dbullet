@@ -51,6 +51,38 @@ namespace dbullet.core.test.MsSql2008
 		}
 
 		/// <summary>
+		/// Создание таблицы с первичным ключем в не стандартной партиции
+		/// </summary>
+		protected override string WithPrimaryKeyCustomPartitionCommand
+		{
+			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]"; }
+		}
+
+		/// <summary>
+		/// Создание с дефалтом
+		/// </summary>
+		protected override string WithDefaultCommand
+		{
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default '100500', [test2] nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]"; }
+		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - системное время
+		/// </summary>
+		protected override string WithStandartDefaultDateCommand
+		{
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]"; }
+		}
+
+		/// <summary>
+		/// Со стандартным дефалтом - новый GUID
+		/// </summary>
+		protected override string WithStandartDefaultGuidCommand
+		{
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
