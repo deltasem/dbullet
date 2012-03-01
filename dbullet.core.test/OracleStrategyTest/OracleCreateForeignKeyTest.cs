@@ -1,24 +1,25 @@
-//-----------------------------------------------------------------------
-// <copyright file="OracleAddColumnTest.cs" company="delta">
+п»ї//-----------------------------------------------------------------------
+// <copyright file="OracleCreateForeignKeyTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 using dbullet.core.dbs;
 using dbullet.core.engine.Oracle;
+using dbullet.core.test.AllStrategy;
 using NUnit.Framework;
 using StructureMap;
 
 namespace dbullet.core.test.OracleStrategyTest
 {
 	/// <summary>
-	/// Тесты добавления колонки
+	/// РўРµСЃС‚С‹ СЃРѕР·РґР°РЅРёСЏ РІРЅРµС€РЅРёС… РєР»СЋС‡РµР№
 	/// </summary>
 	[TestFixture]
-	public class OracleAddColumnTest : AllStrategy.AddColumnTest
+	public class OracleCreateForeignKeyTest : CreateForeignKeyTest
 	{
 		/// <summary>
-		/// Инициализация
+		/// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
 		/// </summary>
 		[SetUp]
 		public void SelfTestInitialize()
