@@ -1,12 +1,14 @@
 //-----------------------------------------------------------------------
-// <copyright file="BuildColumnCreateCommandTest.cs" company="delta">
+// <copyright file="MsSql2008BuildColumnCreateCommandTest.cs" company="delta">
 //     Copyright (c) 2011. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System;
 using System.Data;
 using dbullet.core.dbo;
 using dbullet.core.engine.MsSql;
+using dbullet.core.test.AllStrategy;
 using NUnit.Framework;
 
 namespace dbullet.core.test.MsSql2008StrategyTest
@@ -15,13 +17,13 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 	/// Тесты процедуры создания колонки
 	/// </summary>
 	[TestFixture]
-	public class BuildColumnCreateCommandTest
+	public class MsSql2008BuildColumnCreateCommandTest : BuildColumnCreateCommandTest
 	{
 		/// <summary>
 		/// Если строка без размера - сгенерить ошибкуx
 		/// </summary>
 		[Test]
-		public void StringWithoutSize()
+		public override void StringWithoutSize()
 		{
 			Assert.Throws<ArgumentException>(
 				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
@@ -32,7 +34,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка-строка
 		/// </summary>
 		[Test]
-		public void StringDatatype()
+		public override void StringDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
 			Assert.AreEqual("[TestColumn] nvarchar(50) null", t);
@@ -42,7 +44,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка-число
 		/// </summary>
 		[Test]
-		public void NumericDatatype()
+		public override void NumericDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
 			Assert.AreEqual("[TestColumn] decimal(10, 5) null", t);
@@ -52,7 +54,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка целое число
 		/// </summary>
 		[Test]
-		public void IntDataType()
+		public override void IntDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
 			Assert.AreEqual("[TestColumn] int null", t);
@@ -62,7 +64,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка булевый тип
 		/// </summary>
 		[Test]
-		public void BooleanDataType()
+		public override void BooleanDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
 			Assert.AreEqual("[TestColumn] bit null", t);
@@ -72,7 +74,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка дата
 		/// </summary>
 		[Test]
-		public void DateDataType()
+		public override void DateDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
 			Assert.AreEqual("[TestColumn] date null", t);
@@ -82,7 +84,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка дата
 		/// </summary>
 		[Test]
-		public void DateTimeDataType()
+		public override void DateTimeDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
 			Assert.AreEqual("[TestColumn] datetime null", t);
@@ -92,7 +94,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка GUID
 		/// </summary>
 		[Test]
-		public void GuidDataType()
+		public override void GuidDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
 			Assert.AreEqual("[TestColumn] uniqueidentifier null", t);
@@ -102,7 +104,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка GUID
 		/// </summary>
 		[Test]
-		public void XmlDataType()
+		public override void XmlDataType()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
 			Assert.AreEqual("[TestColumn] xml null", t);
@@ -112,7 +114,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Binary
 		/// </summary>
 		[Test]
-		public void BinaryDataTypeWithoutSize()
+		public override void BinaryDataTypeWithoutSize()
 		{
 			Assert.Throws<ArgumentException>(
 				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary)), 
@@ -123,7 +125,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка-строка
 		/// </summary>
 		[Test]
-		public void BinaryDatatype()
+		public override void BinaryDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
 			Assert.AreEqual("[TestColumn] binary(50) null", t);
@@ -133,7 +135,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		/// Обычная колонка-строка
 		/// </summary>
 		[Test]
-		public void VarBinaryDatatype()
+		public override void VarBinaryDatatype()
 		{
 			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", SqlDbType.VarBinary));
 			Assert.AreEqual("[TestColumn] varbinary(MAX) null", t);

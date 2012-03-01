@@ -232,7 +232,7 @@ namespace dbullet.core.engine.MsSql
 					cmd.CommandText = Razor.Parse(
 						manager.GetInsertRowsStreamTemplate(), 
 						new object[] { tableName, headers },
-						"insert rows stream");
+						"insert rows stream").Replace("\r", string.Empty).Replace("\n", string.Empty);
 					IDbDataParameter[] dataParams = new IDbDataParameter[headers.Length];
 					for (int i = 0; i < dataParams.Length; i++)
 					{

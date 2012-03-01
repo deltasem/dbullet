@@ -4,17 +4,18 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using dbullet.core.dbs;
 using Moq;
 using NUnit.Framework;
 using StructureMap;
-using dbullet.core.dbs;
 
 namespace dbullet.core.test.AllStrategy
 {
 	/// <summary>
 	/// Тесты DeleteRows
 	/// </summary>
-	public class DeleteRowsTest : TestBase
+	[TestFixture]
+	public abstract class DeleteRowsTest : TestBase
 	{
 		/// <summary>
 		/// Should delete all rows if equality conditions is null

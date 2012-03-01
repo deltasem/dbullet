@@ -1,26 +1,27 @@
 //-----------------------------------------------------------------------
-// <copyright file="LoadCsvTest.cs" company="delta">
-//     Copyright (c) 2011. All rights reserved.
+// <copyright file="LoadCsvTest.cs" company="SofTrust" author="SKiryshin">
+//     Copyright (c) 2012. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Text;
-using dbullet.core.engine;
-using dbullet.core.engine.MsSql;
-using dbullet.core.test.tools;
+using dbullet.core.dbs;
+using dbullet.core.tools;
+using Moq;
 using NUnit.Framework;
+using StructureMap;
 
-namespace dbullet.core.test.MsSql2008StrategyTest
+namespace dbullet.core.test.AllStrategy
 {
-	using dbullet.core.tools;
-
 	/// <summary>
 	/// Тесты загрузки CSV
 	/// </summary>
 	[TestFixture]
-	public class LoadCsvTest
+	public abstract class LoadCsvTest : TestBase
 	{
 		/// <summary>
 		/// Пустой файл
@@ -28,8 +29,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void LoadCsvEmptyStream()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
@@ -43,8 +43,7 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void InvalidHeader()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE", 
@@ -58,13 +57,18 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void LoadCsvEmptyData()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
+
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())).Verifiable();
+
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID"))),
 				new Dictionary<string, Func<string, object>>());
-			Assert.IsTrue(string.IsNullOrEmpty(connection.LastCommandText));
+			command.Verify(x => x.ExecuteNonQuery(), Times.Never());
 		}
 
 		/// <summary>
@@ -73,13 +77,18 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void LoadCsvOneRow()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
+
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())).Verifiable();
+
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
 				new Dictionary<string, Func<string, object>>());
-			Assert.AreEqual("insert into TESTTABLE (ID) values(@ID);", connection.LastCommandText);
+			command.VerifySet(x => x.CommandText = "insert into TESTTABLE (ID) values(@ID);");
 		}
 
 		/// <summary>
@@ -88,13 +97,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void ParametrMustBeCreatedCount()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())).Verifiable();
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID,PASS\r\n100500,hello"))),
 				new Dictionary<string, Func<string, object>>());
-			Assert.AreEqual(2, connection.DbDataParametrs.Count);
+			command.Verify(x => x.Parameters.Add(It.IsAny<object>()), Times.Exactly(2));
 		}
 
 		/// <summary>
@@ -103,13 +114,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void ParametrMustBeCreatedName()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>()));
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
 				new Dictionary<string, Func<string, object>>());
-			Assert.AreEqual("@COLUMN_NAME", connection.DbDataParametrs[0].ParameterName);
+			dbParams.VerifySet(x => x.ParameterName = "@COLUMN_NAME");
 		}
 
 		/// <summary>
@@ -118,13 +131,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void ParametrMustBeCreatedValue()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
 				new Dictionary<string, Func<string, object>>());
-			Assert.AreEqual("100500hello", connection.DbDataParametrs[0].Value);
+			dbParams.VerifySet(x => x.Value = "100500hello");
 		}
 
 		/// <summary>
@@ -133,8 +148,10 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void DataDoesntMatchHeader()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
 			AssertHelpers.Throws<InvalidDataException>(
 				() => strategy.LoadCsv(
 					"TESTTABLE",
@@ -148,13 +165,15 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void ModulatorInvoked()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500"))),
 				new Dictionary<string, Func<string, object>> { { "COLUMN_NAME", p => "500100" } });
-			Assert.AreEqual("500100", connection.DbDataParametrs[0].Value);
+			dbParams.VerifySet(x => x.Value = "500100");
 		}
 
 		/// <summary>
@@ -163,17 +182,19 @@ namespace dbullet.core.test.MsSql2008StrategyTest
 		[Test]
 		public void LoadCsvShouldUseIdenityInsert()
 		{
-			var connection = new TestConnection();
-			var strategy = new MsSql2008Strategy(connection);
+			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
+			var dbParams = new Mock<IDbDataParameter>();
+			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
+			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
 			strategy.LoadCsv(
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
 				new Dictionary<string, Func<string, object>>(), 
 				CsvQuotesType.DoubleQuotes, 
 				true);
-			Assert.AreEqual("set identity_insert [TESTTABLE] on;", connection.AllCommands[0]);
-			Assert.AreEqual("insert into TESTTABLE (ID) values(@ID);", connection.AllCommands[1]);
-			Assert.AreEqual("set identity_insert [TESTTABLE] off;", connection.AllCommands[2]);
+			command.VerifySet(x => x.CommandText = "set identity_insert [TESTTABLE] on;");
+			command.VerifySet(x => x.CommandText = "insert into TESTTABLE (ID) values(@ID);");
+			command.VerifySet(x => x.CommandText = "set identity_insert [TESTTABLE] off;");
 		}
 	}
 }
