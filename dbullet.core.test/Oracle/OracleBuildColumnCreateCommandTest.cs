@@ -7,7 +7,7 @@
 using System;
 using System.Data;
 using dbullet.core.dbo;
-using dbullet.core.engine.MsSql;
+using dbullet.core.engine.Oracle;
 using dbullet.core.test.AllStrategy;
 using NUnit.Framework;
 
@@ -26,7 +26,7 @@ namespace dbullet.core.test.Oracle
 		public override void StringWithoutSize()
 		{
 			Assert.Throws<ArgumentException>(
-				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
+				() => OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String)),
 				"String must have length");
 		}
 
@@ -36,8 +36,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void StringDatatype()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
-			Assert.AreEqual("[TestColumn] nvarchar(50) null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
+			Assert.AreEqual("\"TestColumn\" varchar2(50) null", t);
 		}
 
 		/// <summary>
@@ -46,8 +46,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void NumericDatatype()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
-			Assert.AreEqual("[TestColumn] decimal(10, 5) null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
+			Assert.AreEqual("\"TestColumn\" number(10, 5) null", t);
 		}
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void IntDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
-			Assert.AreEqual("[TestColumn] int null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
+			Assert.AreEqual("\"TestColumn\" int null", t);
 		}
 
 		/// <summary>
@@ -66,8 +66,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void BooleanDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
-			Assert.AreEqual("[TestColumn] bit null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
+			Assert.AreEqual("\"TestColumn\" char(1) null", t);
 		}
 
 		/// <summary>
@@ -76,8 +76,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void DateDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
-			Assert.AreEqual("[TestColumn] date null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
+			Assert.AreEqual("\"TestColumn\" date null", t);
 		}
 
 		/// <summary>
@@ -86,8 +86,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void DateTimeDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
-			Assert.AreEqual("[TestColumn] datetime null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
+			Assert.AreEqual("\"TestColumn\" date null", t);
 		}
 
 		/// <summary>
@@ -96,8 +96,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void GuidDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
-			Assert.AreEqual("[TestColumn] uniqueidentifier null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
+			Assert.AreEqual("\"TestColumn\" raw(16) null", t);
 		}
 
 		/// <summary>
@@ -106,8 +106,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void XmlDataType()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
-			Assert.AreEqual("[TestColumn] xml null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
+			Assert.AreEqual("\"TestColumn\" blob null", t);
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace dbullet.core.test.Oracle
 		public override void BinaryDataTypeWithoutSize()
 		{
 			Assert.Throws<ArgumentException>(
-				() => MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary)), 
+				() => OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary)), 
 				"Binary must have length");
 		}
 
@@ -127,8 +127,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void BinaryDatatype()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
-			Assert.AreEqual("[TestColumn] binary(50) null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
+			Assert.AreEqual("\"TestColumn\" raw(50) null", t);
 		}
 
 		/// <summary>
@@ -137,8 +137,8 @@ namespace dbullet.core.test.Oracle
 		[Test]
 		public override void VarBinaryDatatype()
 		{
-			var t = MsSqlTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", SqlDbType.VarBinary));
-			Assert.AreEqual("[TestColumn] varbinary(MAX) null", t);
+			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", SqlDbType.VarBinary));
+			Assert.AreEqual("\"TestColumn\" blob null", t);
 		}
 	}
 }

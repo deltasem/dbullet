@@ -19,6 +19,22 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008CreateTableTest : CreateTableTest
 	{
 		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected override string RegularCreateTableCommand
+		{
+			get { return "create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [PRIMARY]"; }
+		}
+
+		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected override string RegularCreateTableWithIdentityCommand
+		{
+			get { return "create table [TestTable] ([test] int not null identity(1, 1), [test2] nvarchar(50) null) on [PRIMARY]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

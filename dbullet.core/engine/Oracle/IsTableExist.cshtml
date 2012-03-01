@@ -1,1 +1,1 @@
-select count(*) from sysobjects where id = object_id(N'@Model.Name') and OBJECTPROPERTY(id, N'IsTable') = 1
+select count(*) from user_tables where initcap(table_name) = initcap('@Model.Name')

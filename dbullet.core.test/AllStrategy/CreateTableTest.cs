@@ -21,6 +21,16 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class CreateTableTest : TestBase
 	{
 		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected abstract string RegularCreateTableCommand { get; }
+
+		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected abstract string RegularCreateTableWithIdentityCommand { get; }
+
+		/// <summary>
 		/// Создание таблицы без столбцов
 		/// </summary>
 		[Test]
@@ -43,11 +53,11 @@ namespace dbullet.core.test.AllStrategy
 			table.AddColumn(new Column("test", DbType.Int32));
 			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = RegularCreateTableCommand);
 		}
 
 		/// <summary>
-		/// Нормальное создание
+		/// Нормальное создание с идентити
 		/// </summary>
 		[Test]
 		public void RegularCreateTableWithIdentity()
@@ -58,7 +68,7 @@ namespace dbullet.core.test.AllStrategy
 			table.AddColumn(new Column("test", DbType.Int32, false, true));
 			table.AddColumn(new Column("test2", DbType.String.Size(50)));
 			strategy.CreateTable(table);
-			command.VerifySet(x => x.CommandText = "create table [TestTable] ([test] int not null identity(1, 1), [test2] nvarchar(50) null) on [PRIMARY]");
+			command.VerifySet(x => x.CommandText = RegularCreateTableWithIdentityCommand);
 		}
 
 		/// <summary>

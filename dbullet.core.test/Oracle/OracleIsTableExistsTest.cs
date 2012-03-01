@@ -22,7 +22,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string ByNameCommandText
 		{
-			get { return "select count(*) from sysobjects where id = object_id(N'ExistingTable') and OBJECTPROPERTY(id, N'IsTable') = 1"; }
+			get { return "select count(*) from user_tables where initcap(table_name) = initcap('ExistingTable')"; }
 		}
 
 		/// <summary>

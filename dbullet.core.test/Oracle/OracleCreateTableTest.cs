@@ -19,6 +19,22 @@ namespace dbullet.core.test.Oracle
 	public class OracleCreateTableTest : CreateTableTest
 	{
 		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected override string RegularCreateTableCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\";"; }
+		}
+
+		/// <summary>
+		/// Нормальное создание
+		/// </summary>
+		protected override string RegularCreateTableWithIdentityCommand
+		{
+			get { return "create table \"TestTable\" (\"test\" int not null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\"; create sequence TestTable_test minvalue 1 start with 1 increment by 1;"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

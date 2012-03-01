@@ -15,6 +15,7 @@ using dbullet.core.exception;
 using dbullet.core.tools;
 using NLog;
 using RazorEngine;
+using RazorEngine.Configuration;
 using RazorEngine.Templating;
 
 namespace dbullet.core.engine.common
@@ -35,13 +36,27 @@ namespace dbullet.core.engine.common
 		private static readonly Logger log = LogManager.GetCurrentClassLogger();
 
 		/// <summary>
+		/// Рендер
+		/// </summary>
+		private static readonly TemplateService razor;
+
+		/// <summary>
+		/// Статический 
+		/// </summary>
+		static StrategyBase()
+		{
+			var cfg = new FluentTemplateServiceConfiguration(x => x.WithEncoding(Encoding.Raw));
+			razor = new TemplateService(cfg);
+		}
+
+		/// <summary>
 		/// Конструктор
 		/// </summary>
 		/// <param name="connection">Соединение с БД</param>
 		/// <param name="templateManager">Менеджер</param>
 		public StrategyBase(IDbConnection connection, ITemplateManager templateManager)
 		{
-			this.TemplateManager = templateManager;
+			TemplateManager = templateManager;
 			this.connection = connection;
 		}
 
@@ -61,7 +76,7 @@ namespace dbullet.core.engine.common
 				throw new ColumnExpectedException();
 			}
 
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetCreateTableTemplate(), table, "create table"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetCreateTableTemplate(), table, "create table"));
 			log.Info("Таблица {0} создана в разделе {1}", table.Name, table.PartitionName);
 		}
 
@@ -76,7 +91,7 @@ namespace dbullet.core.engine.common
 				throw new TableExpectedException();
 			}
 
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetDropTableTemplate(), new Table(tableName), "drop table"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetDropTableTemplate(), new Table(tableName), "drop table"));
 			log.Info("Таблица {0} удалена", tableName);
 		}
 
@@ -92,7 +107,7 @@ namespace dbullet.core.engine.common
 				throw new ArgumentException();
 			}
 
-			return ExecuteScalar(Razor.Parse(TemplateManager.GetIsTableExistTemplate(), new Table(tableName), "table exists")).ToString() == "1";
+			return ExecuteScalar(razor.Parse(TemplateManager.GetIsTableExistTemplate(), new Table(tableName), "table exists")).ToString() == "1";
 		}
 
 		/// <summary>
@@ -108,7 +123,7 @@ namespace dbullet.core.engine.common
 				throw new ArgumentException();
 			}
 
-			return ExecuteScalar(Razor.Parse(TemplateManager.GetIsColumnExistTemplate(), new object[] { tableName, columnName }, "column exists")).ToString() == "1";
+			return ExecuteScalar(razor.Parse(TemplateManager.GetIsColumnExistTemplate(), new object[] { tableName, columnName }, "column exists")).ToString() == "1";
 		}
 
 		/// <summary>
@@ -117,7 +132,7 @@ namespace dbullet.core.engine.common
 		/// <param name="index">Индеес</param>
 		public void CreateIndex(Index index)
 		{
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetCreateIndexTemplate(), index, "create index"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetCreateIndexTemplate(), index, "create index"));
 			log.Info("Индекс {0} создан в разделе {1}", index.Name, index.PartitionName);
 		}
 
@@ -127,7 +142,7 @@ namespace dbullet.core.engine.common
 		/// <param name="index">Индекс</param>
 		public void DropIndex(Index index)
 		{
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetDropIndexTemplate(), index, "drop index"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetDropIndexTemplate(), index, "drop index"));
 			log.Info("Индекс {0} удален", index.Name);
 		}
 
@@ -145,7 +160,7 @@ namespace dbullet.core.engine.common
 
 			try
 			{
-				ExecuteNonQuery(Razor.Parse(TemplateManager.GetAddColumnTemplate(), new object[] { table, column }, "add column"));
+				ExecuteNonQuery(razor.Parse(TemplateManager.GetAddColumnTemplate(), new object[] { table, column }, "add column"));
 			}
 			catch (TemplateCompilationException ex)
 			{
@@ -161,7 +176,7 @@ namespace dbullet.core.engine.common
 		/// <param name="foreignKey">Внешний ключ</param>
 		public void CreateForeignKey(ForeignKey foreignKey)
 		{
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetCreateForeignKeyTemplate(), foreignKey, "create foreignkey"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetCreateForeignKeyTemplate(), foreignKey, "create foreignkey"));
 			log.Info("Внешний ключ создан {0}", foreignKey);
 		}
 
@@ -171,7 +186,7 @@ namespace dbullet.core.engine.common
 		/// <param name="foreignKey">Внешний ключ</param>
 		public void DropForeignKey(ForeignKey foreignKey)
 		{
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetDropForeignKeyTemplate(), foreignKey, "drop foreignkey"));
 			log.Info("Внешний ключ {0} удален", foreignKey.Name);
 		}
 
@@ -202,7 +217,7 @@ namespace dbullet.core.engine.common
 					values[i] = props[i].GetValue(row, null).ToString();
 				}
 
-				ExecuteScalar(Razor.Parse(TemplateManager.GetInsertRowsTemplate(), new object[] { table, props, values, identity }, "insert rows"));
+				ExecuteScalar(razor.Parse(TemplateManager.GetInsertRowsTemplate(), new object[] { table, props, values, identity }, "insert rows"));
 			}
 		}
 
@@ -236,7 +251,7 @@ namespace dbullet.core.engine.common
 					}
 
 					var headers = CsvParser.Parse(firstLine, csvQuotesType);
-					cmd.CommandText = Razor.Parse(
+					cmd.CommandText = razor.Parse(
 						TemplateManager.GetInsertRowsStreamTemplate(), 
 						new object[] { tableName, headers },
 						"insert rows stream").Replace("\r", string.Empty).Replace("\n", string.Empty);
@@ -307,7 +322,7 @@ namespace dbullet.core.engine.common
 				throw new ColumnExpectedException();
 			}
 
-			ExecuteNonQuery(Razor.Parse(TemplateManager.GetDropColumnTemplate(), new object[] { table, column }, "drop column"));
+			ExecuteNonQuery(razor.Parse(TemplateManager.GetDropColumnTemplate(), new object[] { table, column }, "drop column"));
 			log.Info("Колонка {0} удалена из таблицы {1}", column, table);
 		}
 
@@ -321,7 +336,7 @@ namespace dbullet.core.engine.common
 		{
 			if (eq == null || eq.Length == 0)
 			{
-				ExecuteScalar(Razor.Parse(TemplateManager.GetDeleteRowsTemplate(), new object[] { table, null, null }, "delete rows"));
+				ExecuteScalar(razor.Parse(TemplateManager.GetDeleteRowsTemplate(), new object[] { table, null, null }, "delete rows"));
 			}
 
 			foreach (var row in eq)
@@ -333,7 +348,7 @@ namespace dbullet.core.engine.common
 					values[i] = props[i].GetValue(row, null).ToString();
 				}
 
-				ExecuteScalar(Razor.Parse(TemplateManager.GetDeleteRowsTemplate(), new object[] { table, props, values }, "delete rows"));
+				ExecuteScalar(razor.Parse(TemplateManager.GetDeleteRowsTemplate(), new object[] { table, props, values }, "delete rows"));
 			}
 		}
 
