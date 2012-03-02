@@ -1,1 +1,9 @@
-drop table [@Model.Name]
+@{string name = Model.Name.ToUpper();}
+declare tmp int;
+ begin
+ execute immediate 'drop table "@name"';
+ select count(*) into tmp from user_sequences where initcap(sequence_name) = initcap('@(name)_ID');
+ if tmp > 0 then
+ execute immediate 'drop sequence "@(name)_ID"';
+ end if;
+ end;

@@ -19,6 +19,11 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class DropTableTest : TestBase
 	{
 		/// <summary>
+		/// Удаление таблицы
+		/// </summary>
+		protected abstract string RegularDropTableCommand { get; }
+
+		/// <summary>
 		/// Удаление таблицы без названия
 		/// </summary>
 		[Test]
@@ -36,7 +41,7 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			strategy.DropTable("TableForDrop");
-			command.VerifySet(x => x.CommandText = "drop table [TableForDrop]");
+			command.VerifySet(x => x.CommandText = RegularDropTableCommand);
 		}
 	}
 }
