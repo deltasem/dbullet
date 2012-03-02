@@ -27,5 +27,16 @@ namespace dbullet.core.test.Oracle
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<OracleStrategy>());
 			ObjectFactory.Inject(connection.Object);
 		}
+
+		/// <summary>
+		/// Проверяет, существует ли колонка
+		/// </summary>
+		protected override string ByNameCommand
+		{
+			get
+			{
+				return "select count(*) from user_tab_columns where initcap(table_name) = initcap('ExistingTable') and initcap(column_name) = initcap('ExistingColumn')";
+			}
+		}
 	}
 }

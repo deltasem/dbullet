@@ -27,5 +27,16 @@ namespace dbullet.core.test.MsSql2008
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<MsSql2008Strategy>());
 			ObjectFactory.Inject(connection.Object);
 		}
+
+		/// <summary>
+		/// Проверяет, существует ли колонка
+		/// </summary>
+		protected override string ByNameCommand
+		{
+			get
+			{
+				return "select count(*) from syscolumns where id = object_id(N'ExistingTable') and name = 'ExistingColumn'";
+			}
+		}
 	}
 }

@@ -18,6 +18,11 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class IsColumnExistsTest : TestBase
 	{
 		/// <summary>
+		/// Проверяет, существует ли колонка
+		/// </summary>
+		protected abstract string ByNameCommand { get; }
+
+		/// <summary>
 		/// Проверяет, существует ли таблица
 		/// </summary>
 		[Test]
@@ -26,8 +31,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.Setup(x => x.ExecuteScalar()).Returns(1);
 			strategy.IsColumnExists("ExistingTable", "ExistingColumn");
-			command.VerifySet(x => x.CommandText = "select count(*) from syscolumns " +
-				"where id = object_id(N'ExistingTable') and name = 'ExistingColumn'");
+			command.VerifySet(x => x.CommandText = ByNameCommand);
 		}
 
 		/// <summary>
