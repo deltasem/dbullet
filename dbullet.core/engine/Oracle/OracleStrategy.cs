@@ -21,6 +21,35 @@ namespace dbullet.core.engine.Oracle
 		/// <param name="connection">Соединение с БД</param>
 		public OracleStrategy(IDbConnection connection) : base(connection, new OracleTemplateManager())
 		{
-		}		
+		}
+
+		/// <summary>
+		/// identity_insert off
+		/// </summary>
+		/// <param name="tableName">Имя таблицы</param>
+		/// <param name="cmd">Комманда</param>
+		protected override void DisableIdentityInsert(string tableName, IDbCommand cmd)
+		{
+		}
+
+		/// <summary>
+		/// identity_insert on
+		/// </summary>
+		/// <param name="tableName">Имя таблицы</param>
+		/// <param name="cmd">Комманда</param>
+		protected override void EnableIdentityInsert(string tableName, IDbCommand cmd)
+		{
+		}
+
+		/// <summary>
+		/// Возвращает имя параметра
+		/// </summary>
+		/// <param name="headers">Заголовки</param>
+		/// <param name="i">ИД параметра</param>
+		/// <returns>Имя параметра</returns>
+		protected override string GetParameterName(string[] headers, int i)
+		{
+			return string.Format(":{0}", (i + 1));
+		}
 	}
 }

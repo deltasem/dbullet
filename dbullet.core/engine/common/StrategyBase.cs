@@ -23,7 +23,7 @@ namespace dbullet.core.engine.common
 	/// <summary>
 	/// Базовая стратегия
 	/// </summary>
-	public class StrategyBase
+	public abstract class StrategyBase
 	{
 		/// <summary>
 		/// Менеджер темплейтов
@@ -246,8 +246,7 @@ namespace dbullet.core.engine.common
 				{
 					if (identity)
 					{
-						cmd.CommandText = string.Format("set identity_insert [{0}] on;", tableName);
-						cmd.ExecuteNonQuery();
+						EnableIdentityInsert(tableName, cmd);
 					}
 
 					var headers = CsvParser.Parse(firstLine, csvQuotesType);
@@ -259,7 +258,8 @@ namespace dbullet.core.engine.common
 					for (int i = 0; i < dataParams.Length; i++)
 					{
 						IDbDataParameter parameter = cmd.CreateParameter();
-						parameter.ParameterName = string.Format("@{0}", headers[i]);
+						parameter.ParameterName = GetParameterName(headers, i);
+						parameter.DbType = DbType.String;
 						dataParams[i] = parameter;
 						cmd.Parameters.Add(parameter);
 					}
@@ -289,8 +289,7 @@ namespace dbullet.core.engine.common
 
 					if (identity)
 					{
-						cmd.CommandText = string.Format("set identity_insert [{0}] off;", tableName);
-						cmd.ExecuteNonQuery();
+						DisableIdentityInsert(tableName, cmd);
 					}
 				}
 
@@ -365,6 +364,28 @@ namespace dbullet.core.engine.common
 		{
 			throw new NotImplementedException();
 		}
+
+		/// <summary>
+		/// identity_insert off
+		/// </summary>
+		/// <param name="tableName">Имя таблицы</param>
+		/// <param name="cmd">Комманда</param>
+		protected abstract void DisableIdentityInsert(string tableName, IDbCommand cmd);
+
+		/// <summary>
+		/// Возвращает имя параметра
+		/// </summary>
+		/// <param name="headers">Заголовки</param>
+		/// <param name="i">ИД параметра</param>
+		/// <returns>Имя параметра</returns>
+		protected abstract string GetParameterName(string[] headers, int i);
+
+		/// <summary>
+		/// identity_insert on
+		/// </summary>
+		/// <param name="tableName">Имя таблицы</param>
+		/// <param name="cmd">Комманда</param>
+		protected abstract void EnableIdentityInsert(string tableName, IDbCommand cmd);
 
 		/// <summary>
 		/// Выполнить запрос

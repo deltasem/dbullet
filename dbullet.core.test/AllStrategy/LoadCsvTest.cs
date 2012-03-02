@@ -24,6 +24,16 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class LoadCsvTest : TestBase
 	{
 		/// <summary>
+		/// Комманда загрузки одной записи
+		/// </summary>
+		protected abstract string LoadCsvOneRowCommand { get; }
+
+		/// <summary>
+		/// Имя параметра
+		/// </summary>
+		protected abstract string ParametrMustBeCreatedNameParametrName { get; }
+
+		/// <summary>
 		/// Пустой файл
 		/// </summary>
 		[Test]
@@ -86,7 +96,7 @@ namespace dbullet.core.test.AllStrategy
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
 				new Dictionary<string, Func<string, object>>());
-			command.VerifySet(x => x.CommandText = "insert into TESTTABLE (ID) values(@ID);");
+			command.VerifySet(x => x.CommandText = LoadCsvOneRowCommand);
 		}
 
 		/// <summary>
@@ -120,7 +130,7 @@ namespace dbullet.core.test.AllStrategy
 				"TESTTABLE",
 				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("COLUMN_NAME\r\n100500hello"))),
 				new Dictionary<string, Func<string, object>>());
-			dbParams.VerifySet(x => x.ParameterName = "@COLUMN_NAME");
+			dbParams.VerifySet(x => x.ParameterName = ParametrMustBeCreatedNameParametrName);
 		}
 
 		/// <summary>
@@ -177,21 +187,6 @@ namespace dbullet.core.test.AllStrategy
 		/// Должен учитываться флаг identity
 		/// </summary>
 		[Test]
-		public void LoadCsvShouldUseIdenityInsert()
-		{
-			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
-			var dbParams = new Mock<IDbDataParameter>();
-			command.Setup(x => x.CreateParameter()).Returns(dbParams.Object);
-			command.Setup(x => x.Parameters.Add(It.IsAny<object>())); 
-			strategy.LoadCsv(
-				"TESTTABLE",
-				new StreamReader(new MemoryStream(Encoding.Default.GetBytes("ID\r\n100500"))),
-				new Dictionary<string, Func<string, object>>(), 
-				CsvQuotesType.DoubleQuotes, 
-				true);
-			command.VerifySet(x => x.CommandText = "set identity_insert [TESTTABLE] on;");
-			command.VerifySet(x => x.CommandText = "insert into TESTTABLE (ID) values(@ID);");
-			command.VerifySet(x => x.CommandText = "set identity_insert [TESTTABLE] off;");
-		}
+		public abstract void LoadCsvShouldUseIdenityInsert();
 	}
 }
