@@ -21,13 +21,38 @@ namespace dbullet.core.test.AllStrategy
 		/// <summary>
 		/// Создание индекса
 		/// </summary>
+		protected abstract string RegularCreateIndexCommand { get; }
+
+		/// <summary>
+		/// Создание индекса оп убыванию
+		/// </summary>
+		protected abstract string DescCommad { get; }
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected abstract string PartitionalCommand { get; }
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected abstract string ClusteredCommand { get; }
+
+		/// <summary>
+		/// Создание уникального индекса
+		/// </summary>
+		protected abstract string UniqueCommand { get; }
+
+		/// <summary>
+		/// Создание индекса
+		/// </summary>
 		[Test]
 		public void RegularCreateIndex()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }));
-			command.VerifySet(x => x.CommandText = "create nonclustered index [INDEX_NAME] on [TABLE_NAME] ([column4index] asc) with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
+			command.VerifySet(x => x.CommandText = RegularCreateIndexCommand);
 		}
 
 		/// <summary>
@@ -39,7 +64,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index", Direction.Descending) }));
-			command.VerifySet(x => x.CommandText = "create nonclustered index [INDEX_NAME] on [TABLE_NAME] ([column4index] desc) with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
+			command.VerifySet(x => x.CommandText = DescCommad);
 		}
 
 		/// <summary>
@@ -51,7 +76,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "INDEX_PARTITION"));
-			command.VerifySet(x => x.CommandText = "create nonclustered index [INDEX_NAME] on [TABLE_NAME] ([column4index] asc) with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [INDEX_PARTITION]");
+			command.VerifySet(x => x.CommandText = PartitionalCommand);
 		}
 
 		/// <summary>
@@ -62,8 +87,8 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
-			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "PRIMARY", IndexType.Clustered));
-			command.VerifySet(x => x.CommandText = "create clustered index [INDEX_NAME] on [TABLE_NAME] ([column4index] asc) with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, string.Empty, IndexType.Clustered));
+			command.VerifySet(x => x.CommandText = ClusteredCommand);
 		}
 
 		/// <summary>
@@ -74,8 +99,8 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
-			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, "PRIMARY", IndexType.Nonclustered, true));
-			command.VerifySet(x => x.CommandText = "create unique nonclustered index [INDEX_NAME] on [TABLE_NAME] ([column4index] asc) with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
+			strategy.CreateIndex(new Index("INDEX_NAME", "TABLE_NAME", new[] { new IndexColumn("column4index") }, string.Empty, IndexType.Nonclustered, true));
+			command.VerifySet(x => x.CommandText = UniqueCommand);
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace dbullet.core.dbo
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, string table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+		public Index(string name, string table, string partitionName = "", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, new Table(table), new IndexColumn[0], partitionName, indexType, isUnique)
 		{
 		}
@@ -60,7 +60,7 @@ namespace dbullet.core.dbo
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, Table table, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+		public Index(string name, Table table, string partitionName = "", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, table, new IndexColumn[0], partitionName, indexType, isUnique)
 		{
 		}
@@ -74,7 +74,7 @@ namespace dbullet.core.dbo
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, string table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+		public Index(string name, string table, IEnumerable<IndexColumn> columns, string partitionName = "", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: this(name, new Table(table), columns, partitionName, indexType, isUnique)
 		{
 		}
@@ -88,7 +88,7 @@ namespace dbullet.core.dbo
 		/// <param name="partitionName">Партиция</param>
 		/// <param name="indexType">Тип индекса</param>
 		/// <param name="isUnique">Уникальный индекс</param>
-		public Index(string name, Table table, IEnumerable<IndexColumn> columns, string partitionName = "PRIMARY", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
+		public Index(string name, Table table, IEnumerable<IndexColumn> columns, string partitionName = "", IndexType indexType = IndexType.Nonclustered, bool isUnique = false)
 			: base(name)
 		{
 			this.table = table;

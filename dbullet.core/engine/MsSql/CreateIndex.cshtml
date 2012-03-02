@@ -6,5 +6,8 @@ index [@Model.Name] on [@Model.Table.Name] (
 @(i != Model.Columns.Count - 1 ? ", " : "")
 }
 ) 
-with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) 
-ON [@Model.PartitionName]
+with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+@if (!string.IsNullOrEmpty(@Model.PartitionName))
+{
+@: ON [@Model.PartitionName]
+}

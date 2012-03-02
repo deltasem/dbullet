@@ -19,6 +19,73 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008CreateIndexTest : CreateIndexTest
 	{
 		/// <summary>
+		/// Создание индекса
+		/// </summary>
+		protected override string RegularCreateIndexCommand
+		{
+			get
+			{
+				return "create nonclustered index [INDEX_NAME]" +
+				       " on [TABLE_NAME] ([column4index] asc)" +
+				       " with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса оп убыванию
+		/// </summary>
+		protected override string DescCommad
+		{
+			get
+			{
+				return "create nonclustered index [INDEX_NAME]" +
+				       " on [TABLE_NAME]" +
+				       " ([column4index] desc)" +
+				       " with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected override string PartitionalCommand
+		{
+			get
+			{
+				return "create nonclustered index [INDEX_NAME]" +
+				       " on [TABLE_NAME] ([column4index] asc)" +
+				       " with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)" +
+				       " ON [INDEX_PARTITION]";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected override string ClusteredCommand
+		{
+			get
+			{
+				return "create clustered index [INDEX_NAME]" +
+				       " on [TABLE_NAME] ([column4index] asc)" +
+				       " with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)";
+			}
+		}
+
+		/// <summary>
+		/// Создание уникального индекса
+		/// </summary>
+		protected override string UniqueCommand
+		{
+			get
+			{
+				return "create unique nonclustered index [INDEX_NAME]" +
+				       " on [TABLE_NAME] ([column4index] asc)" +
+				       " with (STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)";
+			}
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

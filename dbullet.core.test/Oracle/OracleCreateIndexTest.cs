@@ -19,6 +19,67 @@ namespace dbullet.core.test.Oracle
 	public class OracleCreateIndexTest : CreateIndexTest
 	{
 		/// <summary>
+		/// Создание индекса
+		/// </summary>
+		protected override string RegularCreateIndexCommand
+		{
+			get
+			{
+				return "create index \"INDEX_NAME\"" +
+							 " on \"TABLE_NAME\" (\"COLUMN4INDEX\")";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса оп убыванию
+		/// </summary>
+		protected override string DescCommad
+		{
+			get
+			{
+				return "create index \"INDEX_NAME\"" +
+							 " on \"TABLE_NAME\" (\"COLUMN4INDEX\")";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected override string PartitionalCommand
+		{
+			get
+			{
+				return "create index \"INDEX_NAME\"" +
+							 " on \"TABLE_NAME\" (\"COLUMN4INDEX\")" +
+							 " tablespace \"INDEX_PARTITION\"";
+			}
+		}
+
+		/// <summary>
+		/// Создание индекса в нестандартной партиции
+		/// </summary>
+		protected override string ClusteredCommand
+		{
+			get
+			{
+				return "create index \"INDEX_NAME\"" +
+							 " on \"TABLE_NAME\" (\"COLUMN4INDEX\")";
+			}
+		}
+
+		/// <summary>
+		/// Создание уникального индекса
+		/// </summary>
+		protected override string UniqueCommand
+		{
+			get
+			{
+				return "create unique index \"INDEX_NAME\"" +
+							 " on \"TABLE_NAME\" (\"COLUMN4INDEX\")";
+			}
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
