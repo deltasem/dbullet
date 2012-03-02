@@ -1,9 +1,7 @@
+begin execute immediate '
 create table "@Model.Name" (
 @for (int i = 0; i < Model.Columns.Count; i++){
 @dbullet.core.engine.Oracle.OracleTemplateManager.BuildColumnCreateCommand(Model.Columns[i])
-if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
-@: default @(dbullet.core.engine.Oracle.OracleTemplateManager.GetDefaultValue((dbullet.core.dbo.Default)Model.Columns[i].Constraint))
-}
 @(i != Model.Columns.Count - 1 ? ", " : "")
 }
 @{
@@ -17,30 +15,31 @@ if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
 )
 @if (!string.IsNullOrEmpty(Model.PartitionName))
 {
-@: tablespace "@Model.PartitionName";
+@: tablespace "@Model.PartitionName"';
 }
 else
 {
-@:;
+@:';
 }
 @*Идентити в оракле будут через sequence*@
 @if(Model.Columns.Any(x => x.Identity))
 {
 	dbullet.core.dbo.Column identity = Model.Columns.FirstOrDefault(x => x.Identity);
- @:create sequence @(Model.Name+"_"+@identity.Name)
+ @:execute immediate 'create sequence @(Model.Name+"_"+@identity.Name)
  @:minvalue 1
  @:start with 1
- @:increment by 1;
+ @:increment by 1';
 }
 @if (pk != null)
 {
- @:alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index
+ @:execute immediate 'alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index
  if (!string.IsNullOrEmpty(pk.PartitionName))
  {
-@: tablespace "@pk.PartitionName";
+@: tablespace "@pk.PartitionName"';
  }
  else
  {
-@:;
+@:';
  }
 }
+ end;

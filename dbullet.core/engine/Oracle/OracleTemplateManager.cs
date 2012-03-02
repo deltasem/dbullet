@@ -8,7 +8,6 @@ using System;
 using System.Data;
 using System.IO;
 using System.Text;
-using System.Web;
 using dbullet.core.dbo;
 using dbullet.core.engine.common;
 using dbullet.core.exception;
@@ -47,6 +46,11 @@ namespace dbullet.core.engine.Oracle
 				sb.AppendFormat("({0}, {1}) ", column.ColumnType.Length, column.ColumnType.Scale);
 			}
 
+			if (column.Constraint is Default)
+			{
+				sb.Append("default " + GetDefaultValue(column.Constraint as Default) + " ");
+			}
+
 			sb.Append(column.Nullable ? "null" : "not null");
 			return sb.ToString();
 		}
@@ -64,7 +68,7 @@ namespace dbullet.core.engine.Oracle
 			ValueDefault vd = def as ValueDefault;
 			if (vd != null)
 			{
-				result = string.Format("'{0}'", vd.Value);
+				result = string.Format("''{0}''", vd.Value);
 			}
 			else
 			{
