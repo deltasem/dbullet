@@ -23,7 +23,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string RegularCreateTableCommand
 		{
-			get { return "create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\";"; }
+			get { return "create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null);"; }
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string RegularCreateTableWithIdentityCommand
 		{
-			get { return "create table \"TestTable\" (\"test\" int not null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\"; create sequence TestTable_test minvalue 1 start with 1 increment by 1;"; }
+			get { return "create table \"TestTable\" (\"test\" int not null, \"test2\" varchar2(50) null); create sequence TestTable_test minvalue 1 start with 1 increment by 1;"; }
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace dbullet.core.test.Oracle
 			get 
 			{ 
 				return "create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null) tablespace \"TESTPARTIOTION\";" +
-					" alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index tablespace \"PRIMARY\";";
+					" alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index;";
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace dbullet.core.test.Oracle
 		{
 			get
 			{
-				return "create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null) tablespace \"PRIMARY\";" +
+				return "create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null);" +
 					" alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index tablespace \"TESTPARTIOTION\";";
 			}
 		}
@@ -71,7 +71,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithDefaultCommand
 		{
-			get { return "create table \"TestTable\" (\"test\" int null default '100500', \"test2\" varchar2(50) null default 'this is the test') tablespace \"PRIMARY\";"; }
+			get { return "create table \"TestTable\" (\"test\" int null default '100500', \"test2\" varchar2(50) null default 'this is the test');"; }
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithStandartDefaultDateCommand
 		{
-			get { return "create table \"TestTable\" (\"test\" int null default sysdate) tablespace \"PRIMARY\";"; }
+			get { return "create table \"TestTable\" (\"test\" int null default sysdate);"; }
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithStandartDefaultGuidCommand
 		{
-			get { return "create table \"TestTable\" (\"test\" int null default sys_guid()) tablespace \"PRIMARY\";"; }
+			get { return "create table \"TestTable\" (\"test\" int null default sys_guid());"; }
 		}
 
 		/// <summary>

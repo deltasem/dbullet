@@ -23,7 +23,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string RegularCreateTableCommand
 		{
-			get { return "create table [TestTable] ([test] int null, [test2] nvarchar(50) null) on [PRIMARY]"; }
+			get { return "create table [TestTable] ([test] int null, [test2] nvarchar(50) null)"; }
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string RegularCreateTableWithIdentityCommand
 		{
-			get { return "create table [TestTable] ([test] int not null identity(1, 1), [test2] nvarchar(50) null) on [PRIMARY]"; }
+			get { return "create table [TestTable] ([test] int not null identity(1, 1), [test2] nvarchar(50) null)"; }
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string CustomPartitionWithPrimaryKeyCommand
 		{
-			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]) on [TESTPARTIOTION]"; }
+			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)) on [TESTPARTIOTION]"; }
 		}
 
 		/// <summary>
@@ -55,7 +55,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string WithPrimaryKeyCustomPartitionCommand
 		{
-			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION]) on [PRIMARY]"; }
+			get { return "create table [TestTable] ([testid] int null, [test2] nvarchar(50) null, constraint PK_TESTTABLE primary key clustered([testid] asc) with (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [TESTPARTIOTION])"; }
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string WithDefaultCommand
 		{
-			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default '100500', [test2] nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test') on [PRIMARY]"; }
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default '100500', [test2] nvarchar(50) null constraint DF_TESTTABLE_TEST2 default 'this is the test')"; }
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string WithStandartDefaultDateCommand
 		{
-			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'getdate()') on [PRIMARY]"; }
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'getdate()')"; }
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace dbullet.core.test.MsSql2008
 		/// </summary>
 		protected override string WithStandartDefaultGuidCommand
 		{
-			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'newid()') on [PRIMARY]"; }
+			get { return "create table [TestTable] ([test] int null constraint DF_TESTTABLE_TEST default 'newid()')"; }
 		}
 
 		/// <summary>
