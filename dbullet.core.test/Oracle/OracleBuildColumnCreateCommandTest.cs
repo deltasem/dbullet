@@ -37,7 +37,7 @@ namespace dbullet.core.test.Oracle
 		public override void StringDatatype()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.String.Size(50)));
-			Assert.AreEqual("\"TestColumn\" varchar2(50) null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" varchar2(50) null", t);
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace dbullet.core.test.Oracle
 		public override void NumericDatatype()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Decimal.Size(10, 5)));
-			Assert.AreEqual("\"TestColumn\" number(10, 5) null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" number(10, 5) null", t);
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace dbullet.core.test.Oracle
 		public override void IntDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Int32));
-			Assert.AreEqual("\"TestColumn\" int null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" int null", t);
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace dbullet.core.test.Oracle
 		public override void BooleanDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Boolean));
-			Assert.AreEqual("\"TestColumn\" char(1) null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" char(1) null", t);
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace dbullet.core.test.Oracle
 		public override void DateDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Date));
-			Assert.AreEqual("\"TestColumn\" date null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" date null", t);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace dbullet.core.test.Oracle
 		public override void DateTimeDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.DateTime));
-			Assert.AreEqual("\"TestColumn\" date null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" date null", t);
 		}
 
 		/// <summary>
@@ -97,7 +97,7 @@ namespace dbullet.core.test.Oracle
 		public override void GuidDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Guid));
-			Assert.AreEqual("\"TestColumn\" raw(16) null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" raw(16) null", t);
 		}
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace dbullet.core.test.Oracle
 		public override void XmlDataType()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Xml));
-			Assert.AreEqual("\"TestColumn\" blob null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" blob null", t);
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace dbullet.core.test.Oracle
 		public override void BinaryDatatype()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", DbType.Binary.Size(50)));
-			Assert.AreEqual("\"TestColumn\" raw(50) null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" raw(50) null", t);
 		}
 
 		/// <summary>
@@ -138,7 +138,7 @@ namespace dbullet.core.test.Oracle
 		public override void VarBinaryDatatype()
 		{
 			var t = OracleTemplateManager.BuildColumnCreateCommand(new Column("TestColumn", SqlDbType.VarBinary));
-			Assert.AreEqual("\"TestColumn\" blob null", t);
+			Assert.AreEqual("\"TESTCOLUMN\" blob null", t);
 		}
 	}
 }

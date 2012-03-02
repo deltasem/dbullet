@@ -1,5 +1,5 @@
 begin execute immediate '
-create table "@Model.Name" (
+create table "@Model.Name.ToUpper()" (
 @for (int i = 0; i < Model.Columns.Count; i++){
 @dbullet.core.engine.Oracle.OracleTemplateManager.BuildColumnCreateCommand(Model.Columns[i])
 @(i != Model.Columns.Count - 1 ? ", " : "")
@@ -25,14 +25,14 @@ else
 @if(Model.Columns.Any(x => x.Identity))
 {
 	dbullet.core.dbo.Column identity = Model.Columns.FirstOrDefault(x => x.Identity);
- @:execute immediate 'create sequence @(Model.Name+"_"+@identity.Name)
+ @:execute immediate 'create sequence @(Model.Name.ToUpper()+"_"+@identity.Name.ToUpper())
  @:minvalue 1
  @:start with 1
  @:increment by 1';
 }
 @if (pk != null)
 {
- @:execute immediate 'alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index
+ @:execute immediate 'alter table "@Model.Name.ToUpper()" add constraint "@pk.Name" primary key ("@pkColumn.Name.ToUpper()") using index
  if (!string.IsNullOrEmpty(pk.PartitionName))
  {
 @: tablespace "@pk.PartitionName"';

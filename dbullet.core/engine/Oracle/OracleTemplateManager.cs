@@ -131,7 +131,7 @@ namespace dbullet.core.engine.Oracle
 				throw new ArgumentException("Binary must have length");
 			}
 
-			var sb = new StringBuilder(string.Format("\"{0}\"", column.Name));
+			var sb = new StringBuilder(string.Format("\"{0}\"", column.Name.ToUpper()));
 			switch (column.ColumnType.DbType)
 			{
 				case DbType.Decimal:
@@ -175,7 +175,7 @@ namespace dbullet.core.engine.Oracle
 		/// <returns>Строка</returns>
 		private static StringBuilder GetSqlDbTypeString(Column column)
 		{
-			var sb = new StringBuilder(string.Format("\"{0}\"", column.Name));
+			var sb = new StringBuilder(string.Format("\"{0}\"", column.Name.ToUpper()));
 			switch (column.ColumnType.SqlDbType)
 			{
 				case SqlDbType.VarBinary:

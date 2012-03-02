@@ -23,7 +23,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string RegularCreateTableCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null)'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int null, \"TEST2\" varchar2(50) null)'; end;"; }
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string RegularCreateTableWithIdentityCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int not null, \"test2\" varchar2(50) null)'; execute immediate 'create sequence TestTable_test minvalue 1 start with 1 increment by 1'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int not null, \"TEST2\" varchar2(50) null)'; execute immediate 'create sequence TESTTABLE_TEST minvalue 1 start with 1 increment by 1'; end;"; }
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string CustomPartitionCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int null, \"test2\" varchar2(50) null) tablespace \"TESTPARTIOTION\"'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int null, \"TEST2\" varchar2(50) null) tablespace \"TESTPARTIOTION\"'; end;"; }
 		}
 
 		/// <summary>
@@ -49,8 +49,8 @@ namespace dbullet.core.test.Oracle
 		{
 			get 
 			{
-				return "begin execute immediate 'create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null) tablespace \"TESTPARTIOTION\"';" +
-					" execute immediate 'alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index'; end;";
+				return "begin execute immediate 'create table \"TESTTABLE\" (\"TESTID\" int null, \"TEST2\" varchar2(50) null) tablespace \"TESTPARTIOTION\"';" +
+					" execute immediate 'alter table \"TESTTABLE\" add constraint \"PK_TESTTABLE\" primary key (\"TESTID\") using index'; end;";
 			}
 		}
 
@@ -61,8 +61,8 @@ namespace dbullet.core.test.Oracle
 		{
 			get
 			{
-				return "begin execute immediate 'create table \"TestTable\" (\"testid\" int null, \"test2\" varchar2(50) null)';" +
-					" execute immediate 'alter table \"TestTable\" add constraint \"PK_TESTTABLE\" primary key (\"testid\") using index tablespace \"TESTPARTIOTION\"'; end;";
+				return "begin execute immediate 'create table \"TESTTABLE\" (\"TESTID\" int null, \"TEST2\" varchar2(50) null)';" +
+					" execute immediate 'alter table \"TESTTABLE\" add constraint \"PK_TESTTABLE\" primary key (\"TESTID\") using index tablespace \"TESTPARTIOTION\"'; end;";
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithDefaultCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int default ''100500'' null, \"test2\" varchar2(50) default ''this is the test'' null)'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int default ''100500'' null, \"TEST2\" varchar2(50) default ''this is the test'' null)'; end;"; }
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithStandartDefaultDateCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int default sysdate null)'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int default sysdate null)'; end;"; }
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string WithStandartDefaultGuidCommand
 		{
-			get { return "begin execute immediate 'create table \"TestTable\" (\"test\" int default sys_guid() null)'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int default sys_guid() null)'; end;"; }
 		}
 
 		/// <summary>
