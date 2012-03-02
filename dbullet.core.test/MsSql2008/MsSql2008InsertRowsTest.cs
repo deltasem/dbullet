@@ -19,6 +19,33 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008InsertRowsTest : InsertRowsTest
 	{
 		/// <summary>
+		/// Обычная вставк записи
+		/// </summary>
+		protected override string RegularInsertCommand
+		{
+			get { return "insert into [testtable] ([FIELD_1], [FIELD_2]) values('1', '2');"; }
+		}
+
+		/// <summary>
+		/// Обычная вставк записи
+		/// </summary>
+		protected override string InsertTwoRowCommand
+		{
+			get { return "insert into [testtable] ([FIELD_1], [FIELD_2]) values('3', '4');"; }
+		}
+
+		/// <summary>
+		/// Если указано identity, то должно использоваться
+		/// </summary>
+		protected override string InsertShoudUseIdentityCommand
+		{
+			get
+			{
+				return "set identity_insert [testtable] on; insert into [testtable] ([FIELD_1], [FIELD_2]) values('1', '2'); set identity_insert [testtable] off;";
+			}
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

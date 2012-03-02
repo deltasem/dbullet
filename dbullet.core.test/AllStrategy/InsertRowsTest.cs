@@ -19,6 +19,21 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class InsertRowsTest : TestBase
 	{
 		/// <summary>
+		/// Обычная вставк записи
+		/// </summary>
+		protected abstract string RegularInsertCommand { get; }
+
+		/// <summary>
+		/// Обычная вставк записи
+		/// </summary>
+		protected abstract string InsertTwoRowCommand { get; }
+
+		/// <summary>
+		/// Если указано identity, то должно использоваться
+		/// </summary>
+		protected abstract string InsertShoudUseIdentityCommand { get; }
+
+		/// <summary>
 		/// Добавление в неуказанную таблицу
 		/// </summary>
 		[Test]
@@ -49,7 +64,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.Setup(x => x.ExecuteScalar()).Returns(1);
 			strategy.InsertRows("testtable", false, new { FIELD_1 = 1, FIELD_2 = "2" });
-			command.VerifySet(x => x.CommandText = "insert into [testtable] ([FIELD_1], [FIELD_2]) values('1', '2');");
+			command.VerifySet(x => x.CommandText = RegularInsertCommand);
 		}
 
 		/// <summary>
@@ -65,8 +80,8 @@ namespace dbullet.core.test.AllStrategy
 				false, 
 				new { FIELD_1 = 1, FIELD_2 = "2" },
 				new { FIELD_1 = 3, FIELD_2 = "4" });
-			command.VerifySet(x => x.CommandText = "insert into [testtable] ([FIELD_1], [FIELD_2]) values('1', '2');");
-			command.VerifySet(x => x.CommandText = "insert into [testtable] ([FIELD_1], [FIELD_2]) values('3', '4');");
+			command.VerifySet(x => x.CommandText = RegularInsertCommand);
+			command.VerifySet(x => x.CommandText = InsertTwoRowCommand);
 		}
 
 		/// <summary>
@@ -78,7 +93,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.Setup(x => x.ExecuteScalar()).Returns(1);
 			strategy.InsertRows("testtable", true, new { FIELD_1 = 1, FIELD_2 = "2" });
-			command.VerifySet(x => x.CommandText = "set identity_insert [testtable] on; insert into [testtable] ([FIELD_1], [FIELD_2]) values('1', '2'); set identity_insert [testtable] off;");
+			command.VerifySet(x => x.CommandText = InsertShoudUseIdentityCommand);
 		}
 	}
 }
