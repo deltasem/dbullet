@@ -20,12 +20,17 @@ namespace dbullet.core.test.AllStrategy
 		/// <summary>
 		/// Удаление внешнего ключа
 		/// </summary>
+		protected abstract string RegularDropForeignKeyCommand { get; }
+
+		/// <summary>
+		/// Удаление внешнего ключа
+		/// </summary>
 		[Test]
 		public void RegularDropForeignKey()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			strategy.DropForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
-			command.VerifySet(x => x.CommandText = "alter table [TABLE1] drop constraint FK_TEST");
+			command.VerifySet(x => x.CommandText = RegularDropForeignKeyCommand);
 		}
 	}
 }

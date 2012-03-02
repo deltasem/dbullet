@@ -1,2 +1,2 @@
 @{dbullet.core.dbo.ForeignKey fk = Model;}
-alter table [@fk.SrcTableName] drop constraint @fk.Name
+alter table "@fk.SrcTableName.ToUpper()" drop constraint "@fk.Name.ToUpper()"

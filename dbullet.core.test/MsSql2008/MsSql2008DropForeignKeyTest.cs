@@ -27,5 +27,13 @@ namespace dbullet.core.test.MsSql2008
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<MsSql2008Strategy>());
 			ObjectFactory.Inject(connection.Object);
 		}
+
+		/// <summary>
+		/// Удаление внешнего ключа
+		/// </summary>
+		protected override string RegularDropForeignKeyCommand
+		{
+			get { return "alter table [TABLE1] drop constraint FK_TEST"; }
+		}
 	}
 }

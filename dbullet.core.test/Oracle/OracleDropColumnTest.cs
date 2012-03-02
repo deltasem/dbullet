@@ -19,6 +19,14 @@ namespace dbullet.core.test.Oracle
 	public class OracleDropColumnTest : DropColumnTest
 	{
 		/// <summary>
+		/// Удаление столбца
+		/// </summary>
+		protected override string RegularDropColumnCommand
+		{
+			get { return "alter table \"TESTTABLE\" drop column \"TESTCOLUMN\""; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

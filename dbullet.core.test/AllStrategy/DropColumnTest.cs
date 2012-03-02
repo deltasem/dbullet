@@ -19,6 +19,11 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class DropColumnTest : TestBase
 	{
 		/// <summary>
+		/// Удаление столбца
+		/// </summary>
+		protected abstract string RegularDropColumnCommand { get; }
+
+		/// <summary>
 		/// При пустой колонке должно быть исключение
 		/// </summary>
 		[Test]
@@ -46,7 +51,7 @@ namespace dbullet.core.test.AllStrategy
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			strategy.DropColumn("testtable", "testcolumn");
-			command.VerifySet(x => x.CommandText = "alter table [testtable] drop column [testcolumn]");
+			command.VerifySet(x => x.CommandText = RegularDropColumnCommand);
 		}
 	}
 }

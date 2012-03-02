@@ -19,6 +19,14 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008DropColumnTest : DropColumnTest
 	{
 		/// <summary>
+		/// Удаление столбца
+		/// </summary>
+		protected override string RegularDropColumnCommand
+		{
+			get { return "alter table [testtable] drop column [testcolumn]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

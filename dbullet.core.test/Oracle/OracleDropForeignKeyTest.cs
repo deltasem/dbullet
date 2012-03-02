@@ -27,5 +27,13 @@ namespace dbullet.core.test.Oracle
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<OracleStrategy>());
 			ObjectFactory.Inject(connection.Object);
 		}
+
+		/// <summary>
+		/// Удаление внешнего ключа
+		/// </summary>
+		protected override string RegularDropForeignKeyCommand
+		{
+			get { return "alter table \"TABLE1\" drop constraint \"FK_TEST\""; }
+		}
 	}
 }
