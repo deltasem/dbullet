@@ -21,6 +21,26 @@ namespace dbullet.core.test.AllStrategy
 	public abstract class AddColumnTest : TestBase
 	{
 		/// <summary>
+		/// Добавление столбца с allow null
+		/// </summary>
+		protected abstract string AddWithNullCommand { get; }
+
+		/// <summary>
+		/// Добавление столбца с дефалтом
+		/// </summary>
+		protected abstract string AddWithValueDefaultCommand { get; }
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - время
+		/// </summary>
+		protected abstract string AddWithDateDefaultCommand { get; }
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - GUID
+		/// </summary>
+		protected abstract string AddWithGuidDefaultCommand { get; }
+
+		/// <summary>
 		/// Нельзя добавить колонку без дефалта, и не нулл
 		/// </summary>
 		[Test]
@@ -39,7 +59,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32));
-			command.VerifySet(x => x.CommandText = "alter table [TestTable] add [TestColumn] int null");
+			command.VerifySet(x => x.CommandText = AddWithNullCommand);
 		}
 
 		/// <summary>
@@ -51,7 +71,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new ValueDefault("df_test", "100500") });
-			command.VerifySet(x => x.CommandText = "alter table [TestTable] add [TestColumn] int not null constraint df_test default 100500");
+			command.VerifySet(x => x.CommandText = AddWithValueDefaultCommand);
 		}
 
 		/// <summary>
@@ -63,7 +83,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new StandartDefault("df_test", StandartDefaultType.date) });
-			command.VerifySet(x => x.CommandText = "alter table [TestTable] add [TestColumn] int not null constraint df_test default getdate()");
+			command.VerifySet(x => x.CommandText = AddWithDateDefaultCommand);
 		}
 
 		/// <summary>
@@ -75,7 +95,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.AddColumn(new Table("TestTable"), new Column("TestColumn", DbType.Int32, false) { Constraint = new StandartDefault("df_test", StandartDefaultType.guid) });
-			command.VerifySet(x => x.CommandText = "alter table [TestTable] add [TestColumn] int not null constraint df_test default newid()");
+			command.VerifySet(x => x.CommandText = AddWithGuidDefaultCommand);
 		}
 	}
 }

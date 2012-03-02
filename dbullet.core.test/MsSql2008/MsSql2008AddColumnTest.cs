@@ -18,6 +18,38 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008AddColumnTest : AllStrategy.AddColumnTest
 	{
 		/// <summary>
+		/// Добавление столбца с allow null
+		/// </summary>
+		protected override string AddWithNullCommand
+		{
+			get { return "alter table [TestTable] add [TestColumn] int null"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом
+		/// </summary>
+		protected override string AddWithValueDefaultCommand
+		{
+			get { return "alter table [TestTable] add [TestColumn] int not null constraint df_test default 100500"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - время
+		/// </summary>
+		protected override string AddWithDateDefaultCommand
+		{
+			get { return "alter table [TestTable] add [TestColumn] int not null constraint df_test default getdate()"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - GUID
+		/// </summary>
+		protected override string AddWithGuidDefaultCommand
+		{
+			get { return "alter table [TestTable] add [TestColumn] int not null constraint df_test default newid()"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

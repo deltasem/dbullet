@@ -19,16 +19,6 @@ namespace dbullet.core.test.Oracle
 	public class OracleIsColumnExistsTest : IsColumnExistsTest
 	{
 		/// <summary>
-		/// Инициализация
-		/// </summary>
-		[SetUp]
-		public void SelfTestInitialize()
-		{
-			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<OracleStrategy>());
-			ObjectFactory.Inject(connection.Object);
-		}
-
-		/// <summary>
 		/// Проверяет, существует ли колонка
 		/// </summary>
 		protected override string ByNameCommand
@@ -37,6 +27,16 @@ namespace dbullet.core.test.Oracle
 			{
 				return "select count(*) from user_tab_columns where initcap(table_name) = initcap('ExistingTable') and initcap(column_name) = initcap('ExistingColumn')";
 			}
+		}
+
+		/// <summary>
+		/// Инициализация
+		/// </summary>
+		[SetUp]
+		public void SelfTestInitialize()
+		{
+			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<OracleStrategy>());
+			ObjectFactory.Inject(connection.Object);
 		}
 	}
 }

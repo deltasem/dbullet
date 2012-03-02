@@ -19,16 +19,6 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008IsColumnExistsTest : IsColumnExistsTest
 	{
 		/// <summary>
-		/// Инициализация
-		/// </summary>
-		[SetUp]
-		public void SelfTestInitialize()
-		{
-			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<MsSql2008Strategy>());
-			ObjectFactory.Inject(connection.Object);
-		}
-
-		/// <summary>
 		/// Проверяет, существует ли колонка
 		/// </summary>
 		protected override string ByNameCommand
@@ -37,6 +27,16 @@ namespace dbullet.core.test.MsSql2008
 			{
 				return "select count(*) from syscolumns where id = object_id(N'ExistingTable') and name = 'ExistingColumn'";
 			}
+		}
+
+		/// <summary>
+		/// Инициализация
+		/// </summary>
+		[SetUp]
+		public void SelfTestInitialize()
+		{
+			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<MsSql2008Strategy>());
+			ObjectFactory.Inject(connection.Object);
 		}
 	}
 }

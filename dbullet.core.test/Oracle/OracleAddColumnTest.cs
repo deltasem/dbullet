@@ -18,6 +18,38 @@ namespace dbullet.core.test.Oracle
 	public class OracleAddColumnTest : AllStrategy.AddColumnTest
 	{
 		/// <summary>
+		/// Добавление столбца с allow null
+		/// </summary>
+		protected override string AddWithNullCommand
+		{
+			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int null'; end;"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом
+		/// </summary>
+		protected override string AddWithValueDefaultCommand
+		{
+			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default ''100500'' not null'; end;"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - время
+		/// </summary>
+		protected override string AddWithDateDefaultCommand
+		{
+			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default sysdate not null'; end;"; }
+		}
+
+		/// <summary>
+		/// Добавление столбца с дефалтом - GUID
+		/// </summary>
+		protected override string AddWithGuidDefaultCommand
+		{
+			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default sys_guid() not null'; end;"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
