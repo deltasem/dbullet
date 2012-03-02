@@ -19,6 +19,25 @@ namespace dbullet.core.test.Oracle
 	public class OracleDropTableTest : DropTableTest
 	{
 		/// <summary>
+		/// Удаление таблицы
+		/// </summary>
+		protected override string RegularDropTableCommand
+		{
+			get
+			{
+				return "declare tmp int;" +
+				       " begin" +
+				       " execute immediate" +
+				       " 'drop table \"TABLEFORDROP\"';" +
+				       " select count(*) into tmp from user_sequences where initcap(sequence_name) = initcap('TABLEFORDROP_ID');" +
+				       " if tmp > 0 then" +
+				       " execute immediate 'drop sequence \"TABLEFORDROP_ID\"';" +
+				       " end if;" +
+				       " end;";
+			}
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
@@ -26,23 +45,6 @@ namespace dbullet.core.test.Oracle
 		{
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<OracleStrategy>());
 			ObjectFactory.Inject(connection.Object);
-		}
-
-		/// <summary>
-		/// Удаление таблицы
-		/// </summary>
-		protected override string RegularDropTableCommand
-		{
-			get { return "declare tmp int;" +
-			             " begin" +
-			             " execute immediate" +
-			             " 'drop table \"TABLEFORDROP\"';" +
-									 " select count(*) into tmp from user_sequences where initcap(sequence_name) = initcap('TABLEFORDROP_ID');" +
-			             " if tmp > 0 then" +
-									 " execute immediate 'drop sequence \"TABLEFORDROP_ID\"';" +
-			             " end if;" +
-			             " end;";
-			}
 		}
 	}
 }

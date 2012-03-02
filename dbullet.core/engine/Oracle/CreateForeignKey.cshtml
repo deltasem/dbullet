@@ -4,20 +4,16 @@
 	switch(action)
 	{
 		case dbullet.core.dbo.ForeignAction.Cascade:
-@:cascade
-			break;
-		case dbullet.core.dbo.ForeignAction.NoAction:
-@:no action
+@: on delete cascade
 			break;
 		case dbullet.core.dbo.ForeignAction.SetNull:
-@:set null
+@: on delete set null
 			break;
 	}
 }
-alter table [@fk.SrcTableName] 
+alter table "@fk.SrcTableName.ToUpper()" 
 add constraint 
-@fk.Name foreign key ([@fk.SrcColumnName]) 
+@fk.Name.ToUpper() foreign key ("@fk.SrcColumnName.ToUpper()") 
 references 
-[@fk.RefTableName] ([@fk.RefColumnName]) 
-on update no action 
-on delete @ForeignActionName(fk.DeleteAction)
+"@fk.RefTableName.ToUpper()" ("@fk.RefColumnName.ToUpper()")
+@ForeignActionName(fk.DeleteAction)

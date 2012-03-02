@@ -21,13 +21,33 @@ namespace dbullet.core.test.AllStrategy
 		/// <summary>
 		/// Создание внешнего ключа
 		/// </summary>
+		protected abstract string RegularCreateFKCommand { get; }
+
+		/// <summary>
+		/// Создание внешнего ключа имя автогенерируемое
+		/// </summary>
+		protected abstract string DefaultNameCommand { get; }
+
+		/// <summary>
+		/// Создание внешнего ключа каскадное удаление
+		/// </summary>
+		protected abstract string CascadeCommand { get; }
+
+		/// <summary>
+		/// Создание внешнего ключа без действия
+		/// </summary>
+		protected abstract string NoActionCommand { get; }
+
+		/// <summary>
+		/// Создание внешнего ключа
+		/// </summary>
 		[Test]
 		public void RegularCreateFK()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2"));
-			command.VerifySet(x => x.CommandText = "alter table [TABLE1] add constraint FK_TEST foreign key ([ID_TABLE1]) references [TABLE2] ([ID_TABLE2]) on update no action on delete set null");
+			command.VerifySet(x => x.CommandText = RegularCreateFKCommand);
 		}
 
 		/// <summary>
@@ -39,7 +59,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateForeignKey(new ForeignKey("TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2"));
-			command.VerifySet(x => x.CommandText = "alter table [TABLE1] add constraint FK_TABLE1_TABLE2 foreign key ([ID_TABLE1]) references [TABLE2] ([ID_TABLE2]) on update no action on delete set null");
+			command.VerifySet(x => x.CommandText = DefaultNameCommand);
 		}
 
 		/// <summary>
@@ -51,7 +71,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.Cascade));
-			command.VerifySet(x => x.CommandText = "alter table [TABLE1] add constraint FK_TEST foreign key ([ID_TABLE1]) references [TABLE2] ([ID_TABLE2]) on update no action on delete cascade");
+			command.VerifySet(x => x.CommandText = CascadeCommand);
 		}
 
 		/// <summary>
@@ -63,7 +83,7 @@ namespace dbullet.core.test.AllStrategy
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			command.SetupSet(x => x.CommandText = It.IsAny<string>()).Verifiable();
 			strategy.CreateForeignKey(new ForeignKey("FK_TEST", "TABLE1", "ID_TABLE1", "TABLE2", "ID_TABLE2", ForeignAction.NoAction));
-			command.VerifySet(x => x.CommandText = "alter table [TABLE1] add constraint FK_TEST foreign key ([ID_TABLE1]) references [TABLE2] ([ID_TABLE2]) on update no action on delete no action");
+			command.VerifySet(x => x.CommandText = NoActionCommand);
 		}
 	}
 }

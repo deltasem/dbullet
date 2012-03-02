@@ -19,6 +19,14 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008DropTableTest : DropTableTest
 	{
 		/// <summary>
+		/// Удаление таблицы
+		/// </summary>
+		protected override string RegularDropTableCommand
+		{
+			get { return "drop table [TableForDrop]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
@@ -26,14 +34,6 @@ namespace dbullet.core.test.MsSql2008
 		{
 			ObjectFactory.Initialize(x => x.For<IDatabaseStrategy>().Use<MsSql2008Strategy>());
 			ObjectFactory.Inject(connection.Object);
-		}
-
-		/// <summary>
-		/// Удаление таблицы
-		/// </summary>
-		protected override string RegularDropTableCommand
-		{
-			get { return "drop table [TableForDrop]"; }
 		}
 	}
 }
