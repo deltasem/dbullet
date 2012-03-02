@@ -19,6 +19,38 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008DeleteRowsTest : DeleteRowsTest
 	{
 		/// <summary>
+		/// Комманда уделения всех записей
+		/// </summary>
+		protected override string ShouldDeleteAllRowsIfEqualityConditionsIsNullCommand
+		{
+			get { return "delete from [testTable]"; }
+		}
+
+		/// <summary>
+		/// Комманда удаления записи по условию
+		/// </summary>
+		protected override string ShouldApplyConditionCommand
+		{
+			get { return "delete from [testTable] where ID = '100'"; }
+		}
+
+		/// <summary>
+		/// Комманда удаления записей по нескольким условиям
+		/// </summary>
+		protected override string ShouldApplyFewConditionsCommand
+		{
+			get { return "delete from [testTable] where ID1 = '101' and ID2 = '102' and ID3 = '103'"; }
+		}
+
+		/// <summary>
+		/// Комманда удаления записи по условию
+		/// </summary>
+		protected override string ShouldDeleteFewRowsCommand
+		{
+			get { return "delete from [testTable] where ID = '101'"; }
+		}
+
+		/// <summary>
 		/// Initialize test environment
 		/// </summary>
 		[SetUp]
