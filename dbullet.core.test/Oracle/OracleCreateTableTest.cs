@@ -31,7 +31,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string RegularCreateTableWithIdentityCommand
 		{
-			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int not null, \"TEST2\" varchar2(50) null)'; execute immediate 'create sequence TESTTABLE_TEST minvalue 1 start with 1 increment by 1'; end;"; }
+			get { return "begin execute immediate 'create table \"TESTTABLE\" (\"TEST\" int not null, \"TEST2\" varchar2(50) null)'; execute immediate 'create sequence TESTTABLE_ID minvalue 1 start with 1 increment by 1'; end;"; }
 		}
 
 		/// <summary>

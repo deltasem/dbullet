@@ -25,7 +25,7 @@ else
 @if(Model.Columns.Any(x => x.Identity))
 {
 	dbullet.core.dbo.Column identity = Model.Columns.FirstOrDefault(x => x.Identity);
- @:execute immediate 'create sequence @(Model.Name.ToUpper()+"_"+@identity.Name.ToUpper())
+ @:execute immediate 'create sequence @(Model.Name.ToUpper()+"_ID")
  @:minvalue 1
  @:start with 1
  @:increment by 1';

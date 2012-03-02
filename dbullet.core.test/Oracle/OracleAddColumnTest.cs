@@ -22,7 +22,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string AddWithNullCommand
 		{
-			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int null'; end;"; }
+			get { return "begin execute immediate 'alter table \"TESTTABLE\" add \"TESTCOLUMN\" int null'; end;"; }
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string AddWithValueDefaultCommand
 		{
-			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default ''100500'' not null'; end;"; }
+			get { return "begin execute immediate 'alter table \"TESTTABLE\" add \"TESTCOLUMN\" int default ''100500'' not null'; end;"; }
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string AddWithDateDefaultCommand
 		{
-			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default sysdate not null'; end;"; }
+			get { return "begin execute immediate 'alter table \"TESTTABLE\" add \"TESTCOLUMN\" int default sysdate not null'; end;"; }
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace dbullet.core.test.Oracle
 		/// </summary>
 		protected override string AddWithGuidDefaultCommand
 		{
-			get { return "begin execute immediate 'alter table \"TestTable\" add \"TestColumn\" int default sys_guid() not null'; end;"; }
+			get { return "begin execute immediate 'alter table \"TESTTABLE\" add \"TESTCOLUMN\" int default sys_guid() not null'; end;"; }
 		}
 
 		/// <summary>

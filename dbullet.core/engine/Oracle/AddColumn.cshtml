@@ -2,4 +2,4 @@
 	dbullet.core.dbo.Table table = Model[0] as dbullet.core.dbo.Table; 
 	dbullet.core.dbo.Column column = Model[1] as dbullet.core.dbo.Column;
 }
-begin execute immediate 'alter table "@table.Name" add @dbullet.core.engine.Oracle.OracleTemplateManager.BuildColumnCreateCommand(column)'; end;
+begin execute immediate 'alter table "@table.Name.ToUpper()" add @dbullet.core.engine.Oracle.OracleTemplateManager.BuildColumnCreateCommand(column)'; end;
