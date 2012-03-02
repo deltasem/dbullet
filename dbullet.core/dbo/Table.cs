@@ -31,7 +31,7 @@ namespace dbullet.core.dbo
 		/// Конструктор
 		/// </summary>
 		/// <param name="name">Название таблицы</param>
-		public Table(string name) : this(name, "PRIMARY")
+		public Table(string name) : this(name, string.Empty)
 		{
 		}
 		
@@ -50,7 +50,7 @@ namespace dbullet.core.dbo
 		/// </summary>
 		/// <param name="name">Название таблицы</param>
 		/// <param name="columns">Столбцы</param>
-		private Table(string name, List<Column> columns) : this(name, "PRIMARY", columns)
+		private Table(string name, List<Column> columns) : this(name, string.Empty, columns)
 		{
 		}
 
@@ -144,7 +144,7 @@ namespace dbullet.core.dbo
 		/// <param name="columnName">Колонка</param>
 		/// <param name="partition">Партиция</param>
 		/// <returns>Таблица с первичным ключем</returns>
-		public Table AddPrimaryKey(string columnName, string partition = "PRIMARY")
+		public Table AddPrimaryKey(string columnName, string partition = "")
 		{
 			var column = columns.FirstOrDefault(p => p.Name == columnName);
 			if (column == null)

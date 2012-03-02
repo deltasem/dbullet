@@ -14,7 +14,15 @@ if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
 		pk = pkColumn.Constraint as dbullet.core.dbo.PrimaryKey;
 	}
 }
-) tablespace "@Model.PartitionName";
+)
+@if (!string.IsNullOrEmpty(Model.PartitionName))
+{
+@: tablespace "@Model.PartitionName";
+}
+else
+{
+@:;
+}
 @*Идентити в оракле будут через sequence*@
 @if(Model.Columns.Any(x => x.Identity))
 {
@@ -26,5 +34,13 @@ if (Model.Columns[i].Constraint is dbullet.core.dbo.Default) {
 }
 @if (pk != null)
 {
- @:alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index tablespace "@pk.PartitionName";
+ @:alter table "@Model.Name" add constraint "@pk.Name" primary key ("@pkColumn.Name") using index
+ if (!string.IsNullOrEmpty(pk.PartitionName))
+ {
+@: tablespace "@pk.PartitionName";
+ }
+ else
+ {
+@:;
+ }
 }
