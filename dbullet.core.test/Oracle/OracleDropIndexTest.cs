@@ -19,6 +19,14 @@ namespace dbullet.core.test.Oracle
 	public class OracleDropIndexTest : DropIndexTest
 	{
 		/// <summary>
+		/// Удаление индекса
+		/// </summary>
+		protected override string RegularDropIndexCommand
+		{
+			get { return "drop index \"INDEX_NAME\""; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]

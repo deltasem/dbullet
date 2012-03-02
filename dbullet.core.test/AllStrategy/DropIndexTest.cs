@@ -20,12 +20,17 @@ namespace dbullet.core.test.AllStrategy
 		/// <summary>
 		/// Удаление индекса
 		/// </summary>
+		protected abstract string RegularDropIndexCommand { get; }
+
+		/// <summary>
+		/// Удаление индекса
+		/// </summary>
 		[Test]
 		public void RegularDropIndex()
 		{
 			strategy = ObjectFactory.GetInstance<IDatabaseStrategy>();
 			strategy.DropIndex(new Index("INDEX_NAME", "TABLE_NAME"));
-			command.VerifySet(x => x.CommandText = "drop index INDEX_NAME on [TABLE_NAME]");
+			command.VerifySet(x => x.CommandText = RegularDropIndexCommand);
 		}
 	}
 }

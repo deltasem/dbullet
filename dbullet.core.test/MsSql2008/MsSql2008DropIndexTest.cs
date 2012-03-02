@@ -19,6 +19,14 @@ namespace dbullet.core.test.MsSql2008
 	public class MsSql2008DropIndexTest : DropIndexTest
 	{
 		/// <summary>
+		/// Удаление индекса
+		/// </summary>
+		protected override string RegularDropIndexCommand
+		{
+			get { return "drop index INDEX_NAME on [TABLE_NAME]"; }
+		}
+
+		/// <summary>
 		/// Инициализация
 		/// </summary>
 		[SetUp]
