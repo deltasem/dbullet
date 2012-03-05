@@ -76,6 +76,7 @@
     <Compile Include="AllStrategy\DropForeignKeyTest.cs" />
     <Compile Include="AllStrategy\DropIndexTest.cs" />
     <Compile Include="AllStrategy\DropTableTest.cs" />
+    <Compile Include="AllStrategy\ExecuteQueryTest.cs" />
     <Compile Include="AllStrategy\GetDefaultValueTest.cs" />
     <Compile Include="AllStrategy\InsertRowsTest.cs" />
     <Compile Include="AllStrategy\IsColumnExistsTest.cs" />

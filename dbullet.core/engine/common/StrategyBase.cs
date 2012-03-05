@@ -10,6 +10,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using dbullet.core.dbo;
+using dbullet.core.dbs;
 using dbullet.core.engine.MsSql;
 using dbullet.core.exception;
 using dbullet.core.tools;
@@ -23,7 +24,7 @@ namespace dbullet.core.engine.common
 	/// <summary>
 	/// Базовая стратегия
 	/// </summary>
-	public abstract class StrategyBase
+	public abstract class StrategyBase : IDatabaseStrategy
 	{
 		/// <summary>
 		/// Менеджер темплейтов
@@ -59,6 +60,11 @@ namespace dbullet.core.engine.common
 			TemplateManager = templateManager;
 			this.connection = connection;
 		}
+
+		/// <summary>
+		/// Стратегия
+		/// </summary>
+		public abstract SupportedStrategy Strategy { get; }
 
 		/// <summary>
 		/// Подключение к базе
@@ -363,6 +369,19 @@ namespace dbullet.core.engine.common
 		public void UnloadCsv(string table, StreamReader stream, string keyColumn, Func<string, object> modulator = null, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Выполняет скрипт
+		/// </summary>
+		/// <param name="strategy">Стратегия</param>
+		/// <param name="query">Запрос</param>
+		public void ExecuteQuery(SupportedStrategy strategy, string query)
+		{
+			if (strategy == Strategy || strategy == SupportedStrategy.Any)
+			{
+				ExecuteNonQuery(query);
+			}
 		}
 
 		/// <summary>

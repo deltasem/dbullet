@@ -24,6 +24,14 @@ namespace dbullet.core.engine.Oracle
 		}
 
 		/// <summary>
+		/// Стратегия
+		/// </summary>
+		public override SupportedStrategy Strategy
+		{
+			get { return SupportedStrategy.Oracle; }
+		}
+
+		/// <summary>
 		/// identity_insert off
 		/// </summary>
 		/// <param name="tableName">Имя таблицы</param>

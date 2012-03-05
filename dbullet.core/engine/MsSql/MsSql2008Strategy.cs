@@ -24,6 +24,14 @@ namespace dbullet.core.engine.MsSql
 		}
 
 		/// <summary>
+		/// Стратегия
+		/// </summary>
+		public override SupportedStrategy Strategy
+		{
+			get { return SupportedStrategy.Mssql2008; }
+		}
+
+		/// <summary>
 		/// identity_insert off
 		/// </summary>
 		/// <param name="tableName">Имя таблицы</param>

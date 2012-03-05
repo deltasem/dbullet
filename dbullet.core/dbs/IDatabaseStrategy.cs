@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using dbullet.core.engine;
 using dbullet.core.tools;
 
 namespace dbullet.core.dbs
@@ -17,6 +18,11 @@ namespace dbullet.core.dbs
 	/// </summary>
 	public interface IDatabaseStrategy
 	{
+		/// <summary>
+		/// Стратегия
+		/// </summary>
+		SupportedStrategy Strategy { get; }
+
 		/// <summary>
 		/// Добавляет колонку
 		/// </summary>
@@ -118,5 +124,12 @@ namespace dbullet.core.dbs
 		/// <param name="csvQuotesType">Quotes type</param>
 		/// <example>UnloadCsv("someTable", stream, "ID", x => (int)x)</example>
 		void UnloadCsv(string table, StreamReader stream, string keyColumn, Func<string, object> modulator = null, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes);
+
+		/// <summary>
+		/// Выполняет скрипт
+		/// </summary>
+		/// <param name="strategy">Стратегия</param>
+		/// <param name="query">Запрос</param>
+		void ExecuteQuery(SupportedStrategy strategy, string query);
 	}
 }

@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using dbullet.core.dbo;
 using dbullet.core.dbs;
+using dbullet.core.engine;
 using dbullet.core.tools;
 using StructureMap;
 
@@ -20,6 +21,14 @@ namespace dbullet.core
 	/// </summary>
 	public abstract class Bullet : IDatabaseStrategy
 	{
+		/// <summary>
+		/// Стратегия
+		/// </summary>
+		public SupportedStrategy Strategy
+		{
+			get { return SupportedStrategy.Any; }
+		}
+
 		/// <summary>
 		/// Парсер даты
 		/// </summary>
@@ -313,6 +322,16 @@ namespace dbullet.core
 		public void UnloadCsv(string table, StreamReader stream, string keyColumn, Func<string, object> modulator = null, CsvQuotesType csvQuotesType = CsvQuotesType.DoubleQuotes)
 		{
 			ObjectFactory.GetInstance<IDatabaseStrategy>().UnloadCsv(table, stream, keyColumn, modulator, csvQuotesType);
+		}
+
+		/// <summary>
+		/// Выполняет скрипт
+		/// </summary>
+		/// <param name="strategy">Стратегия</param>
+		/// <param name="query">Запрос</param>
+		public void ExecuteQuery(SupportedStrategy strategy, string query)
+		{
+			ObjectFactory.GetInstance<IDatabaseStrategy>().ExecuteQuery(strategy, query);
 		}
 
 		/// <summary>

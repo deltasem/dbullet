@@ -34,6 +34,14 @@ namespace dbullet.core.engine
 		}
 
 		/// <summary>
+		/// Стратегия
+		/// </summary>
+		public SupportedStrategy Strategy
+		{
+			get { return strategy.Strategy; }
+		}
+
+		/// <summary>
 		/// Добавляет колонку
 		/// </summary>
 		/// <param name="table">Таблица</param>
@@ -259,6 +267,22 @@ namespace dbullet.core.engine
 			try
 			{
 				strategy.UnloadCsv(table, stream, keyColumn, modulator, csvQuotesType);
+			}
+			catch
+			{
+			}
+		}
+
+		/// <summary>
+		/// Выполняет скрипт
+		/// </summary>
+		/// <param name="strategy">Стратегия</param>
+		/// <param name="query">Запрос</param>
+		public void ExecuteQuery(SupportedStrategy strategy, string query)
+		{
+			try
+			{
+				this.strategy.ExecuteQuery(strategy, query);
 			}
 			catch
 			{

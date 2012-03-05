@@ -18,6 +18,11 @@ namespace dbullet.core.engine
 		/// <summary>
 		/// Oracle
 		/// </summary>
-		Oracle
+		Oracle,
+		
+		/// <summary>
+		/// Любая стратегия
+		/// </summary>
+		Any
 	}
 }
