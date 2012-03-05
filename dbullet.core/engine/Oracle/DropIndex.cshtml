@@ -1,1 +1,1 @@
-drop index "@(Model.Name.Length > 30 ? (Model.Name.ToUpper().Substring(0, 20) + Model.Name.GetHashCode().ToString()):(Model.Name.ToUpper()))"
+drop index "@(Model.Name.Length > 30 ? (Model.Name.ToUpper().Substring(0, 30-Model.Name.GetHashCode().ToString().Length) + Model.Name.GetHashCode().ToString()):(Model.Name.ToUpper()))"

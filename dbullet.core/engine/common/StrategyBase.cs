@@ -381,6 +381,12 @@ namespace dbullet.core.engine.common
 			if (strategy == Strategy || strategy == SupportedStrategy.Any)
 			{
 				ExecuteNonQuery(query);
+				log.Info("Выполнен пользовательский скрипт");
+				log.Info(query);
+			}
+			else
+			{
+				log.Info("Пропущен пользовательский скрипт");
 			}
 		}
 
