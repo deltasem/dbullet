@@ -26,7 +26,7 @@ namespace dbullet.core.test.Oracle
 			get
 			{
 				return "alter table" +
-							 " \"TABLE1\" add constraint FK_TEST foreign key (\"ID_TABLE1\")" +
+							 " \"TABLE1\" add constraint \"FK_TEST\" foreign key (\"ID_TABLE1\")" +
 							 " references \"TABLE2\" (\"ID_TABLE2\") on delete set null";
 			}
 		}
@@ -39,7 +39,7 @@ namespace dbullet.core.test.Oracle
 			get
 			{
 				return "alter table \"TABLE1\"" +
-							 " add constraint FK_TABLE1_TABLE2 foreign key (\"ID_TABLE1\")" +
+							 " add constraint \"FK_TABLE1_TABLE2\" foreign key (\"ID_TABLE1\")" +
 							 " references \"TABLE2\" (\"ID_TABLE2\") on delete set null";
 			}
 		}
@@ -52,7 +52,7 @@ namespace dbullet.core.test.Oracle
 			get
 			{
 				return "alter table \"TABLE1\"" +
-							 " add constraint FK_TEST foreign key (\"ID_TABLE1\")" +
+							 " add constraint \"FK_TEST\" foreign key (\"ID_TABLE1\")" +
 							 " references \"TABLE2\" (\"ID_TABLE2\") on delete cascade";
 			}
 		}
@@ -65,7 +65,7 @@ namespace dbullet.core.test.Oracle
 			get
 			{
 				return "alter table \"TABLE1\"" +
-							 " add constraint FK_TEST foreign key (\"ID_TABLE1\")" +
+							 " add constraint \"FK_TEST\" foreign key (\"ID_TABLE1\")" +
 							 " references \"TABLE2\" (\"ID_TABLE2\")";
 			}
 		}

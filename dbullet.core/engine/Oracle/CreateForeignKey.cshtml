@@ -13,7 +13,7 @@
 }
 alter table "@fk.SrcTableName.ToUpper()" 
 add constraint 
-@fk.Name.ToUpper() foreign key ("@fk.SrcColumnName.ToUpper()") 
+"@(fk.Name.Length > 30 ? (fk.Name.ToUpper().Substring(0, 30-fk.Name.GetHashCode().ToString().Length) + fk.Name.GetHashCode().ToString()):(fk.Name.ToUpper()))" foreign key ("@fk.SrcColumnName.ToUpper()") 
 references 
 "@fk.RefTableName.ToUpper()" ("@fk.RefColumnName.ToUpper()")
 @ForeignActionName(fk.DeleteAction)
