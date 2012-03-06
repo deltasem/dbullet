@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 using System;
 using System.Reflection;
+using NLog.Targets;
 using dbullet.core.engine;
 using NLog;
 
@@ -26,24 +27,29 @@ namespace dbullet.executor
 		/// <param name="args">Параметры</param>
 		public static void Main(string[] args)
 		{
-			NLog.Config.SimpleConfigurator.ConfigureForConsoleLogging();
+			var colored = new ColoredConsoleTarget();
+			colored.Layout = "${message} ${exception:format=ToString,StackTrace}";
+			NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(colored);
 			Assembly asm = Assembly.LoadFile(args[0]);
 			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
-			Console.WriteLine("Press 1 to upgrade or press 2 to downgrade");
+			logger.Info("Press 1 to upgrade or press 2 to downgrade");
 			var input = Console.ReadKey();
+			Console.WriteLine();
 
 			Executor.Initialize(args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]), asm);
 
 			if (input.KeyChar == '2')
 			{
+				logger.Info("Старт отката");
 				Executor.ExecuteBack(asm, int.Parse(args[3]));
 			}
 			else if (input.KeyChar == '1')
 			{
+				logger.Info("Старт обновления");
 				Executor.Execute(asm);
 			}
 
-			Console.WriteLine("Press any key to exit");
+			logger.Warn("Press any key to exit");
 			Console.ReadKey();
 		}
 

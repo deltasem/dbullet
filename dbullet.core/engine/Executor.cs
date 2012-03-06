@@ -77,11 +77,13 @@ namespace dbullet.core.engine
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (bulletVersion > currentVersion && bulletVersion <= stopVersion)
 				{
+					logger.Info("Найден булет для обновления {0} в тематике {1}", bulletVersion, assembly.GetName().Name);
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					try
 					{
 						bullet.Update();
 						ObjectFactory.GetInstance<ISysDatabaseStrategy>().SetCurrentVersion(bulletVersion, assembly.GetName().Name);
+						logger.Info(string.Format("Успешно обновлено до версии {0}. Тематика: {1}", bulletVersion, assembly.GetName().Name));
 					}
 					catch (Exception ex)
 					{
@@ -129,6 +131,7 @@ namespace dbullet.core.engine
 				var bulletVersion = ((BulletNumberAttribute)bulletType.GetCustomAttributes(typeof(BulletNumberAttribute), false)[0]).Revision;
 				if (currentVersion == bulletVersion && bulletVersion > stopVersion)
 				{
+					logger.Info("Откат до версии {0} в тематике {1}", bulletVersion, assembly.GetName().Name);
 					var bullet = (Bullet)Activator.CreateInstance(bulletType);
 					bullet.Downgrade();
 					ObjectFactory.GetInstance<ISysDatabaseStrategy>().RemoveVersionInfo(bulletVersion, assembly.GetName().Name);
