@@ -16,3 +16,4 @@ dbullet.core.test/MolesAssemblies/*
 libs/*
 *ncrunch*
 *.favorit
+*.nupkg

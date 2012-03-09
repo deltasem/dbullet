@@ -52,7 +52,7 @@ namespace dbullet.core.engine.common
 			{
 				var column = new Column("Assembly", DbType.String.Size(1024), false)
 				             	{
-				             		Constraint = new ValueDefault("dbullet_assembly_default", name)
+				             		Constraint = new ValueDefault("dbullet_assembly_default", string.Format("'{0}'", name))
 				             	};
 				strategy.AddColumn(new Table("dbullet"), column);
 			}
