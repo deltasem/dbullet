@@ -429,6 +429,11 @@ namespace dbullet.core.engine.common
 					return cmd.ExecuteScalar();
 				}
 			}
+			catch (Exception ex)
+			{
+				log.Error(commandText);
+				throw;
+			}
 			finally
 			{
 				if (connection != null)
@@ -453,6 +458,11 @@ namespace dbullet.core.engine.common
 					cmd.CommandText = commandText.Replace("\r", string.Empty).Replace("\n", string.Empty);
 					cmd.ExecuteNonQuery();
 				}
+			}
+			catch (Exception ex)
+			{
+				log.Error(commandText);
+				throw;
 			}
 			finally
 			{
