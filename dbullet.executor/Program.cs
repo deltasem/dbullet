@@ -4,10 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
+using System.IO;
 using System.Reflection;
-using NLog.Targets;
+using System.Text.RegularExpressions;
 using dbullet.core.engine;
 using NLog;
+using NLog.Targets;
 
 namespace dbullet.executor
 {
@@ -27,30 +29,53 @@ namespace dbullet.executor
 		/// <param name="args">Параметры</param>
 		public static void Main(string[] args)
 		{
+			bool silent = false;
+			bool update = true;
+			if (args.Length > 4 && args[4] == "-f")
+			{
+				silent = true;
+			}
+
 			var colored = new ColoredConsoleTarget();
 			colored.Layout = "${message} ${exception:format=ToString,StackTrace}";
 			NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(colored);
 			Assembly asm = Assembly.LoadFile(args[0]);
 			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
-			logger.Info("Press 1 to upgrade or press 2 to downgrade");
-			var input = Console.ReadKey();
-			Console.WriteLine();
+
+			if (!silent)
+			{
+				logger.Info("Press 1 to upgrade or press 2 to downgrade");
+				var input = Console.ReadKey();
+				Console.WriteLine();
+				if (input.KeyChar == '2')
+				{
+					update = false;
+				}
+				else if (input.KeyChar == '1')
+				{
+					update = true;
+				}
+			}
 
 			Executor.Initialize(args[1], (SupportedStrategy)Enum.Parse(typeof(SupportedStrategy), args[2]), asm);
 
-			if (input.KeyChar == '2')
+			if (!update)
 			{
 				logger.Info("Старт отката");
 				Executor.ExecuteBack(asm, int.Parse(args[3]));
 			}
-			else if (input.KeyChar == '1')
+			else
 			{
-				logger.Info("Старт обновления");
+				var regex = new Regex(@"Data Source=[^;]+", RegexOptions.IgnoreCase);
+				logger.Info("Поиск обновлений в {0} для {1}", Path.GetFileName(args[0]), regex.Match(args[1]).Value);
 				Executor.Execute(asm);
+				logger.Info("Обновление завершено");
 			}
-
-			logger.Warn("Press any key to exit");
-			Console.ReadKey();
+			if (!silent)
+			{
+				logger.Warn("Press any key to exit");
+				Console.ReadKey();
+			}
 		}
 
 		/// <summary>
