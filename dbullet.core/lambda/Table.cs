@@ -132,5 +132,25 @@ namespace dbullet.core.lambda
 			var m = name.Body as MemberExpression;
 			return (Table<T>)AddPrimaryKey(m.Member.Name, partition);
 		}
+
+		/// <summary>
+		/// Дефалтное значение для последнего столбца
+		/// </summary>
+		/// <param name="defaultValue">Дефалтное значение</param>
+		/// <returns>Текущая таблица</returns>
+		public new Table<T> Default(string defaultValue)
+		{
+			return (Table<T>)base.Default(defaultValue);
+		}
+
+		/// <summary>
+		/// Добавляет дефалт, зависящий от СУБД
+		/// </summary>
+		/// <param name="standartDefaultType">Дефалт</param>
+		/// <returns>Таблица с дефалтом</returns>
+		public new Table<T> Default(StandartDefaultType standartDefaultType)
+		{
+			return (Table<T>)base.Default(standartDefaultType);
+		}		
 	}
 }
