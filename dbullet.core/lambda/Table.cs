@@ -32,11 +32,12 @@ namespace dbullet.core.lambda
 		/// </summary>
 		/// <param name="name">Имя столбца</param>
 		/// <param name="size">Разменость</param>
+		/// <param name="scale">Точность</param>
 		/// <param name="nullable">Может содержать null</param>
 		/// <param name="identity">Идентити</param>
 		/// <typeparam name="P">Тип ДТО</typeparam>
 		/// <returns>Табилца, с добавленой колонкой</returns>
-		public Table<T> AddColumn<P>(Expression<Func<T, P>> name, int size, bool nullable = true, bool identity = false)
+		public Table<T> AddColumn<P>(Expression<Func<T, P>> name, int size, int scale = 0, bool nullable = true, bool identity = false)
 		{
 			var m = name.Body as MemberExpression;
 			ColumnType ct = null;
@@ -56,11 +57,11 @@ namespace dbullet.core.lambda
 			}
 			else if (m.Type == typeof(decimal))
 			{
-				ct = new ColumnType(DbType.Decimal, size);
+				ct = new ColumnType(DbType.Decimal, size, scale);
 			}
 			else if (m.Type == typeof(decimal?))
 			{
-				ct = new ColumnType(DbType.Decimal, size);
+				ct = new ColumnType(DbType.Decimal, size, scale);
 				nullable = true;
 			}
 			else if (m.Type == typeof(bool))
@@ -117,7 +118,7 @@ namespace dbullet.core.lambda
 		/// <returns>Табилца, с добавленой колонкой</returns>
 		public Table<T> AddColumn<P>(Expression<Func<T, P>> name, bool nullable = true, bool identity = false)
 		{
-			return AddColumn(name, 0, nullable, identity);
+			return AddColumn(name, 0, 0, nullable, identity);
 		}
 
 		/// <summary>
