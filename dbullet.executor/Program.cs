@@ -71,6 +71,7 @@ namespace dbullet.executor
 				Executor.Execute(asm);
 				logger.Info("Обновление завершено");
 			}
+
 			if (!silent)
 			{
 				logger.Warn("Press any key to exit");

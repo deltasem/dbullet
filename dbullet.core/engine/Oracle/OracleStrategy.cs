@@ -57,7 +57,7 @@ namespace dbullet.core.engine.Oracle
 		/// <returns>Имя параметра</returns>
 		protected override string GetParameterName(string[] headers, int i)
 		{
-			return string.Format(":{0}", (i + 1));
+			return string.Format(":{0}", i + 1);
 		}
 	}
 }
