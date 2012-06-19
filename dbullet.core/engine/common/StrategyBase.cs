@@ -260,7 +260,7 @@ namespace dbullet.core.engine.common
 						TemplateManager.GetInsertRowsStreamTemplate(), 
 						new object[] { tableName, headers },
 						"insert rows stream").Replace("\r", string.Empty).Replace("\n", string.Empty);
-					IDbDataParameter[] dataParams = new IDbDataParameter[headers.Length];
+					var dataParams = new IDbDataParameter[headers.Length];
 					for (int i = 0; i < dataParams.Length; i++)
 					{
 						IDbDataParameter parameter = cmd.CreateParameter();

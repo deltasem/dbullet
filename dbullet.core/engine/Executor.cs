@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using dbullet.core.attribute;
 using dbullet.core.dbs;
+using dbullet.core.engine.File;
 using dbullet.core.engine.MsSql;
 using dbullet.core.engine.Oracle;
 using NLog;
@@ -169,7 +170,17 @@ namespace dbullet.core.engine
 			{
 				ObjectFactory.Initialize(x => InitializeStructureMapForOracle(x, connectionString));
 			}
-			
+
+			if (strategy == SupportedStrategy.Mssql2008File)
+			{
+				ObjectFactory.Initialize(x => InitializeStructureMapForMssqlFile(x, connectionString));
+			}
+
+			if (strategy == SupportedStrategy.OracleFile)
+			{
+				ObjectFactory.Initialize(x => InitializeStructureMapForOracleFile(x, connectionString));
+			}
+
 			ObjectFactory.GetInstance<ISysDatabaseStrategy>().InitDatabase(assembly.GetName().Name);
 		}
 
@@ -198,6 +209,34 @@ namespace dbullet.core.engine
 			x.ForSingletonOf<IDbConnection>().Use(connection);
 			x.ForSingletonOf<IDatabaseStrategy>().Use<OracleStrategy>();
 			x.ForSingletonOf<ISysDatabaseStrategy>().Use<OracleSysStrategy>();
+		}
+
+		/// <summary>
+		/// Инициализация IoC контейнера
+		/// </summary>
+		/// <param name="x">Инициализатор</param>
+		/// <param name="connectionString">Строка подключения</param>
+		private static void InitializeStructureMapForMssqlFile(IInitializationExpression x, string connectionString)
+		{
+			var connection = new FileConnection();
+			var strategy = new MsSql2008Strategy(connection);
+			x.ForSingletonOf<IDbConnection>().Use(connection);
+			x.ForSingletonOf<IDatabaseStrategy>().Use(strategy);
+			x.ForSingletonOf<ISysDatabaseStrategy>().Use(new FileSysStrategy(new MsSql2008SysStrategy(connection, strategy), connection));
+		}
+
+		/// <summary>
+		/// Инициализация IoC контейнера для оракла
+		/// </summary>
+		/// <param name="x">Инициализатор</param>
+		/// <param name="connectionString">Строка подключения</param>
+		private static void InitializeStructureMapForOracleFile(IInitializationExpression x, string connectionString)
+		{
+			var connection = new FileConnection();
+			var strategy = new OracleStrategy(connection);
+			x.ForSingletonOf<IDbConnection>().Use(connection);
+			x.ForSingletonOf<IDatabaseStrategy>().Use(strategy);
+			x.ForSingletonOf<ISysDatabaseStrategy>().Use(new FileSysStrategy(new OracleSysStrategy(connection, strategy), connection));
 		}
 	}
 }

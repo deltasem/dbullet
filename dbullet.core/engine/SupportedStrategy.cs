@@ -19,6 +19,16 @@ namespace dbullet.core.engine
 		/// Oracle
 		/// </summary>
 		Oracle,
+
+		/// <summary>
+		/// Microsoft SQL Server 2008 скрипты в файл
+		/// </summary>
+		Mssql2008File,
+
+		/// <summary>
+		/// Oracle скрипты в файл
+		/// </summary>
+		OracleFile,
 		
 		/// <summary>
 		/// Любая стратегия

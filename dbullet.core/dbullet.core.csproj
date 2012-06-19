@@ -84,6 +84,11 @@
     <Compile Include="engine\Executor.cs" />
     <Compile Include="dbs\IDatabaseStrategy.cs" />
     <Compile Include="dbs\ISysDatabaseStrategy.cs" />
+    <Compile Include="engine\File\FileCommand.cs" />
+    <Compile Include="engine\File\FileConnection.cs" />
+    <Compile Include="engine\File\FileDataParameter.cs" />
+    <Compile Include="engine\File\FileDataParameterCollection.cs" />
+    <Compile Include="engine\File\FileSysStrategy.cs" />
     <Compile Include="engine\MsSql\MsSql2008Strategy.cs" />
     <Compile Include="engine\MsSql\MsSql2008SysStrategy.cs" />
     <Compile Include="engine\MsSql\MsSqlTemplateManager.cs" />
