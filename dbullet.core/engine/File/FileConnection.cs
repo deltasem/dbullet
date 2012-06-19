@@ -17,9 +17,11 @@ namespace dbullet.core.engine.File
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:System.Object"/> class.
 		/// </summary>
-		public FileConnection()
+		/// <param name="connectionString"> Папка со скирптами </param>
+		public FileConnection(string connectionString)
 		{
 			Output = new StringBuilder();
+			ConnectionString = connectionString;
 		}
 
 		/// <summary>

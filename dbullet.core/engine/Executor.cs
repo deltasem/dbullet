@@ -218,7 +218,7 @@ namespace dbullet.core.engine
 		/// <param name="connectionString">Строка подключения</param>
 		private static void InitializeStructureMapForMssqlFile(IInitializationExpression x, string connectionString)
 		{
-			var connection = new FileConnection();
+			var connection = new FileConnection(connectionString);
 			var strategy = new MsSql2008Strategy(connection);
 			x.ForSingletonOf<IDbConnection>().Use(connection);
 			x.ForSingletonOf<IDatabaseStrategy>().Use(strategy);
@@ -232,7 +232,7 @@ namespace dbullet.core.engine
 		/// <param name="connectionString">Строка подключения</param>
 		private static void InitializeStructureMapForOracleFile(IInitializationExpression x, string connectionString)
 		{
-			var connection = new FileConnection();
+			var connection = new FileConnection(connectionString);
 			var strategy = new OracleStrategy(connection);
 			x.ForSingletonOf<IDbConnection>().Use(connection);
 			x.ForSingletonOf<IDatabaseStrategy>().Use(strategy);

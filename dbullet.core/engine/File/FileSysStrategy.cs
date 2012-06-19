@@ -63,7 +63,7 @@ namespace dbullet.core.engine.File
 		public void SetCurrentVersion(int version, string name)
 		{
 			sysStrategyImpl.SetCurrentVersion(version, name);
-			System.IO.File.WriteAllText(string.Format("{0}.v{1}.sql", name, version), fileConnection.Output.ToString());
+			System.IO.File.WriteAllText(string.Format("{2}\\{0}.v{1}.sql", name, version, fileConnection.ConnectionString), fileConnection.Output.ToString());
 			fileConnection.Output = new StringBuilder();
 		}
 
