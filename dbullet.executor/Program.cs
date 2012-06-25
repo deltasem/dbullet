@@ -68,7 +68,13 @@ namespace dbullet.executor
 			{
 				var regex = new Regex(@"Data Source=[^;]+", RegexOptions.IgnoreCase);
 				logger.Info("Поиск обновлений в {0} для {1}", Path.GetFileName(args[0]), regex.Match(args[1]).Value);
-				Executor.Execute(asm);
+				int stopVersion = int.MaxValue;
+				if (args.Length > 2)
+				{
+					int.TryParse(args[3], out stopVersion);
+				}
+
+				Executor.Execute(asm, stopVersion);
 				logger.Info("Обновление завершено");
 			}
 
