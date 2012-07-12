@@ -163,12 +163,13 @@ namespace dbullet.core.engine.File
 		public int ExecuteNonQuery()
 		{
 			var p = (FileDataParameterCollection)parameters;
+			string compiledCommandText = CommandText;
 			foreach (var param in p.List)
 			{
-				CommandText = CommandText.Replace(param.ParameterName, string.Format("'{0}'", param.Value));
+				compiledCommandText = compiledCommandText.Replace(param.ParameterName, string.Format("'{0}'", param.Value));
 			}
 
-			AppendScript(CommandText);
+			AppendScript(compiledCommandText);
 			return 0;
 		}
 
