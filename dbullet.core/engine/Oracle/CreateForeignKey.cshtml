@@ -1,3 +1,4 @@
+begin execute immediate '
 @{dbullet.core.dbo.ForeignKey fk = Model;}
 @helper ForeignActionName(dbullet.core.dbo.ForeignAction action)
 {
@@ -17,3 +18,4 @@ add constraint
 references 
 "@fk.RefTableName.ToUpper()" ("@fk.RefColumnName.ToUpper()")
 @ForeignActionName(fk.DeleteAction)
+'; end;
