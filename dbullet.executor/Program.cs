@@ -36,9 +36,6 @@ namespace dbullet.executor
 				silent = true;
 			}
 
-			var colored = new ColoredConsoleTarget();
-			colored.Layout = "${message} ${exception:format=ToString,StackTrace}";
-			NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(colored);
 			Assembly asm = Assembly.LoadFile(args[0]);
 			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainAssemblyResolve;
 
