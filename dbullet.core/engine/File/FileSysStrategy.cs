@@ -42,7 +42,7 @@ namespace dbullet.core.engine.File
 		/// <param name="name">Имя</param>
 		public void InitDatabase(string name)
 		{
-			sysStrategyImpl.InitDatabase(name);
+			// sysStrategyImpl.InitDatabase(name);
 		}
 
 		/// <summary>
@@ -62,8 +62,12 @@ namespace dbullet.core.engine.File
 		/// <param name="name">Имя</param>
 		public void SetCurrentVersion(int version, string name)
 		{
-			sysStrategyImpl.SetCurrentVersion(version, name);
-			System.IO.File.WriteAllText(string.Format("{2}\\{0}.v{1}.sql", name, version, fileConnection.ConnectionString), fileConnection.Output.ToString());
+			string fileName = string.Format("{2}\\{0}.v{1}.sql", name, version, fileConnection.ConnectionString);
+
+			System.IO.File.WriteAllText(fileName, "begin\r\n");
+			System.IO.File.AppendAllText(fileName, fileConnection.Output.ToString());
+			System.IO.File.AppendAllText(fileName, string.Format("begin\r\n insert into dbullet(Version, Assembly) values({0}, '{1}');\r\nend;\r\n", version, name));
+			System.IO.File.AppendAllText(fileName, "end;");
 			fileConnection.Output = new StringBuilder();
 		}
 
