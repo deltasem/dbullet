@@ -45,16 +45,10 @@ namespace dbullet.core.engine.common
 		{
 			if (!strategy.IsTableExist("dbullet"))
 			{
-				strategy.CreateTable(new Table("dbullet").AddColumn(new Column("Version", DbType.Int32)));
-			}
-
-			if (!strategy.IsColumnExists("dbullet", "Assembly"))
-			{
-				var column = new Column("Assembly", DbType.String.Size(1024), false)
-				             	{
-				             		Constraint = new ValueDefault("dbullet_assembly_default", string.Format("'{0}'", name))
-				             	};
-				strategy.AddColumn(new Table("dbullet"), column);
+				strategy
+					.CreateTable(new Table("dbullet")
+					.AddColumn(new Column("Version", DbType.Int32))
+					.AddColumn(new Column("Assembly", DbType.String.Size(1024), false)));
 			}
 		}
 
