@@ -1,2 +1,4 @@
+begin execute immediate '
 @{string table = Model[0] as string; string column = Model[1] as string;}
 alter table "@table.ToUpper()" drop column "@column.ToUpper()"
+'; end;

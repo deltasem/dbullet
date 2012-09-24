@@ -1,2 +1,4 @@
+begin execute immediate '
 @{dbullet.core.dbo.ForeignKey fk = Model;}
 alter table "@fk.SrcTableName.ToUpper()" drop constraint "@(fk.Name.Length > 30 ? (fk.Name.ToUpper().Substring(0, 30-fk.Name.GetHashCode().ToString().Length) + fk.Name.GetHashCode().ToString()):(fk.Name.ToUpper()))"
+'; end;
